@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -58,8 +57,8 @@ const OrdersInProgress = () => {
         <Carousel className="w-full">
           <CarouselContent>
             {orders.map((order, index) => (
-              <CarouselItem key={index}>
-                <div className="p-4 bg-gray-50 rounded-tumex-button space-y-3">
+              <CarouselItem key={index} className="mx-2">
+                <div className="px-6 py-4 bg-gray-50 rounded-tumex-button space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="text-sm font-mono font-semibold text-gray-900">{order.id}</span>
                     <Badge className={`tumex-button-radius text-xs font-medium border ${order.statusColor}`}>
@@ -87,8 +86,8 @@ const OrdersInProgress = () => {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="left-2 h-6 w-6 bg-white/80 hover:bg-white border-gray-200" />
-          <CarouselNext className="right-2 h-6 w-6 bg-white/80 hover:bg-white border-gray-200" />
+          <CarouselPrevious className="left-1 h-6 w-6 bg-white/80 hover:bg-white border-gray-200" />
+          <CarouselNext className="right-1 h-6 w-6 bg-white/80 hover:bg-white border-gray-200" />
         </Carousel>
       </div>
     </Card>

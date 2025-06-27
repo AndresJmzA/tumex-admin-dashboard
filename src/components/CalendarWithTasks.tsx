@@ -1,12 +1,8 @@
-
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Calendar } from '@/components/ui/calendar';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Clock } from 'lucide-react';
-import { format, isToday } from 'date-fns';
-import { es } from 'date-fns/locale';
+import { Calendar as CalendarIcon, Clock } from 'lucide-react';
+import WeeklyCalendar from './WeeklyCalendar';
 
 interface Task {
   id: string;
@@ -59,9 +55,9 @@ const CalendarWithTasks = () => {
   const getTaskColor = (type: string) => {
     switch (type) {
       case 'meeting':
-        return 'bg-blue-500';
+        return 'bg-tumex-primary-500';
       case 'outing':
-        return 'bg-orange-500';
+        return 'bg-yellow-500';
       case 'appointment':
         return 'bg-green-500';
       default:
@@ -79,55 +75,15 @@ const CalendarWithTasks = () => {
         </div>
       </div>
 
-      {/* Calendario Compacto */}
+      {/* Calendario Semanal */}
       <div className="mb-4">
-        <Calendar
-          mode="single"
-          selected={selectedDate}
-          onSelect={(date) => date && setSelectedDate(date)}
-          className="rounded-md border-0 p-0 w-full"
-          classNames={{
-            months: "flex w-full",
-            month: "space-y-2 w-full",
-            caption: "flex justify-center pt-1 relative items-center mb-2",
-            caption_label: "text-sm font-medium",
-            nav: "space-x-1 flex items-center",
-            nav_button: "h-6 w-6 bg-transparent p-0 opacity-50 hover:opacity-100 rounded",
-            nav_button_previous: "absolute left-1",
-            nav_button_next: "absolute right-1",
-            table: "w-full border-collapse space-y-1",
-            head_row: "flex w-full",
-            head_cell: "text-muted-foreground rounded-md flex-1 font-normal text-xs text-center",
-            row: "flex w-full mt-1",
-            cell: "flex-1 text-center text-xs p-0 relative aspect-square",
-            day: "h-full w-full p-0 font-normal rounded hover:bg-accent hover:text-accent-foreground text-xs",
-            day_selected: "bg-tumex-primary-500 text-white hover:bg-tumex-primary-600",
-            day_today: "bg-accent text-accent-foreground font-medium",
-            day_outside: "text-muted-foreground opacity-50",
-            day_disabled: "text-muted-foreground opacity-50",
-          }}
-          components={{
-            IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4" />,
-            IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />,
-          }}
+        <WeeklyCalendar
+          selectedDate={selectedDate}
+          onSelectDate={setSelectedDate}
         />
       </div>
 
-      {/* Información del día seleccionado */}
-      <div className="mb-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-gray-500">
-              {isToday(selectedDate) ? 'Hoy' : format(selectedDate, 'EEEE', { locale: es })}
-            </span>
-            <span className="text-sm font-medium">
-              {format(selectedDate, 'MMM dd', { locale: es })}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* Próximos Eventos */}
+      {/* Próximos Eventos - Ahora con más espacio */}
       <div className="flex-1 flex flex-col min-h-0">
         <h4 className="text-sm font-medium text-gray-900 mb-3">Próximos Eventos</h4>
         <ScrollArea className="flex-1">
