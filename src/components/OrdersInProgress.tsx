@@ -46,7 +46,7 @@ const OrdersInProgress = () => {
   ];
 
   return (
-    <Card className="p-6 tumex-card-radius bg-white">
+    <Card className="p-6 tumex-card-radius bg-white max-w-sm w-full">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold text-gray-900">Órdenes en Curso</h2>
         <Badge variant="secondary" className="tumex-button-radius bg-blue-50 text-blue-700 border-blue-200">
@@ -54,41 +54,43 @@ const OrdersInProgress = () => {
         </Badge>
       </div>
 
-      <Carousel className="w-full">
-        <CarouselContent>
-          {orders.map((order, index) => (
-            <CarouselItem key={index}>
-              <div className="p-4 bg-gray-50 rounded-tumex-button space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-lg font-mono font-semibold text-gray-900">{order.id}</span>
-                  <Badge className={`tumex-button-radius text-xs font-medium border ${order.statusColor}`}>
-                    {order.status}
-                  </Badge>
-                </div>
-                
-                <div className="space-y-2">
-                  <div>
-                    <p className="text-sm text-gray-500">Cliente</p>
-                    <p className="font-medium text-gray-900">{order.client}</p>
+      <div className="relative">
+        <Carousel className="w-full">
+          <CarouselContent>
+            {orders.map((order, index) => (
+              <CarouselItem key={index}>
+                <div className="p-4 bg-gray-50 rounded-tumex-button space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-lg font-mono font-semibold text-gray-900">{order.id}</span>
+                    <Badge className={`tumex-button-radius text-xs font-medium border ${order.statusColor}`}>
+                      {order.status}
+                    </Badge>
                   </div>
                   
-                  <div>
-                    <p className="text-sm text-gray-500">Dirección</p>
-                    <p className="text-sm text-gray-700">{order.address}</p>
+                  <div className="space-y-2">
+                    <div>
+                      <p className="text-sm text-gray-500">Cliente</p>
+                      <p className="font-medium text-gray-900">{order.client}</p>
+                    </div>
+                    
+                    <div>
+                      <p className="text-sm text-gray-500">Dirección</p>
+                      <p className="text-sm text-gray-700">{order.address}</p>
+                    </div>
                   </div>
-                </div>
 
-                <Button className="w-full tumex-button-radius bg-tumex-primary-500 hover:bg-tumex-primary-600 text-white">
-                  <Eye className="h-4 w-4 mr-2" />
-                  Ver Orden
-                </Button>
-              </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
+                  <Button className="w-full tumex-button-radius bg-tumex-primary-500 hover:bg-tumex-primary-600 text-white">
+                    <Eye className="h-4 w-4 mr-2" />
+                    Ver Orden
+                  </Button>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="left-2" />
+          <CarouselNext className="right-2" />
+        </Carousel>
+      </div>
     </Card>
   );
 };
