@@ -66,15 +66,8 @@ export function TumexSidebar() {
 
   return (
     <Sidebar
-      className={`${collapsed ? "w-16" : "w-64"} transition-all duration-300`}
+      className={`${collapsed ? "w-16" : "w-64"} transition-all duration-300 bg-white/85 backdrop-blur-[20px] border-r border-white/20`}
       collapsible="icon"
-      style={{
-        background: 'rgba(255, 255, 255, 0.85)',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
-        border: '1px solid rgba(255, 255, 255, 0.2)',
-        borderLeft: 'none',
-      }}
     >
       {/* Header with Logo */}
       <SidebarHeader className="border-b border-white/20 p-4">
