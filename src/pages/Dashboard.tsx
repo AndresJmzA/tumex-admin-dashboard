@@ -1,9 +1,9 @@
-
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { CheckCircle, Clock, AlertCircle, MessageSquare, Phone, Mail } from "lucide-react"
+import { CheckCircle, Clock, AlertCircle, MessageSquare, Phone, Mail, ChevronLeft, ChevronRight } from "lucide-react"
 import OrdersInProgress from "@/components/OrdersInProgress"
+import { CarouselPrevious, CarouselNext } from "@/components/ui/carousel"
 
 const Dashboard = () => {
   return (
@@ -65,72 +65,23 @@ const Dashboard = () => {
         </Card>
       </div>
 
-      {/* Sección Principal con Órdenes en Curso y Órdenes Pendientes */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Órdenes en Curso - 1/3 del ancho */}
-        <div className="lg:col-span-1">
-          <OrdersInProgress />
+      {/* Sección Principal con Órdenes en Curso y Negociaciones */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* Órdenes en Curso - 3/12 del ancho con flechas */}
+        <div className="lg:col-span-3 relative">
+          <div className="relative">
+            <OrdersInProgress />
+            <div className="absolute -left-4 top-1/2 -translate-y-1/2">
+              <ChevronLeft className="h-8 w-8 text-gray-400 hover:text-gray-600 cursor-pointer bg-white rounded-full shadow-md p-1" />
+            </div>
+            <div className="absolute -right-4 top-1/2 -translate-y-1/2">
+              <ChevronRight className="h-8 w-8 text-gray-400 hover:text-gray-600 cursor-pointer bg-white rounded-full shadow-md p-1" />
+            </div>
+          </div>
         </div>
 
-        {/* Órdenes y Negociaciones - 2/3 del ancho */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Órdenes Pendientes de Aprobación */}
-          <Card className="p-6 tumex-card-radius bg-white">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-gray-900">Órdenes Pendientes de Aprobación</h2>
-              <Badge variant="secondary" className="tumex-button-radius bg-blue-50 text-blue-700 border-blue-200">
-                2 pendientes de aprobación
-              </Badge>
-            </div>
-            <div className="space-y-3">
-              {[
-                { 
-                  equipo: "Paquete Laparoscopía Completo", 
-                  cliente: "Hospital San José", 
-                  fecha: "Hace 2 horas", 
-                  aprobacion: "pendiente",
-                  estado: "Pendiente 1ra Aprobación",
-                  urgencia: "normal"
-                },
-                { 
-                  equipo: "Paquete Cirugía Cardiovascular", 
-                  cliente: "Clínica Santa María", 
-                  fecha: "Hace 4 horas", 
-                  aprobacion: "primera",
-                  estado: "1/2 Aprobaciones",
-                  urgencia: "media"
-                },
-              ].map((orden, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-tumex-button">
-                  <div className="flex-1">
-                    <p className="font-medium text-gray-900">{orden.equipo}</p>
-                    <p className="text-sm text-gray-500">{orden.cliente}</p>
-                    <p className="text-xs text-gray-400">{orden.fecha}</p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Badge 
-                      className={`tumex-button-radius text-xs font-medium ${
-                        orden.aprobacion === 'primera' 
-                          ? 'bg-yellow-50 text-yellow-700 border-yellow-200 border' 
-                          : 'bg-blue-50 text-blue-700 border-blue-200 border'
-                      }`}
-                    >
-                      {orden.estado}
-                    </Badge>
-                    <Button size="sm" className="tumex-button-radius bg-green-600 hover:bg-green-700 text-white">
-                      <CheckCircle className="h-4 w-4 mr-1" />
-                      Aprobar
-                    </Button>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <Button variant="outline" className="w-full mt-4 tumex-button-radius border-gray-200 hover:bg-gray-50">
-              Ver todas las órdenes pendientes
-            </Button>
-          </Card>
-
-          {/* Negociaciones Activas */}
+        {/* Negociaciones Activas - 6/12 del ancho */}
+        <div className="lg:col-span-6">
           <Card className="p-6 tumex-card-radius bg-white">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-gray-900">Negociaciones Activas</h2>
@@ -148,7 +99,8 @@ const Dashboard = () => {
                   contraoferta: "$10,800 MXN/mes",
                   tiempo: "Hace 2 horas",
                   estado: "reciente",
-                  urgencia: "normal"
+                  tagEstado: "Pendiente 1ra Aprobación",
+                  tagColor: "bg-blue-50 text-blue-700 border-blue-200"
                 },
                 {
                   idOrden: "#ORD-2024-002", 
@@ -158,7 +110,8 @@ const Dashboard = () => {
                   contraoferta: "$16,200 MXN/mes",
                   tiempo: "Hace 1 día",
                   estado: "urgente",
-                  urgencia: "media"
+                  tagEstado: "1/2 Aprobaciones",
+                  tagColor: "bg-yellow-50 text-yellow-700 border-yellow-200"
                 },
                 {
                   idOrden: "#ORD-2024-003",
@@ -168,7 +121,8 @@ const Dashboard = () => {
                   contraoferta: "$22,000 MXN/mes",
                   tiempo: "Hace 3 días",
                   estado: "critico",
-                  urgencia: "alta"
+                  tagEstado: "Pendiente 2da Aprobación",
+                  tagColor: "bg-red-50 text-red-700 border-red-200"
                 }
               ].map((negociacion, index) => (
                 <div key={index} className="p-3 bg-gray-50 rounded-tumex-button space-y-2">
@@ -188,9 +142,14 @@ const Dashboard = () => {
                       </Badge>
                     </div>
                   </div>
-                  <div>
-                    <p className="font-medium text-gray-900 text-sm">{negociacion.paquete}</p>
-                    <p className="text-xs text-gray-500">{negociacion.cliente}</p>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-medium text-gray-900 text-sm">{negociacion.paquete}</p>
+                      <p className="text-xs text-gray-500">{negociacion.cliente}</p>
+                    </div>
+                    <Badge className={`tumex-button-radius text-xs font-medium border ${negociacion.tagColor}`}>
+                      {negociacion.tagEstado}
+                    </Badge>
                   </div>
                   <div className="flex items-center justify-between text-xs">
                     <div className="flex gap-4">
@@ -219,6 +178,11 @@ const Dashboard = () => {
               Ver todas las negociaciones
             </Button>
           </Card>
+        </div>
+
+        {/* Espacio restante - 3/12 del ancho */}
+        <div className="lg:col-span-3">
+          {/* Aquí se puede agregar otro componente en el futuro */}
         </div>
       </div>
     </div>
