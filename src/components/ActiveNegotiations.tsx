@@ -1,9 +1,7 @@
-
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-
 const ActiveNegotiations = () => {
   const negociaciones = [{
     idOrden: "#ORD-2024-001",
@@ -36,17 +34,14 @@ const ActiveNegotiations = () => {
     tagEstado: "Pendiente 2da Aprobación",
     tagColor: "bg-red-100 text-red-800 border-red-300"
   }];
-
-  return (
-    <Card className="p-6 tumex-card-radius bg-white h-full flex flex-col">
+  return <Card className="p-6 tumex-card-radius bg-white h-full flex flex-col">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold text-gray-900">Ordenes Pendientes de Aprobación</h2>
       </div>
       
       <ScrollArea className="flex-1 pr-4">
         <div className="space-y-4">
-          {negociaciones.map((negociacion, index) => (
-            <div key={index} className="p-3 bg-gray-50 rounded-tumex-button space-y-2">
+          {negociaciones.map((negociacion, index) => <div key={index} className="p-3 bg-gray-50 rounded-tumex-button space-y-2">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-mono text-gray-600">{negociacion.idOrden}</span>
@@ -77,14 +72,11 @@ const ActiveNegotiations = () => {
                 </Button>
                 <Button size="sm" variant="ghost" className="tumex-button-radius text-gray-500 hover:bg-gray-100">Ver Detalles</Button>
               </div>
-            </div>
-          ))}
+            </div>)}
         </div>
       </ScrollArea>
       
-      <Button variant="outline" className="w-full mt-4 tumex-button-radius border-gray-200 hover:bg-gray-50">Ver Todas</Button>
-    </Card>
-  );
+      
+    </Card>;
 };
-
 export default ActiveNegotiations;
