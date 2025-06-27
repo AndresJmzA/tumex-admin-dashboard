@@ -1,4 +1,3 @@
-
 import OrdersInProgress from "@/components/OrdersInProgress";
 import WelcomeSection from "@/components/WelcomeSection";
 import StatsCards from "@/components/StatsCards";
@@ -15,24 +14,25 @@ const Dashboard = () => {
       {/* Estadísticas Rápidas */}
       <StatsCards />
 
-      {/* Nueva Sección: Órdenes en Curso y Solicitudes de Servicio lado a lado */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-        <div className="min-h-[400px] lg:h-[500px]">
-          <OrdersInProgress />
+      {/* Grid principal para laptop+ */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
+        {/* Columna 1: OrdersInProgress + CustomerServiceRequests */}
+        <div className="lg:col-span-3 flex flex-col gap-4 max-lg:mb-0">
+          <div className="lg:max-h-[600px] lg:overflow-y-auto">
+            <OrdersInProgress />
+          </div>
+          <div className="lg:max-h-[600px] lg:overflow-y-auto">
+            <CustomerServiceRequests />
+          </div>
         </div>
-        <div className="min-h-[400px] lg:h-[500px]">
-          <CustomerServiceRequests />
+        {/* Columna 2: OrdersPendingApproval (ActiveNegotiations) */}
+        <div className="lg:col-span-6 lg:max-h-[600px] lg:overflow-y-auto flex flex-col">
+          <ActiveNegotiations />
         </div>
-      </div>
-
-      {/* Sección de Negociaciones Activas - mantener exactamente igual */}
-      <div className="min-h-[400px] lg:h-[600px]">
-        <ActiveNegotiations />
-      </div>
-
-      {/* Calendario expandido a todo el ancho */}
-      <div className="min-h-[400px] lg:h-[600px]">
-        <CalendarWithTasks />
+        {/* Columna 3: CalendarWithTasks */}
+        <div className="lg:col-span-3 lg:max-h-[600px] lg:overflow-y-auto flex flex-col">
+          <CalendarWithTasks />
+        </div>
       </div>
     </div>
   );
