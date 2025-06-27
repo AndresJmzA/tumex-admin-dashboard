@@ -59,7 +59,7 @@ const ActiveNegotiations = () => {
             </div>
             <div className="flex items-center justify-between text-xs">
               <div className="flex gap-4">
-                <span className="text-gray-500">Original: <span className="font-medium">{negociacion.ofertaOriginal}</span></span>
+                
                 
               </div>
             </div>
