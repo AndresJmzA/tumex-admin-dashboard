@@ -4,6 +4,7 @@ import OrdersInProgress from "@/components/OrdersInProgress";
 import WelcomeSection from "@/components/WelcomeSection";
 import StatsCards from "@/components/StatsCards";
 import ActiveNegotiations from "@/components/ActiveNegotiations";
+import CalendarWithTasks from "@/components/CalendarWithTasks";
 
 const Dashboard = () => {
   return (
@@ -34,9 +35,9 @@ const Dashboard = () => {
           <ActiveNegotiations />
         </div>
 
-        {/* Espacio restante - 3/12 del ancho */}
+        {/* Calendario con Tareas - 3/12 del ancho */}
         <div className="lg:col-span-3">
-          {/* Aquí se puede agregar otro componente en el futuro */}
+          <CalendarWithTasks />
         </div>
       </div>
     </div>
