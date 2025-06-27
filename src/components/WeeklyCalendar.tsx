@@ -12,7 +12,7 @@ interface WeeklyCalendarProps {
 const WeeklyCalendar = ({ selectedDate, onSelectDate }: WeeklyCalendarProps) => {
   const [currentWeek, setCurrentWeek] = useState(selectedDate);
 
-  const weekStart = startOfWeek(currentWeek, { weekStartsOn: 1 }); // Start week on Monday
+  const weekStart = startOfWeek(currentWeek, { weekStartsOn: 1 });
   const weekEnd = endOfWeek(currentWeek, { weekStartsOn: 1 });
   const weekDays = eachDayOfInterval({ start: weekStart, end: weekEnd });
 
@@ -31,31 +31,31 @@ const WeeklyCalendar = ({ selectedDate, onSelectDate }: WeeklyCalendarProps) => 
       {/* Header con fecha actual */}
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm font-medium text-gray-900">
+          <p className="text-sm sm:text-sm font-medium text-gray-900">
             {isToday(selectedDate) ? 'Hoy' : format(selectedDate, 'EEEE', { locale: es })}
           </p>
-          <p className="text-xs text-gray-500">
+          <p className="text-xs sm:text-xs text-gray-500">
             {format(selectedDate, "dd 'de' MMMM", { locale: es })}
           </p>
         </div>
         <div className="flex items-center gap-2">
           <button
             onClick={goToPreviousWeek}
-            className="h-6 w-6 rounded hover:bg-gray-100 flex items-center justify-center"
+            className="h-8 w-8 sm:h-6 sm:w-6 rounded hover:bg-gray-100 flex items-center justify-center"
           >
-            <ChevronLeft className="h-4 w-4 text-gray-600" />
+            <ChevronLeft className="h-5 w-5 sm:h-4 sm:w-4 text-gray-600" />
           </button>
           <button
             onClick={goToNextWeek}
-            className="h-6 w-6 rounded hover:bg-gray-100 flex items-center justify-center"
+            className="h-8 w-8 sm:h-6 sm:w-6 rounded hover:bg-gray-100 flex items-center justify-center"
           >
-            <ChevronRight className="h-4 w-4 text-gray-600" />
+            <ChevronRight className="h-5 w-5 sm:h-4 sm:w-4 text-gray-600" />
           </button>
         </div>
       </div>
 
       {/* Vista semanal */}
-      <div className="grid grid-cols-7 gap-1">
+      <div className="grid grid-cols-7 gap-1 sm:gap-1">
         {weekDays.map((day, index) => {
           const isSelected = isSameDay(day, selectedDate);
           const isDayToday = isToday(day);
@@ -75,7 +75,7 @@ const WeeklyCalendar = ({ selectedDate, onSelectDate }: WeeklyCalendarProps) => 
               `}
             >
               <span className="text-xs font-medium mb-1">{dayNames[index]}</span>
-              <span className="text-sm">{format(day, 'd')}</span>
+              <span className="text-sm sm:text-sm">{format(day, 'd')}</span>
             </button>
           );
         })}

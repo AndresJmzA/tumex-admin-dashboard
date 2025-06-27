@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -66,10 +67,10 @@ const CalendarWithTasks = () => {
   };
 
   return (
-    <Card className="p-4 tumex-card-radius bg-white h-full flex flex-col">
+    <Card className="p-3 sm:p-4 tumex-card-radius bg-white h-full flex flex-col">
       {/* Header del Calendario */}
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-gray-900">Calendario</h3>
+        <h3 className="text-base sm:text-lg font-semibold text-gray-900">Calendario</h3>
         <div className="flex items-center gap-2">
           <CalendarIcon className="h-4 w-4 text-gray-500" />
         </div>
@@ -87,13 +88,13 @@ const CalendarWithTasks = () => {
       <div className="flex-1 flex flex-col min-h-0">
         <h4 className="text-sm font-medium text-gray-900 mb-3">Próximos Eventos</h4>
         <ScrollArea className="flex-1">
-          <div className="space-y-2 pr-4">
+          <div className="space-y-2 pr-2 sm:pr-4">
             {tasks.map((task) => (
-              <div key={task.id} className="flex items-start gap-3 p-2 rounded-tumex-button hover:bg-gray-50">
+              <div key={task.id} className="flex items-start gap-2 sm:gap-3 p-2 rounded-tumex-button hover:bg-gray-50">
                 <div className="flex items-center gap-2 min-w-0 flex-1">
-                  <div className={`w-2 h-8 rounded-full ${getTaskColor(task.type)} flex-shrink-0`} />
+                  <div className={`w-2 h-6 sm:h-8 rounded-full ${getTaskColor(task.type)} flex-shrink-0`} />
                   <div className="min-w-0 flex-1">
-                    <p className="text-xs font-medium text-gray-900 truncate">{task.title}</p>
+                    <p className="text-xs sm:text-xs font-medium text-gray-900 truncate">{task.title}</p>
                     <div className="flex items-center gap-1 mt-1">
                       <Clock className="h-3 w-3 text-gray-400" />
                       <span className="text-xs text-gray-500">{task.time}</span>
@@ -105,7 +106,7 @@ const CalendarWithTasks = () => {
                     {task.attendees.map((attendee, index) => (
                       <div
                         key={index}
-                        className="w-5 h-5 rounded-full bg-gray-300 border border-white flex items-center justify-center"
+                        className="w-6 h-6 sm:w-5 sm:h-5 rounded-full bg-gray-300 border border-white flex items-center justify-center"
                       >
                         <span className="text-xs font-medium text-gray-600">{attendee}</span>
                       </div>

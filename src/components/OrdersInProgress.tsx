@@ -1,3 +1,4 @@
+
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -45,20 +46,20 @@ const OrdersInProgress = () => {
   ];
 
   return (
-    <Card className="p-4 tumex-card-radius bg-white h-full flex flex-col">
+    <Card className="p-3 sm:p-4 tumex-card-radius bg-white h-full flex flex-col">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold text-gray-900">Órdenes en Curso</h2>
-        <Badge variant="secondary" className="tumex-button-radius bg-tumex-primary-100 text-tumex-primary-800 border-tumex-primary-300">
+        <h2 className="text-base sm:text-lg font-semibold text-gray-900">Órdenes en Curso</h2>
+        <Badge variant="secondary" className="tumex-button-radius bg-tumex-primary-100 text-tumex-primary-800 border-tumex-primary-300 text-xs">
           {orders.length} órdenes activas
         </Badge>
       </div>
 
       <div className="relative flex-1 flex items-center">
         <Carousel className="w-full">
-          <CarouselContent>
+          <CarouselContent className="px-2">
             {orders.map((order, index) => (
-              <CarouselItem key={index} className="mx-2">
-                <div className="px-6 py-4 bg-gray-50 rounded-tumex-button space-y-3">
+              <CarouselItem key={index} className="px-2">
+                <div className="px-4 py-3 sm:px-6 sm:py-4 bg-gray-50 rounded-tumex-button space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="text-sm font-mono font-semibold text-gray-900">{order.id}</span>
                     <Badge className={`tumex-button-radius text-xs font-medium border ${order.statusColor}`}>
@@ -78,7 +79,7 @@ const OrdersInProgress = () => {
                     </div>
                   </div>
 
-                  <Button className="w-full tumex-button-radius bg-tumex-primary-500 hover:bg-tumex-primary-600 text-white">
+                  <Button className="w-full tumex-button-radius bg-tumex-primary-500 hover:bg-tumex-primary-600 text-white text-sm">
                     <Eye className="h-4 w-4 mr-2" />
                     Ver Orden
                   </Button>
@@ -86,8 +87,8 @@ const OrdersInProgress = () => {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="left-1 h-6 w-6 bg-white/80 hover:bg-white border-gray-200" />
-          <CarouselNext className="right-1 h-6 w-6 bg-white/80 hover:bg-white border-gray-200" />
+          <CarouselPrevious className="left-2 sm:left-1 h-8 w-8 sm:h-6 sm:w-6 bg-white/80 hover:bg-white border-gray-200" />
+          <CarouselNext className="right-2 sm:right-1 h-8 w-8 sm:h-6 sm:w-6 bg-white/80 hover:bg-white border-gray-200" />
         </Carousel>
       </div>
     </Card>

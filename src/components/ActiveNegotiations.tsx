@@ -1,7 +1,9 @@
+
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+
 const ActiveNegotiations = () => {
   const negociaciones = [{
     idOrden: "#ORD-2024-001",
@@ -34,18 +36,25 @@ const ActiveNegotiations = () => {
     tagEstado: "Pendiente 2da Aprobación",
     tagColor: "bg-red-100 text-red-800 border-red-300"
   }];
-  return <Card className="p-6 tumex-card-radius bg-white h-full flex flex-col">
+
+  return (
+    <Card className="p-4 sm:p-6 tumex-card-radius bg-white h-full flex flex-col">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold text-gray-900">Ordenes Pendientes de Aprobación</h2>
+        <h2 className="text-base sm:text-lg font-semibold text-gray-900">Ordenes Pendientes de Aprobación</h2>
       </div>
       
-      <ScrollArea className="flex-1 pr-4">
-        <div className="space-y-4">
-          {negociaciones.map((negociacion, index) => <div key={index} className="p-3 bg-gray-50 rounded-tumex-button space-y-2">
+      <ScrollArea className="flex-1 pr-2 sm:pr-4">
+        <div className="space-y-3 sm:space-y-4">
+          {negociaciones.map((negociacion, index) => (
+            <div key={index} className="p-3 bg-gray-50 rounded-tumex-button space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-mono text-gray-600">{negociacion.idOrden}</span>
-                  <Badge className={`tumex-button-radius text-xs font-medium ${negociacion.estado === 'critico' ? 'bg-red-100 text-red-800 border-red-300 border' : negociacion.estado === 'urgente' ? 'bg-yellow-100 text-yellow-800 border-yellow-300 border' : 'bg-green-100 text-green-800 border-green-300 border'}`}>
+                  <Badge className={`tumex-button-radius text-xs font-medium ${
+                    negociacion.estado === 'critico' ? 'bg-red-100 text-red-800 border-red-300 border' : 
+                    negociacion.estado === 'urgente' ? 'bg-yellow-100 text-yellow-800 border-yellow-300 border' : 
+                    'bg-green-100 text-green-800 border-green-300 border'
+                  }`}>
                     {negociacion.tiempo}
                   </Badge>
                 </div>
@@ -63,20 +72,23 @@ const ActiveNegotiations = () => {
                 <div className="flex gap-4">
                 </div>
               </div>
-              <div className="flex items-center gap-2 pt-2">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 pt-2">
                 <Button size="sm" className="tumex-button-radius bg-green-600 hover:bg-green-700 text-white">
                   Aceptar
                 </Button>
                 <Button size="sm" variant="outline" className="tumex-button-radius border-red-300 text-red-600 hover:bg-red-50">
                   Rechazar
                 </Button>
-                <Button size="sm" variant="ghost" className="tumex-button-radius text-gray-500 hover:bg-gray-100">Ver Detalles</Button>
+                <Button size="sm" variant="ghost" className="tumex-button-radius text-gray-500 hover:bg-gray-100">
+                  Ver Detalles
+                </Button>
               </div>
-            </div>)}
+            </div>
+          ))}
         </div>
       </ScrollArea>
-      
-      
-    </Card>;
+    </Card>
+  );
 };
+
 export default ActiveNegotiations;
