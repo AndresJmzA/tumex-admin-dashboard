@@ -9,7 +9,8 @@ import {
   Settings, 
   HelpCircle,
   Heart,
-  Menu
+  Menu,
+  Calendar
 } from "lucide-react"
 import { NavLink, useLocation } from "react-router-dom"
 
@@ -31,6 +32,7 @@ import {
 // Elementos de navegación actualizados
 const mainNavItems = [
   { title: "Panel Principal", url: "/", icon: LayoutDashboard },
+  { title: "Calendario", url: "/calendar", icon: Calendar },
   { title: "Catálogo de Equipos", url: "/catalog", icon: Package },
   { title: "Alquileres", url: "/rentals", icon: TruckIcon },
   { title: "Solicitudes", url: "/requests", icon: FileText },

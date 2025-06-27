@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { CheckCircle, Clock, AlertCircle, MessageSquare, Phone, Mail } from "lucide-react"
-import { CalendarDashboard } from "@/components/CalendarDashboard"
+import { CompactCalendar } from "@/components/CompactCalendar"
 
 const Dashboard = () => {
   return (
@@ -65,8 +65,8 @@ const Dashboard = () => {
         </Card>
       </div>
 
-      {/* Calendario Dashboard */}
-      <CalendarDashboard />
+      {/* Calendario Compacto */}
+      <CompactCalendar />
 
       {/* Componentes de Órdenes y Negociaciones */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
