@@ -15,16 +15,19 @@ const Dashboard = () => {
       {/* Estadísticas Rápidas */}
       <StatsCards />
 
-      {/* Sección Principal con Órdenes en Curso y Negociaciones */}
+      {/* Sección Principal con Layout Responsivo Mejorado */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 sm:gap-6">
-        {/* Órdenes en Curso y Solicitudes de Servicio - 3/12 del ancho en desktop */}
-        <div className="md:col-span-1 lg:col-span-3 space-y-4 sm:space-y-6 min-h-[400px] lg:h-[600px] flex flex-col">
-          <div className="flex-1">
-            <OrdersInProgress />
-          </div>
-          
-          <div className="flex-1">
-            <CustomerServiceRequests />
+        {/* Contenedor para Órdenes en Curso y Solicitudes de Servicio */}
+        <div className="md:col-span-1 lg:col-span-3 min-h-[400px] lg:h-[600px]">
+          {/* Layout responsivo: vertical en mobile, horizontal en tablet, vertical en desktop */}
+          <div className="flex flex-col md:flex-row lg:flex-col h-full gap-4 sm:gap-6 md:gap-4 lg:gap-6">
+            <div className="flex-1">
+              <OrdersInProgress />
+            </div>
+            
+            <div className="flex-1">
+              <CustomerServiceRequests />
+            </div>
           </div>
         </div>
 
