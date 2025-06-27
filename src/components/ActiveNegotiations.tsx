@@ -79,9 +79,7 @@ const ActiveNegotiations = () => {
             </div>
           </div>)}
       </div>
-      <Button variant="outline" className="w-full mt-4 tumex-button-radius border-gray-200 hover:bg-gray-50">
-        Ver todas las negociaciones
-      </Button>
+      <Button variant="outline" className="w-full mt-4 tumex-button-radius border-gray-200 hover:bg-gray-50">Ver todas</Button>
     </Card>;
 };
 export default ActiveNegotiations;
