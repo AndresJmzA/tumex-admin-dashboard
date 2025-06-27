@@ -1,7 +1,14 @@
 
-import { WeeklyCalendar } from "@/components/WeeklyCalendar"
+import { useState } from 'react';
+import WeeklyCalendar from "@/components/WeeklyCalendar"
 
 const Calendar = () => {
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
+  const handleSelectDate = (date: Date) => {
+    setSelectedDate(date);
+  };
+
   return (
     <div className="space-y-4 sm:space-y-6">
       {/* Sección de Bienvenida */}
@@ -12,7 +19,10 @@ const Calendar = () => {
 
       {/* Calendario Semanal */}
       <div className="bg-white rounded-tumex-card p-4 sm:p-6 shadow-sm border border-gray-100">
-        <WeeklyCalendar />
+        <WeeklyCalendar 
+          selectedDate={selectedDate}
+          onSelectDate={handleSelectDate}
+        />
       </div>
     </div>
   )
