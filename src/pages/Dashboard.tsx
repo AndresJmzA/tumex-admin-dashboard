@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { CheckCircle, Clock, AlertCircle, MessageSquare, Phone, Mail } from "lucide-react"
-import { CompactCalendar } from "@/components/CompactCalendar"
+import OrdersInProgress from "@/components/OrdersInProgress"
 
 const Dashboard = () => {
   return (
@@ -65,11 +65,11 @@ const Dashboard = () => {
         </Card>
       </div>
 
-      {/* Sección Principal con Calendario y Órdenes */}
+      {/* Sección Principal con Órdenes en Curso y Órdenes Pendientes */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Calendario Compacto - 1/3 del ancho */}
+        {/* Órdenes en Curso - 1/3 del ancho */}
         <div className="lg:col-span-1">
-          <CompactCalendar />
+          <OrdersInProgress />
         </div>
 
         {/* Órdenes y Negociaciones - 2/3 del ancho */}
