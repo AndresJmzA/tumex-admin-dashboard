@@ -67,7 +67,7 @@ const ActiveNegotiations = () => {
                 </Badge>
               </div>
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex items-start justify-between">
               <div>
                 <p className="font-medium text-gray-900 text-sm">{negociacion.paquete}</p>
                 <p className="text-xs text-gray-500">{negociacion.cliente}</p>
