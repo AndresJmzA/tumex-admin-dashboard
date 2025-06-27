@@ -1,68 +1,49 @@
-
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-
 const ActiveNegotiations = () => {
-  const negociaciones = [
-    {
-      idOrden: "#ORD-2024-001",
-      paquete: "Paquete Cirugía General Completo",
-      cliente: "Hospital Metropolitano",
-      ofertaOriginal: "$12,500 MXN/mes",
-      contraoferta: "$10,800 MXN/mes",
-      tiempo: "Hace 2 horas",
-      estado: "reciente",
-      tagEstado: "Pendiente 1ra Aprobación",
-      tagColor: "bg-blue-50 text-blue-700 border-blue-200"
-    },
-    {
-      idOrden: "#ORD-2024-002", 
-      paquete: "Paquete Laparoscopía Premium",
-      cliente: "Clínica del Valle",
-      ofertaOriginal: "$18,000 MXN/mes",
-      contraoferta: "$16,200 MXN/mes",
-      tiempo: "Hace 1 día",
-      estado: "urgente",
-      tagEstado: "1/2 Aprobaciones",
-      tagColor: "bg-yellow-50 text-yellow-700 border-yellow-200"
-    },
-    {
-      idOrden: "#ORD-2024-003",
-      paquete: "Paquete Neurocirugía Avanzado", 
-      cliente: "Centro Médico Especializado",
-      ofertaOriginal: "$25,000 MXN/mes",
-      contraoferta: "$22,000 MXN/mes",
-      tiempo: "Hace 3 días",
-      estado: "critico",
-      tagEstado: "Pendiente 2da Aprobación",
-      tagColor: "bg-red-50 text-red-700 border-red-200"
-    }
-  ];
-
-  return (
-    <Card className="p-6 tumex-card-radius bg-white">
+  const negociaciones = [{
+    idOrden: "#ORD-2024-001",
+    paquete: "Paquete Cirugía General Completo",
+    cliente: "Hospital Metropolitano",
+    ofertaOriginal: "$12,500 MXN/mes",
+    contraoferta: "$10,800 MXN/mes",
+    tiempo: "Hace 2 horas",
+    estado: "reciente",
+    tagEstado: "Pendiente 1ra Aprobación",
+    tagColor: "bg-blue-50 text-blue-700 border-blue-200"
+  }, {
+    idOrden: "#ORD-2024-002",
+    paquete: "Paquete Laparoscopía Premium",
+    cliente: "Clínica del Valle",
+    ofertaOriginal: "$18,000 MXN/mes",
+    contraoferta: "$16,200 MXN/mes",
+    tiempo: "Hace 1 día",
+    estado: "urgente",
+    tagEstado: "1/2 Aprobaciones",
+    tagColor: "bg-yellow-50 text-yellow-700 border-yellow-200"
+  }, {
+    idOrden: "#ORD-2024-003",
+    paquete: "Paquete Neurocirugía Avanzado",
+    cliente: "Centro Médico Especializado",
+    ofertaOriginal: "$25,000 MXN/mes",
+    contraoferta: "$22,000 MXN/mes",
+    tiempo: "Hace 3 días",
+    estado: "critico",
+    tagEstado: "Pendiente 2da Aprobación",
+    tagColor: "bg-red-50 text-red-700 border-red-200"
+  }];
+  return <Card className="p-6 tumex-card-radius bg-white">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold text-gray-900">Negociaciones Activas</h2>
-        <Badge variant="secondary" className="tumex-button-radius bg-orange-50 text-orange-700 border-orange-200">
-          3 negociaciones activas
-        </Badge>
+        <h2 className="text-lg font-semibold text-gray-900">Ordenes Pendientes de Aprobación</h2>
+        
       </div>
       <div className="space-y-4">
-        {negociaciones.map((negociacion, index) => (
-          <div key={index} className="p-3 bg-gray-50 rounded-tumex-button space-y-2">
+        {negociaciones.map((negociacion, index) => <div key={index} className="p-3 bg-gray-50 rounded-tumex-button space-y-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="text-sm font-mono text-gray-600">{negociacion.idOrden}</span>
-                <Badge 
-                  className={`tumex-button-radius text-xs font-medium ${
-                    negociacion.estado === 'critico' 
-                      ? 'bg-red-50 text-red-700 border-red-200 border' :
-                    negociacion.estado === 'urgente' 
-                      ? 'bg-orange-50 text-orange-700 border-orange-200 border' :
-                    'bg-green-50 text-green-700 border-green-200 border'
-                  }`}
-                >
+                <Badge className={`tumex-button-radius text-xs font-medium ${negociacion.estado === 'critico' ? 'bg-red-50 text-red-700 border-red-200 border' : negociacion.estado === 'urgente' ? 'bg-orange-50 text-orange-700 border-orange-200 border' : 'bg-green-50 text-green-700 border-green-200 border'}`}>
                   {negociacion.tiempo}
                 </Badge>
               </div>
@@ -96,14 +77,11 @@ const ActiveNegotiations = () => {
                 Ver Historial
               </Button>
             </div>
-          </div>
-        ))}
+          </div>)}
       </div>
       <Button variant="outline" className="w-full mt-4 tumex-button-radius border-gray-200 hover:bg-gray-50">
         Ver todas las negociaciones
       </Button>
-    </Card>
-  );
+    </Card>;
 };
-
 export default ActiveNegotiations;
