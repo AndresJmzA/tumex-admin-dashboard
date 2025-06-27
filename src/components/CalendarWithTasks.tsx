@@ -45,6 +45,13 @@ const CalendarWithTasks = () => {
       title: 'Instalación Equipos',
       time: '01:00 PM',
       type: 'outing'
+    },
+    {
+      id: '5',
+      title: 'Capacitación Personal',
+      time: '03:00 PM - 04:00 PM',
+      type: 'meeting',
+      attendees: ['AB', 'CD', 'EF']
     }
   ];
 
@@ -62,7 +69,7 @@ const CalendarWithTasks = () => {
   };
 
   return (
-    <Card className="p-4 tumex-card-radius bg-white h-fit">
+    <Card className="p-4 tumex-card-radius bg-white h-full flex flex-col">
       {/* Header del Calendario */}
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-gray-900">Calendario</h3>
@@ -120,9 +127,9 @@ const CalendarWithTasks = () => {
       </div>
 
       {/* Próximos Eventos */}
-      <div>
+      <div className="flex-1 flex flex-col">
         <h4 className="text-sm font-medium text-gray-900 mb-3">Próximos Eventos</h4>
-        <div className="space-y-2 max-h-48 overflow-y-auto">
+        <div className="space-y-2 flex-1 overflow-y-auto">
           {tasks.map((task) => (
             <div key={task.id} className="flex items-start gap-3 p-2 rounded-tumex-button hover:bg-gray-50">
               <div className="flex items-center gap-2 min-w-0 flex-1">
