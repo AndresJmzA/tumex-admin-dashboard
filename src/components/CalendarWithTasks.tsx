@@ -84,7 +84,7 @@ const CalendarWithTasks = () => {
           mode="single"
           selected={selectedDate}
           onSelect={(date) => date && setSelectedDate(date)}
-          className="rounded-md border-0 p-0"
+          className="rounded-md border-0 p-0 w-full"
           classNames={{
             months: "flex w-full",
             month: "space-y-2 w-full",
@@ -96,10 +96,10 @@ const CalendarWithTasks = () => {
             nav_button_next: "absolute right-1",
             table: "w-full border-collapse space-y-1",
             head_row: "flex w-full",
-            head_cell: "text-muted-foreground rounded-md w-8 font-normal text-xs",
+            head_cell: "text-muted-foreground rounded-md flex-1 font-normal text-xs text-center",
             row: "flex w-full mt-1",
-            cell: "h-8 w-8 text-center text-xs p-0 relative",
-            day: "h-8 w-8 p-0 font-normal rounded hover:bg-accent hover:text-accent-foreground",
+            cell: "flex-1 text-center text-xs p-0 relative aspect-square",
+            day: "h-full w-full p-0 font-normal rounded hover:bg-accent hover:text-accent-foreground text-xs",
             day_selected: "bg-tumex-primary-500 text-white hover:bg-tumex-primary-600",
             day_today: "bg-accent text-accent-foreground font-medium",
             day_outside: "text-muted-foreground opacity-50",
