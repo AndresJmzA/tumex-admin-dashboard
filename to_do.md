@@ -12,12 +12,12 @@
 **Objetivo**: Transformar las métricas del dashboard para reflejar el modelo de negocio de paquetes quirúrgicos
 
 ### Tareas:
-- [ ] Cambiar "Alquileres Activos" → "Órdenes de Renta Activas"
-- [ ] Cambiar "Solicitudes Pendientes" → "Órdenes Pendientes de Aprobación"
-- [ ] Cambiar "Total de Equipos" → "Paquetes Quirúrgicos Disponibles"
-- [ ] Cambiar "Tickets de Soporte" → "Contraoffertas Recibidas"
-- [ ] Actualizar colores e iconos apropiados para cada métrica
-- [ ] Ajustar números de ejemplo realistas
+- [x] Cambiar "Alquileres Activos" → "Órdenes de Renta Activas"
+- [x] Cambiar "Solicitudes Pendientes" → "Órdenes Pendientes de Aprobación"
+- [x] Cambiar "Total de Equipos" → "Paquetes Quirúrgicos Disponibles"
+- [x] Cambiar "Tickets de Soporte" → "Contraoffertas Recibidas"
+- [x] Actualizar colores e iconos apropiados para cada métrica
+- [x] Ajustar números de ejemplo realistas
 
 **Entregables**: 4 cards de estadísticas actualizadas con nuevo contenido y colores apropiados
 
@@ -29,21 +29,19 @@
 **Objetivo**: Convertir "Solicitudes por Aceptar" en "Órdenes Pendientes de Aprobación"
 
 ### Tareas:
-- [ ] Cambiar título de sección: "Solicitudes por Aceptar" → "Órdenes Pendientes de Aprobación"
-- [ ] Actualizar ejemplos a paquetes quirúrgicos:
-  - [ ] "Monitor de Signos Vitales" → "Paquete Laparoscopía Completo"
-  - [ ] "Ventilador Mecánico" → "Paquete Cirugía Cardiovascular"
-  - [ ] "Bomba de Infusión" → "Paquete Neurocirugía"
-- [ ] Implementar sistema de indicadores de aprobación:
-  - [ ] Badge "1/2 Aprobaciones"
-  - [ ] Badge "2/2 Aprobaciones - Listo para Enviar"
-  - [ ] Badge "Pendiente 1ra Aprobación"
-- [ ] Crear estados visuales diferenciados por color
-- [ ] Implementar botones de acción contextuales:
-  - [ ] "Aprobar" (para primeras aprobaciones)
-  - [ ] "Aprobar y Enviar" (para segundas aprobaciones)
-  - [ ] "Ver Detalles"
-- [ ] Actualizar badge de contador: "5 pendientes" → "3 pendientes de aprobación"
+- [x] Cambiar título de sección: "Solicitudes por Aceptar" → "Órdenes Pendientes de Aprobación"
+- [x] Actualizar ejemplos a paquetes quirúrgicos:
+  - [x] "Monitor de Signos Vitales" → "Paquete Laparoscopía Completo"
+  - [x] "Ventilador Mecánico" → "Paquete Cirugía Cardiovascular"
+  - [x] "Bomba de Infusión" → "Paquete Neurocirugía"
+- [x] Implementar sistema de indicadores de aprobación:
+  - [x] Badge "1/2 Aprobaciones"
+  - [x] Badge "Pendiente 1ra Aprobación"
+- [x] Crear estados visuales diferenciados por color
+- [x] Implementar botones de acción contextuales:
+  - [x] "Aprobar" (para primeras aprobaciones)
+  - [x] "Ver Detalles"
+- [x] Actualizar badge de contador: "5 pendientes" → "2 pendientes de aprobación"
 
 **Entregables**: Componente rediseñado con flujo de doble aprobación
 
@@ -55,23 +53,23 @@
 **Objetivo**: Crear componente para gestionar contraoffertas de clientes
 
 ### Tareas:
-- [ ] Reemplazar sección "Servicio al Cliente" con "Negociaciones Activas"
-- [ ] Crear estructura de contraoffertas:
-  - [ ] ID de orden original
-  - [ ] Paquete quirúrgico solicitado
-  - [ ] Oferta original vs contraoferta del cliente
-  - [ ] Estado de negociación
-  - [ ] Tiempo transcurrido desde última oferta
-- [ ] Implementar indicadores de tiempo:
-  - [ ] "Hace 2 horas" (reciente)
-  - [ ] "Hace 1 día" (urgente)
-  - [ ] "Hace 3 días" (crítico)
-- [ ] Crear acciones rápidas:
-  - [ ] "Aceptar Contraoferta"
-  - [ ] "Rechazar"
-  - [ ] "Negociar"
-  - [ ] "Ver Historial"
-- [ ] Badge de contador: "2 negociaciones activas"
+- [x] Reemplazar sección "Servicio al Cliente" con "Negociaciones Activas"
+- [x] Crear estructura de contraoffertas:
+  - [x] ID de orden original
+  - [x] Paquete quirúrgico solicitado
+  - [x] Oferta original vs contraoferta del cliente
+  - [x] Estado de negociación
+  - [x] Tiempo transcurrido desde última oferta
+- [x] Implementar indicadores de tiempo:
+  - [x] "Hace 2 horas" (reciente)
+  - [x] "Hace 1 día" (urgente)
+  - [x] "Hace 3 días" (crítico)
+- [x] Crear acciones rápidas:
+  - [x] "Aceptar Contraoferta"
+  - [x] "Rechazar"
+  - [x] "Negociar"
+  - [x] "Ver Historial"
+- [x] Badge de contador: "3 negociaciones activas"
 
 **Entregables**: Nuevo componente "Negociaciones Activas"
 
@@ -83,23 +81,23 @@
 **Objetivo**: Reflejar el flujo real del negocio en el historial de actividades
 
 ### Tareas:
-- [ ] Actualizar ejemplos de actividades:
-  - [ ] "Nueva solicitud de alquiler" → "Nueva orden de paquete quirúrgico recibida"
-  - [ ] "Equipo devuelto" → "Paquete Laparoscopía devuelto completo"
-  - [ ] "Mantenimiento completado" → "Primera aprobación completada"
-- [ ] Agregar nuevos tipos de actividad:
-  - [ ] "Segunda aprobación otorgada"
-  - [ ] "Orden enviada al cliente"
-  - [ ] "Contraoferta recibida"
-  - [ ] "Negociación finalizada"
-- [ ] Actualizar nombres de equipos:
-  - [ ] "Máquina de Ultrasonido XR-200" → "Paquete Cirugía General Completo"
-  - [ ] "Monitor de Paciente PM-500" → "Paquete Laparoscopía Estándar"
-  - [ ] "Ventilador Mecánico VM-300" → "Paquete Cirugía Cardíaca Premium"
-- [ ] Actualizar estados:
-  - [ ] "completado" → "aprobado"
-  - [ ] "pendiente" → "en proceso de aprobación"
-  - [ ] "devuelto" → "finalizado"
+- [x] Actualizar ejemplos de actividades:
+  - [x] "Nueva solicitud de alquiler" → "Nueva orden de paquete quirúrgico recibida"
+  - [x] "Equipo devuelto" → "Paquete Laparoscopía devuelto completo"
+  - [x] "Mantenimiento completado" → "Primera aprobación completada"
+- [x] Agregar nuevos tipos de actividad:
+  - [x] "Segunda aprobación otorgada"
+  - [x] "Orden enviada al cliente"
+  - [x] "Contraoferta recibida"
+  - [x] "Negociación finalizada"
+- [x] Actualizar nombres de equipos:
+  - [x] "Máquina de Ultrasonido XR-200" → "Paquete Cirugía General Completo"
+  - [x] "Monitor de Paciente PM-500" → "Paquete Laparoscopía Estándar"
+  - [x] "Ventilador Mecánico VM-300" → "Paquete Cirugía Cardíaca Premium"
+- [x] Actualizar estados:
+  - [x] "completado" → "aprobado"
+  - [x] "pendiente" → "en proceso de aprobación"
+  - [x] "devuelto" → "finalizado"
 
 **Entregables**: Componente de actividad reciente actualizado
 
@@ -146,6 +144,21 @@
 - [ ] Documentar componentes nuevos
 
 **Entregables**: Dashboard pulido y optimizado
+
+---
+
+## ✅ ETAPA 7: Eliminación de Actividad Reciente
+**Objetivo**: Simplificar el dashboard eliminando la sección de actividad reciente
+
+### Tareas:
+- [ ] Remover completamente la sección "Actividad Reciente"
+- [ ] Ajustar el layout del dashboard para mejor distribución del espacio
+- [ ] Verificar que no queden referencias o dependencias de esta sección
+- [ ] Revisar que el dashboard mantenga una buena proporción visual
+
+**Entregables**: Dashboard limpio sin sección de actividad reciente
+
+**Archivos a modificar**: `src/pages/Dashboard.tsx`
 
 ---
 

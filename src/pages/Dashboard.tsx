@@ -70,7 +70,7 @@ const Dashboard = () => {
         <Card className="p-6 tumex-card-radius bg-white">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-900">Órdenes Pendientes de Aprobación</h2>
-            <Badge variant="secondary" className="tumex-button-radius">
+            <Badge variant="secondary" className="tumex-button-radius bg-blue-50 text-blue-700 border-blue-200">
               2 pendientes de aprobación
             </Badge>
           </div>
@@ -81,14 +81,16 @@ const Dashboard = () => {
                 cliente: "Hospital San José", 
                 fecha: "Hace 2 horas", 
                 aprobacion: "pendiente",
-                estado: "Pendiente 1ra Aprobación"
+                estado: "Pendiente 1ra Aprobación",
+                urgencia: "normal"
               },
               { 
                 equipo: "Paquete Cirugía Cardiovascular", 
                 cliente: "Clínica Santa María", 
                 fecha: "Hace 4 horas", 
                 aprobacion: "primera",
-                estado: "1/2 Aprobaciones"
+                estado: "1/2 Aprobaciones",
+                urgencia: "media"
               },
             ].map((orden, index) => (
               <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-tumex-button">
@@ -99,17 +101,15 @@ const Dashboard = () => {
                 </div>
                 <div className="flex items-center gap-2">
                   <Badge 
-                    variant={
-                      orden.aprobacion === 'primera' ? 'secondary' : 'outline'
-                    }
-                    className={`tumex-button-radius text-xs ${
-                      orden.aprobacion === 'primera' ? 'bg-yellow-100 text-yellow-800 border-yellow-300' :
-                      'bg-blue-100 text-blue-800 border-blue-300'
+                    className={`tumex-button-radius text-xs font-medium ${
+                      orden.aprobacion === 'primera' 
+                        ? 'bg-yellow-50 text-yellow-700 border-yellow-200 border' 
+                        : 'bg-blue-50 text-blue-700 border-blue-200 border'
                     }`}
                   >
                     {orden.estado}
                   </Badge>
-                  <Button size="sm" className="tumex-button-radius">
+                  <Button size="sm" className="tumex-button-radius bg-green-600 hover:bg-green-700 text-white">
                     <CheckCircle className="h-4 w-4 mr-1" />
                     Aprobar
                   </Button>
@@ -117,7 +117,7 @@ const Dashboard = () => {
               </div>
             ))}
           </div>
-          <Button variant="outline" className="w-full mt-4 tumex-button-radius">
+          <Button variant="outline" className="w-full mt-4 tumex-button-radius border-gray-200 hover:bg-gray-50">
             Ver todas las órdenes pendientes
           </Button>
         </Card>
@@ -126,7 +126,7 @@ const Dashboard = () => {
         <Card className="p-6 tumex-card-radius bg-white">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-900">Negociaciones Activas</h2>
-            <Badge variant="secondary" className="tumex-button-radius">
+            <Badge variant="secondary" className="tumex-button-radius bg-orange-50 text-orange-700 border-orange-200">
               3 negociaciones activas
             </Badge>
           </div>
@@ -168,15 +168,12 @@ const Dashboard = () => {
                   <div className="flex items-center gap-2">
                     <span className="text-sm font-mono text-gray-600">{negociacion.idOrden}</span>
                     <Badge 
-                      variant={
-                        negociacion.estado === 'critico' ? 'destructive' : 
-                        negociacion.estado === 'urgente' ? 'secondary' : 
-                        'outline'
-                      }
-                      className={`tumex-button-radius text-xs ${
-                        negociacion.estado === 'critico' ? 'bg-red-100 text-red-800 border-red-300' :
-                        negociacion.estado === 'urgente' ? 'bg-orange-100 text-orange-800 border-orange-300' :
-                        'bg-green-100 text-green-800 border-green-300'
+                      className={`tumex-button-radius text-xs font-medium ${
+                        negociacion.estado === 'critico' 
+                          ? 'bg-red-50 text-red-700 border-red-200 border' :
+                        negociacion.estado === 'urgente' 
+                          ? 'bg-orange-50 text-orange-700 border-orange-200 border' :
+                        'bg-green-50 text-green-700 border-green-200 border'
                       }`}
                     >
                       {negociacion.tiempo}
@@ -194,107 +191,27 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-2 pt-2">
-                  <Button size="sm" className="tumex-button-radius bg-green-600 hover:bg-green-700">
+                  <Button size="sm" className="tumex-button-radius bg-green-600 hover:bg-green-700 text-white">
                     Aceptar
                   </Button>
-                  <Button size="sm" variant="outline" className="tumex-button-radius">
+                  <Button size="sm" variant="outline" className="tumex-button-radius border-red-200 text-red-600 hover:bg-red-50">
                     Rechazar
                   </Button>
-                  <Button size="sm" variant="outline" className="tumex-button-radius">
+                  <Button size="sm" variant="outline" className="tumex-button-radius border-blue-200 text-blue-600 hover:bg-blue-50">
                     Negociar
                   </Button>
-                  <Button size="sm" variant="ghost" className="tumex-button-radius text-gray-500">
+                  <Button size="sm" variant="ghost" className="tumex-button-radius text-gray-500 hover:bg-gray-100">
                     Ver Historial
                   </Button>
                 </div>
               </div>
             ))}
           </div>
-          <Button variant="outline" className="w-full mt-4 tumex-button-radius">
+          <Button variant="outline" className="w-full mt-4 tumex-button-radius border-gray-200 hover:bg-gray-50">
             Ver todas las negociaciones
           </Button>
         </Card>
       </div>
-
-      {/* Actividad Reciente */}
-      <Card className="p-6 tumex-card-radius bg-white">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Actividad Reciente</h2>
-        <div className="space-y-4">
-          {[
-            { 
-              action: "Nueva orden de paquete quirúrgico recibida", 
-              item: "Paquete Cirugía General Completo", 
-              status: "en proceso de aprobación", 
-              time: "hace 2 horas",
-              cliente: "Hospital San José"
-            },
-            { 
-              action: "Primera aprobación completada", 
-              item: "Paquete Laparoscopía Estándar", 
-              status: "aprobado", 
-              time: "hace 4 horas",
-              cliente: "Clínica Santa María"
-            },
-            { 
-              action: "Segunda aprobación otorgada", 
-              item: "Paquete Cirugía Cardíaca Premium", 
-              status: "enviado", 
-              time: "hace 6 horas",
-              cliente: "Centro Médico Norte"
-            },
-            { 
-              action: "Contraoferta recibida", 
-              item: "Paquete Neurocirugía Avanzado", 
-              status: "en negociación", 
-              time: "hace 1 día",
-              cliente: "Hospital Especializado"
-            },
-            { 
-              action: "Negociación finalizada", 
-              item: "Paquete Ortopedia Completo", 
-              status: "aceptado", 
-              time: "hace 1 día",
-              cliente: "Clínica del Valle"
-            },
-            { 
-              action: "Orden enviada al cliente", 
-              item: "Paquete Cirugía Vascular", 
-              status: "finalizado", 
-              time: "hace 2 días",
-              cliente: "Hospital Metropolitano"
-            },
-          ].map((activity, index) => (
-            <div key={index} className="flex items-center justify-between py-3 border-b border-gray-100 last:border-0">
-              <div className="flex-1">
-                <p className="font-medium text-gray-900">{activity.action}</p>
-                <p className="text-sm text-gray-500">{activity.item}</p>
-                <p className="text-xs text-gray-400">{activity.cliente}</p>
-              </div>
-              <div className="flex items-center gap-3">
-                <Badge 
-                  variant={
-                    activity.status === 'finalizado' || activity.status === 'aceptado' || activity.status === 'enviado' ? 'default' : 
-                    activity.status === 'aprobado' ? 'secondary' :
-                    activity.status === 'en negociación' ? 'destructive' :
-                    'outline'
-                  }
-                  className={`tumex-button-radius text-xs ${
-                    activity.status === 'finalizado' ? 'bg-green-100 text-green-800 border-green-300' :
-                    activity.status === 'aceptado' ? 'bg-green-100 text-green-800 border-green-300' :
-                    activity.status === 'enviado' ? 'bg-blue-100 text-blue-800 border-blue-300' :
-                    activity.status === 'aprobado' ? 'bg-yellow-100 text-yellow-800 border-yellow-300' :
-                    activity.status === 'en negociación' ? 'bg-orange-100 text-orange-800 border-orange-300' :
-                    'bg-gray-100 text-gray-800 border-gray-300'
-                  }`}
-                >
-                  {activity.status}
-                </Badge>
-                <span className="text-sm text-gray-400">{activity.time}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </Card>
     </div>
   )
 }
