@@ -1,15 +1,13 @@
-
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { TumexSidebar } from "@/components/TumexSidebar"
-import { Menu, Bell, Search, User } from "lucide-react"
-
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { TumexSidebar } from "@/components/TumexSidebar";
+import { Menu, Bell, Search, User } from "lucide-react";
 interface LayoutProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
-
-export function Layout({ children }: LayoutProps) {
-  return (
-    <SidebarProvider>
+export function Layout({
+  children
+}: LayoutProps) {
+  return <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gradient-to-br from-gray-50 via-blue-50 to-cyan-50">
         <TumexSidebar />
         
@@ -22,14 +20,7 @@ export function Layout({ children }: LayoutProps) {
               </SidebarTrigger>
               
               {/* Barra de Búsqueda */}
-              <div className="hidden md:flex items-center bg-white/60 backdrop-blur-sm rounded-tumex-button px-4 py-2 w-80 border border-white/30">
-                <Search className="h-4 w-4 text-gray-500 mr-2" />
-                <input 
-                  type="text" 
-                  placeholder="Buscar equipos, pedidos, proveedores..."
-                  className="bg-transparent border-none outline-none text-sm flex-1 placeholder:text-gray-500"
-                />
-              </div>
+              
             </div>
 
             {/* Acciones del Encabezado Derecho */}
@@ -53,6 +44,5 @@ export function Layout({ children }: LayoutProps) {
           </main>
         </div>
       </div>
-    </SidebarProvider>
-  )
+    </SidebarProvider>;
 }
