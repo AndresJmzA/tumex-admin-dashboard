@@ -2,7 +2,7 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Eye } from "lucide-react";
 
@@ -27,7 +27,7 @@ const CustomerServiceRequests = () => {
       customerNumber: "#CLI-4521",
       customerPhoto: "",
       status: "Abierto",
-      statusColor: "bg-red-50 text-red-700 border-red-200",
+      statusColor: "bg-red-100 text-red-800 border-red-300",
       issue: "Problema con equipo de laparoscopía",
       createdAt: "Hace 2 horas"
     },
@@ -38,7 +38,7 @@ const CustomerServiceRequests = () => {
       customerNumber: "#CLI-3847",
       customerPhoto: "",
       status: "En Proceso",
-      statusColor: "bg-yellow-50 text-yellow-700 border-yellow-200",
+      statusColor: "bg-yellow-100 text-yellow-800 border-yellow-300",
       issue: "Consulta sobre mantenimiento",
       createdAt: "Hace 4 horas"
     },
@@ -49,7 +49,7 @@ const CustomerServiceRequests = () => {
       customerNumber: "#CLI-2193",
       customerPhoto: "",
       status: "Resuelto",
-      statusColor: "bg-green-50 text-green-700 border-green-200",
+      statusColor: "bg-green-100 text-green-800 border-green-300",
       issue: "Solicitud de capacitación",
       createdAt: "Hace 1 día"
     },
@@ -60,7 +60,7 @@ const CustomerServiceRequests = () => {
       customerNumber: "#CLI-5678",
       customerPhoto: "",
       status: "Urgente",
-      statusColor: "bg-orange-50 text-orange-700 border-orange-200",
+      statusColor: "bg-yellow-100 text-yellow-800 border-yellow-300",
       issue: "Falla crítica en quirófano",
       createdAt: "Hace 30 min"
     }
@@ -76,10 +76,10 @@ const CustomerServiceRequests = () => {
   };
 
   return (
-    <Card className="p-6 tumex-card-radius bg-white h-full flex flex-col max-w-sm w-full px-[34px]">
+    <Card className="p-4 tumex-card-radius bg-white h-full flex flex-col">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold text-gray-900">Solicitudes Servicio</h2>
-        <Badge variant="secondary" className="tumex-button-radius bg-orange-50 text-orange-700 border-orange-200">
+        <Badge variant="secondary" className="tumex-button-radius bg-yellow-100 text-yellow-800 border-yellow-300">
           {requests.length} solicitudes
         </Badge>
       </div>
@@ -91,29 +91,29 @@ const CustomerServiceRequests = () => {
               <CarouselItem key={index}>
                 <div className="p-4 bg-gray-50 rounded-tumex-button space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-lg font-mono font-semibold text-gray-900">{request.ticketNumber}</span>
+                    <span className="text-sm font-mono font-semibold text-gray-900">{request.ticketNumber}</span>
                     <Badge className={`tumex-button-radius text-xs font-medium border ${request.statusColor}`}>
                       {request.status}
                     </Badge>
                   </div>
                   
                   <div className="flex items-center gap-3">
-                    <Avatar className="h-10 w-10">
+                    <Avatar className="h-8 w-8">
                       <AvatarImage src={request.customerPhoto} alt={request.customerName} />
-                      <AvatarFallback className="bg-tumex-primary-100 text-tumex-primary-700 text-sm font-medium">
+                      <AvatarFallback className="bg-tumex-primary-100 text-tumex-primary-700 text-xs font-medium">
                         {getInitials(request.customerName)}
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium text-gray-900 text-sm truncate">{request.customerName}</p>
+                      <p className="text-sm font-medium text-gray-900 truncate">{request.customerName}</p>
                       <p className="text-xs text-gray-500">{request.customerNumber}</p>
                     </div>
                   </div>
                   
                   <div className="space-y-2">
                     <div>
-                      <p className="text-sm text-gray-500">Problema</p>
-                      <p className="text-sm text-gray-700 truncate">{request.issue}</p>
+                      <p className="text-xs text-gray-500">Problema</p>
+                      <p className="text-xs text-gray-700 truncate">{request.issue}</p>
                     </div>
                     
                     <div>
@@ -129,6 +129,8 @@ const CustomerServiceRequests = () => {
               </CarouselItem>
             ))}
           </CarouselContent>
+          <CarouselPrevious className="left-2 h-6 w-6 bg-white/80 hover:bg-white border-gray-200" />
+          <CarouselNext className="right-2 h-6 w-6 bg-white/80 hover:bg-white border-gray-200" />
         </Carousel>
       </div>
     </Card>

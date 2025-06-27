@@ -2,7 +2,7 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
 import { Eye } from "lucide-react";
 
 interface Order {
@@ -18,38 +18,38 @@ const OrdersInProgress = () => {
     {
       id: "#ORD-2024-001",
       status: "En Preparación",
-      statusColor: "bg-yellow-50 text-yellow-700 border-yellow-200",
+      statusColor: "bg-yellow-100 text-yellow-800 border-yellow-300",
       client: "Hospital San José",
       address: "Av. Reforma 123, CDMX"
     },
     {
       id: "#ORD-2024-002",
       status: "En Tránsito",
-      statusColor: "bg-blue-50 text-blue-700 border-blue-200",
+      statusColor: "bg-tumex-primary-100 text-tumex-primary-800 border-tumex-primary-300",
       client: "Clínica Santa María",
       address: "Calle Juárez 456, Guadalajara"
     },
     {
       id: "#ORD-2024-003",
       status: "Entregado",
-      statusColor: "bg-green-50 text-green-700 border-green-200",
+      statusColor: "bg-green-100 text-green-800 border-green-300",
       client: "Centro Médico Especializado",
       address: "Blvd. Díaz Ordaz 789, Monterrey"
     },
     {
       id: "#ORD-2024-004",
       status: "Pendiente Retiro",
-      statusColor: "bg-orange-50 text-orange-700 border-orange-200",
+      statusColor: "bg-yellow-100 text-yellow-800 border-yellow-300",
       client: "Hospital Metropolitano",
       address: "Av. Universidad 321, Puebla"
     }
   ];
 
   return (
-    <Card className="p-6 tumex-card-radius bg-white h-full flex flex-col max-w-sm w-full px-[34px]">
+    <Card className="p-4 tumex-card-radius bg-white h-full flex flex-col">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold text-gray-900">Órdenes en Curso</h2>
-        <Badge variant="secondary" className="tumex-button-radius bg-blue-50 text-blue-700 border-blue-200">
+        <Badge variant="secondary" className="tumex-button-radius bg-tumex-primary-100 text-tumex-primary-800 border-tumex-primary-300">
           {orders.length} órdenes activas
         </Badge>
       </div>
@@ -61,7 +61,7 @@ const OrdersInProgress = () => {
               <CarouselItem key={index}>
                 <div className="p-4 bg-gray-50 rounded-tumex-button space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-lg font-mono font-semibold text-gray-900">{order.id}</span>
+                    <span className="text-sm font-mono font-semibold text-gray-900">{order.id}</span>
                     <Badge className={`tumex-button-radius text-xs font-medium border ${order.statusColor}`}>
                       {order.status}
                     </Badge>
@@ -69,13 +69,13 @@ const OrdersInProgress = () => {
                   
                   <div className="space-y-2">
                     <div>
-                      <p className="text-sm text-gray-500">Cliente</p>
-                      <p className="font-medium text-gray-900">{order.client}</p>
+                      <p className="text-xs text-gray-500">Cliente</p>
+                      <p className="text-sm font-medium text-gray-900">{order.client}</p>
                     </div>
                     
                     <div>
-                      <p className="text-sm text-gray-500">Dirección</p>
-                      <p className="text-sm text-gray-700">{order.address}</p>
+                      <p className="text-xs text-gray-500">Dirección</p>
+                      <p className="text-xs text-gray-700">{order.address}</p>
                     </div>
                   </div>
 
@@ -87,6 +87,8 @@ const OrdersInProgress = () => {
               </CarouselItem>
             ))}
           </CarouselContent>
+          <CarouselPrevious className="left-2 h-6 w-6 bg-white/80 hover:bg-white border-gray-200" />
+          <CarouselNext className="right-2 h-6 w-6 bg-white/80 hover:bg-white border-gray-200" />
         </Carousel>
       </div>
     </Card>

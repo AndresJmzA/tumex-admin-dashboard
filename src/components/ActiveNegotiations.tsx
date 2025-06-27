@@ -14,7 +14,7 @@ const ActiveNegotiations = () => {
     tiempo: "Hace 2 horas",
     estado: "reciente",
     tagEstado: "Pendiente 1ra Aprobación",
-    tagColor: "bg-blue-50 text-blue-700 border-blue-200"
+    tagColor: "bg-tumex-primary-100 text-tumex-primary-800 border-tumex-primary-300"
   }, {
     idOrden: "#ORD-2024-002",
     paquete: "Paquete Laparoscopía Premium",
@@ -24,7 +24,7 @@ const ActiveNegotiations = () => {
     tiempo: "Hace 1 día",
     estado: "urgente",
     tagEstado: "1/2 Aprobaciones",
-    tagColor: "bg-yellow-50 text-yellow-700 border-yellow-200"
+    tagColor: "bg-yellow-100 text-yellow-800 border-yellow-300"
   }, {
     idOrden: "#ORD-2024-003",
     paquete: "Paquete Neurocirugía Avanzado",
@@ -34,7 +34,7 @@ const ActiveNegotiations = () => {
     tiempo: "Hace 3 días",
     estado: "critico",
     tagEstado: "Pendiente 2da Aprobación",
-    tagColor: "bg-red-50 text-red-700 border-red-200"
+    tagColor: "bg-red-100 text-red-800 border-red-300"
   }];
 
   return (
@@ -50,7 +50,7 @@ const ActiveNegotiations = () => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-mono text-gray-600">{negociacion.idOrden}</span>
-                  <Badge className={`tumex-button-radius text-xs font-medium ${negociacion.estado === 'critico' ? 'bg-red-50 text-red-700 border-red-200 border' : negociacion.estado === 'urgente' ? 'bg-orange-50 text-orange-700 border-orange-200 border' : 'bg-green-50 text-green-700 border-green-200 border'}`}>
+                  <Badge className={`tumex-button-radius text-xs font-medium ${negociacion.estado === 'critico' ? 'bg-red-100 text-red-800 border-red-300 border' : negociacion.estado === 'urgente' ? 'bg-yellow-100 text-yellow-800 border-yellow-300 border' : 'bg-green-100 text-green-800 border-green-300 border'}`}>
                     {negociacion.tiempo}
                   </Badge>
                 </div>
@@ -72,7 +72,7 @@ const ActiveNegotiations = () => {
                 <Button size="sm" className="tumex-button-radius bg-green-600 hover:bg-green-700 text-white">
                   Aceptar
                 </Button>
-                <Button size="sm" variant="outline" className="tumex-button-radius border-red-200 text-red-600 hover:bg-red-50">
+                <Button size="sm" variant="outline" className="tumex-button-radius border-red-300 text-red-600 hover:bg-red-50">
                   Rechazar
                 </Button>
                 <Button size="sm" variant="ghost" className="tumex-button-radius text-gray-500 hover:bg-gray-100">Ver Detalles</Button>
