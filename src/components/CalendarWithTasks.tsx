@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Calendar } from '@/components/ui/calendar';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Clock } from 'lucide-react';
 import { format, isToday } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -127,36 +128,38 @@ const CalendarWithTasks = () => {
       </div>
 
       {/* Próximos Eventos */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col min-h-0">
         <h4 className="text-sm font-medium text-gray-900 mb-3">Próximos Eventos</h4>
-        <div className="space-y-2 flex-1 overflow-y-auto">
-          {tasks.map((task) => (
-            <div key={task.id} className="flex items-start gap-3 p-2 rounded-tumex-button hover:bg-gray-50">
-              <div className="flex items-center gap-2 min-w-0 flex-1">
-                <div className={`w-2 h-8 rounded-full ${getTaskColor(task.type)} flex-shrink-0`} />
-                <div className="min-w-0 flex-1">
-                  <p className="text-xs font-medium text-gray-900 truncate">{task.title}</p>
-                  <div className="flex items-center gap-1 mt-1">
-                    <Clock className="h-3 w-3 text-gray-400" />
-                    <span className="text-xs text-gray-500">{task.time}</span>
+        <ScrollArea className="flex-1">
+          <div className="space-y-2 pr-4">
+            {tasks.map((task) => (
+              <div key={task.id} className="flex items-start gap-3 p-2 rounded-tumex-button hover:bg-gray-50">
+                <div className="flex items-center gap-2 min-w-0 flex-1">
+                  <div className={`w-2 h-8 rounded-full ${getTaskColor(task.type)} flex-shrink-0`} />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs font-medium text-gray-900 truncate">{task.title}</p>
+                    <div className="flex items-center gap-1 mt-1">
+                      <Clock className="h-3 w-3 text-gray-400" />
+                      <span className="text-xs text-gray-500">{task.time}</span>
+                    </div>
                   </div>
                 </div>
+                {task.attendees && (
+                  <div className="flex -space-x-1 flex-shrink-0">
+                    {task.attendees.map((attendee, index) => (
+                      <div
+                        key={index}
+                        className="w-5 h-5 rounded-full bg-gray-300 border border-white flex items-center justify-center"
+                      >
+                        <span className="text-xs font-medium text-gray-600">{attendee}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
-              {task.attendees && (
-                <div className="flex -space-x-1 flex-shrink-0">
-                  {task.attendees.map((attendee, index) => (
-                    <div
-                      key={index}
-                      className="w-5 h-5 rounded-full bg-gray-300 border border-white flex items-center justify-center"
-                    >
-                      <span className="text-xs font-medium text-gray-600">{attendee}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </ScrollArea>
       </div>
     </Card>
   );

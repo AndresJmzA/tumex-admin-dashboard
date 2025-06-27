@@ -76,7 +76,7 @@ const CustomerServiceRequests = () => {
   };
 
   return (
-    <Card className="p-6 tumex-card-radius bg-white max-w-sm w-full px-[34px]">
+    <Card className="p-6 tumex-card-radius bg-white h-full flex flex-col max-w-sm w-full px-[34px]">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold text-gray-900">Solicitudes Servicio</h2>
         <Badge variant="secondary" className="tumex-button-radius bg-orange-50 text-orange-700 border-orange-200">
@@ -84,7 +84,7 @@ const CustomerServiceRequests = () => {
         </Badge>
       </div>
 
-      <div className="relative">
+      <div className="relative flex-1 flex items-center">
         <Carousel className="w-full">
           <CarouselContent>
             {requests.map((request, index) => (

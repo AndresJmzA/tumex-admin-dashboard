@@ -19,8 +19,8 @@ const Dashboard = () => {
       {/* Sección Principal con Órdenes en Curso y Negociaciones */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Órdenes en Curso y Solicitudes de Servicio - 3/12 del ancho con flechas */}
-        <div className="lg:col-span-3 relative space-y-6">
-          <div className="relative">
+        <div className="lg:col-span-3 relative space-y-6 h-[600px] flex flex-col">
+          <div className="relative flex-1">
             <OrdersInProgress />
             <div className="absolute -left-4 top-1/2 -translate-y-1/2">
               <ChevronLeft className="h-8 w-8 text-gray-400 hover:text-gray-600 cursor-pointer bg-white rounded-full shadow-md p-1" />
@@ -30,7 +30,7 @@ const Dashboard = () => {
             </div>
           </div>
           
-          <div className="relative">
+          <div className="relative flex-1">
             <CustomerServiceRequests />
             <div className="absolute -left-4 top-1/2 -translate-y-1/2">
               <ChevronLeft className="h-8 w-8 text-gray-400 hover:text-gray-600 cursor-pointer bg-white rounded-full shadow-md p-1" />
@@ -42,12 +42,12 @@ const Dashboard = () => {
         </div>
 
         {/* Negociaciones Activas - 6/12 del ancho */}
-        <div className="lg:col-span-6">
+        <div className="lg:col-span-6 h-[600px]">
           <ActiveNegotiations />
         </div>
 
         {/* Calendario con Tareas - 3/12 del ancho */}
-        <div className="lg:col-span-3">
+        <div className="lg:col-span-3 h-[600px]">
           <CalendarWithTasks />
         </div>
       </div>
