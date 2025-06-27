@@ -70,9 +70,7 @@ const ActiveNegotiations = () => {
               <Button size="sm" variant="outline" className="tumex-button-radius border-red-200 text-red-600 hover:bg-red-50">
                 Rechazar
               </Button>
-              <Button size="sm" variant="outline" className="tumex-button-radius border-blue-200 text-blue-600 hover:bg-blue-50">
-                Negociar
-              </Button>
+              
               <Button size="sm" variant="ghost" className="tumex-button-radius text-gray-500 hover:bg-gray-100">
                 Ver Historial
               </Button>
