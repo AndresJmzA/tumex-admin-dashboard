@@ -15,28 +15,24 @@ const Dashboard = () => {
       {/* Estadísticas Rápidas */}
       <StatsCards />
 
-      {/* Sección Principal con Órdenes en Curso y Negociaciones */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 sm:gap-6">
-        {/* Órdenes en Curso y Solicitudes de Servicio - 3/12 del ancho en desktop */}
-        <div className="md:col-span-1 lg:col-span-3 space-y-4 sm:space-y-6 min-h-[400px] lg:h-[600px] flex flex-col">
-          <div className="flex-1">
-            <OrdersInProgress />
-          </div>
-          
-          <div className="flex-1">
-            <CustomerServiceRequests />
-          </div>
+      {/* Nueva Sección: Órdenes en Curso y Solicitudes de Servicio lado a lado */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+        <div className="min-h-[400px] lg:h-[500px]">
+          <OrdersInProgress />
         </div>
+        <div className="min-h-[400px] lg:h-[500px]">
+          <CustomerServiceRequests />
+        </div>
+      </div>
 
-        {/* Negociaciones Activas - 6/12 del ancho en desktop */}
-        <div className="md:col-span-2 lg:col-span-6 min-h-[400px] lg:h-[600px] order-3 md:order-2">
-          <ActiveNegotiations />
-        </div>
+      {/* Sección de Negociaciones Activas - mantener exactamente igual */}
+      <div className="min-h-[400px] lg:h-[600px]">
+        <ActiveNegotiations />
+      </div>
 
-        {/* Calendario con Tareas - 3/12 del ancho en desktop */}
-        <div className="md:col-span-1 lg:col-span-3 min-h-[400px] lg:h-[600px] order-2 md:order-3">
-          <CalendarWithTasks />
-        </div>
+      {/* Calendario expandido a todo el ancho */}
+      <div className="min-h-[400px] lg:h-[600px]">
+        <CalendarWithTasks />
       </div>
     </div>
   );
