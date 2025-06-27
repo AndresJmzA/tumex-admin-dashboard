@@ -18,8 +18,8 @@ const Dashboard = () => {
         <Card className="p-6 tumex-card-radius bg-white">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-500">Alquileres Activos</p>
-              <p className="text-2xl font-bold text-gray-900">12</p>
+              <p className="text-sm font-medium text-gray-500">Órdenes de Renta Activas</p>
+              <p className="text-2xl font-bold text-gray-900">18</p>
             </div>
             <div className="bg-tumex-primary-100 p-3 rounded-tumex-button">
               <div className="w-4 h-4 bg-tumex-primary-500 rounded"></div>
@@ -30,8 +30,8 @@ const Dashboard = () => {
         <Card className="p-6 tumex-card-radius bg-white">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-500">Solicitudes Pendientes</p>
-              <p className="text-2xl font-bold text-gray-900">8</p>
+              <p className="text-sm font-medium text-gray-500">Órdenes Pendientes de Aprobación</p>
+              <p className="text-2xl font-bold text-gray-900">7</p>
             </div>
             <div className="bg-yellow-100 p-3 rounded-tumex-button">
               <div className="w-4 h-4 bg-yellow-500 rounded"></div>
@@ -42,8 +42,8 @@ const Dashboard = () => {
         <Card className="p-6 tumex-card-radius bg-white">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-500">Total de Equipos</p>
-              <p className="text-2xl font-bold text-gray-900">247</p>
+              <p className="text-sm font-medium text-gray-500">Paquetes Quirúrgicos Disponibles</p>
+              <p className="text-2xl font-bold text-gray-900">24</p>
             </div>
             <div className="bg-green-100 p-3 rounded-tumex-button">
               <div className="w-4 h-4 bg-green-500 rounded"></div>
@@ -54,8 +54,8 @@ const Dashboard = () => {
         <Card className="p-6 tumex-card-radius bg-white">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-500">Tickets de Soporte</p>
-              <p className="text-2xl font-bold text-gray-900">3</p>
+              <p className="text-sm font-medium text-gray-500">Contraoffertas Recibidas</p>
+              <p className="text-2xl font-bold text-gray-900">5</p>
             </div>
             <div className="bg-red-100 p-3 rounded-tumex-button">
               <div className="w-4 h-4 bg-red-500 rounded"></div>
