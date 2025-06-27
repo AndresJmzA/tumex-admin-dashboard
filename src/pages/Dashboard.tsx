@@ -1,6 +1,8 @@
 
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { CheckCircle, Clock, AlertCircle, MessageSquare, Phone, Mail } from "lucide-react"
 
 const Dashboard = () => {
   return (
@@ -28,7 +30,7 @@ const Dashboard = () => {
         <Card className="p-6 tumex-card-radius bg-white">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-500">Pedidos Pendientes</p>
+              <p className="text-sm font-medium text-gray-500">Solicitudes Pendientes</p>
               <p className="text-2xl font-bold text-gray-900">8</p>
             </div>
             <div className="bg-yellow-100 p-3 rounded-tumex-button">
@@ -62,14 +64,115 @@ const Dashboard = () => {
         </Card>
       </div>
 
+      {/* Nuevos Componentes */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Solicitudes por Aceptar */}
+        <Card className="p-6 tumex-card-radius bg-white">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-gray-900">Solicitudes por Aceptar</h2>
+            <Badge variant="secondary" className="tumex-button-radius">
+              5 pendientes
+            </Badge>
+          </div>
+          <div className="space-y-3">
+            {[
+              { equipo: "Monitor de Signos Vitales", cliente: "Hospital San José", fecha: "Hace 2 horas", urgencia: "alta" },
+              { equipo: "Ventilador Mecánico", cliente: "Clínica Santa María", fecha: "Hace 4 horas", urgencia: "media" },
+              { equipo: "Bomba de Infusión", cliente: "Centro Médico ABC", fecha: "Hace 1 día", urgencia: "baja" },
+            ].map((solicitud, index) => (
+              <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-tumex-button">
+                <div className="flex-1">
+                  <p className="font-medium text-gray-900">{solicitud.equipo}</p>
+                  <p className="text-sm text-gray-500">{solicitud.cliente}</p>
+                  <p className="text-xs text-gray-400">{solicitud.fecha}</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Badge 
+                    variant={solicitud.urgencia === 'alta' ? 'destructive' : solicitud.urgencia === 'media' ? 'secondary' : 'outline'}
+                    className="tumex-button-radius text-xs"
+                  >
+                    {solicitud.urgencia}
+                  </Badge>
+                  <Button size="sm" className="tumex-button-radius">
+                    <CheckCircle className="h-4 w-4 mr-1" />
+                    Aceptar
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+          <Button variant="outline" className="w-full mt-4 tumex-button-radius">
+            Ver todas las solicitudes
+          </Button>
+        </Card>
+
+        {/* Servicio al Cliente */}
+        <Card className="p-6 tumex-card-radius bg-white">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-gray-900">Servicio al Cliente</h2>
+            <Badge variant="secondary" className="tumex-button-radius">
+              2 activos
+            </Badge>
+          </div>
+          <div className="space-y-4">
+            {/* Tickets Recientes */}
+            <div className="space-y-3">
+              <h3 className="text-sm font-medium text-gray-700">Tickets Recientes</h3>
+              {[
+                { id: "#001", asunto: "Falla en ventilador", estado: "En progreso", tiempo: "Hace 30 min" },
+                { id: "#002", asunto: "Consulta de mantenimiento", estado: "Pendiente", tiempo: "Hace 2 horas" },
+              ].map((ticket, index) => (
+                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-tumex-button">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-mono text-gray-600">{ticket.id}</span>
+                      <Badge 
+                        variant={ticket.estado === 'En progreso' ? 'default' : 'secondary'}
+                        className="tumex-button-radius text-xs"
+                      >
+                        {ticket.estado}
+                      </Badge>
+                    </div>
+                    <p className="text-sm text-gray-900">{ticket.asunto}</p>
+                    <p className="text-xs text-gray-500">{ticket.tiempo}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Canales de Contacto */}
+            <div className="space-y-3">
+              <h3 className="text-sm font-medium text-gray-700">Canales de Contacto</h3>
+              <div className="grid grid-cols-3 gap-2">
+                <Button variant="outline" size="sm" className="tumex-button-radius flex-col h-auto py-3">
+                  <Phone className="h-4 w-4 mb-1" />
+                  <span className="text-xs">Llamar</span>
+                </Button>
+                <Button variant="outline" size="sm" className="tumex-button-radius flex-col h-auto py-3">
+                  <Mail className="h-4 w-4 mb-1" />
+                  <span className="text-xs">Email</span>
+                </Button>
+                <Button variant="outline" size="sm" className="tumex-button-radius flex-col h-auto py-3">
+                  <MessageSquare className="h-4 w-4 mb-1" />
+                  <span className="text-xs">Chat</span>
+                </Button>
+              </div>
+            </div>
+          </div>
+          <Button variant="outline" className="w-full mt-4 tumex-button-radius">
+            Abrir Centro de Soporte
+          </Button>
+        </Card>
+      </div>
+
       {/* Actividad Reciente */}
       <Card className="p-6 tumex-card-radius bg-white">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">Actividad Reciente</h2>
         <div className="space-y-4">
           {[
             { action: "Nueva solicitud de alquiler", item: "Máquina de Ultrasonido XR-200", status: "pendiente", time: "hace 2 horas" },
-            { action: "Pedido completado", item: "Set de Herramientas Quirúrgicas", status: "completado", time: "hace 4 horas" },
             { action: "Equipo devuelto", item: "Monitor de Paciente PM-500", status: "devuelto", time: "hace 1 día" },
+            { action: "Mantenimiento completado", item: "Ventilador Mecánico VM-300", status: "completado", time: "hace 2 días" },
           ].map((activity, index) => (
             <div key={index} className="flex items-center justify-between py-3 border-b border-gray-100 last:border-0">
               <div className="flex-1">

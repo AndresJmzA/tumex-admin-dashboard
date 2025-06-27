@@ -3,10 +3,9 @@ import { useState } from "react"
 import { 
   LayoutDashboard, 
   Package, 
-  ShoppingCart, 
   TruckIcon, 
   FileText, 
-  Users, 
+  DollarSign, 
   Settings, 
   HelpCircle,
   Heart,
@@ -29,17 +28,16 @@ import {
   SidebarFooter,
 } from "@/components/ui/sidebar"
 
-// Elementos de navegación enfocados en flujos de trabajo de alquiler/venta de equipos médicos
+// Elementos de navegación actualizados
 const mainNavItems = [
   { title: "Panel Principal", url: "/", icon: LayoutDashboard },
   { title: "Catálogo de Equipos", url: "/catalog", icon: Package },
-  { title: "Mis Pedidos", url: "/orders", icon: ShoppingCart },
   { title: "Alquileres", url: "/rentals", icon: TruckIcon },
   { title: "Solicitudes", url: "/requests", icon: FileText },
+  { title: "Finanzas", url: "/finances", icon: DollarSign },
 ]
 
 const secondaryNavItems = [
-  { title: "Proveedores", url: "/suppliers", icon: Users },
   { title: "Soporte", url: "/support", icon: HelpCircle },
   { title: "Configuración", url: "/settings", icon: Settings },
 ]
