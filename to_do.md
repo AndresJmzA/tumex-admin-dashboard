@@ -109,29 +109,89 @@
 **Objetivo**: Implementar código de colores y badges para estados del flujo
 
 ### Tareas:
-- [ ] Definir código de colores por estado:
-  - [ ] Verde: "2/2 Aprobaciones - Listo"
-  - [ ] Amarillo: "1/2 Aprobaciones"
-  - [ ] Azul: "Pendiente 1ra Aprobación"
-  - [ ] Naranja: "En Negociación"
-  - [ ] Rojo: "Urgente/Crítico"
-- [ ] Crear badges de progreso:
-  - [ ] Badge "1/2" con color amarillo
-  - [ ] Badge "2/2" con color verde
-  - [ ] Badge "Listo para Enviar" con color verde brillante
-- [ ] Implementar indicadores de urgencia:
-  - [ ] Por tiempo de espera
-  - [ ] Por tipo de cirugía (urgente vs programada)
-  - [ ] Por valor de la orden
-- [ ] Asegurar consistencia visual en toda la aplicación
+- [x] Definir código de colores por estado:
+  - [x] Verde: "2/2 Aprobaciones - Listo"
+  - [x] Amarillo: "1/2 Aprobaciones"
+  - [x] Azul: "Pendiente 1ra Aprobación"
+  - [x] Naranja: "En Negociación"
+  - [x] Rojo: "Urgente/Crítico"
+- [x] Crear badges de progreso:
+  - [x] Badge "1/2" con color amarillo
+  - [x] Badge "2/2" con color verde
+  - [x] Badge "Listo para Enviar" con color verde brillante
+- [x] Implementar indicadores de urgencia:
+  - [x] Por tiempo de espera
+  - [x] Por tipo de cirugía (urgente vs programada)
+  - [x] Por valor de la orden
+- [x] Asegurar consistencia visual en toda la aplicación
 
 **Entregables**: Sistema de badges y estados implementado
 
-**Archivos a modificar**: `src/pages/Dashboard.tsx`, posible creación de `src/components/StatusBadge.tsx`
+**Archivos a modificar**: `src/pages/Dashboard.tsx`
 
 ---
 
-## ✅ ETAPA 6: Refinamiento y Optimización
+## 📅 ETAPA 6: Integración de Calendario al Dashboard
+**Objetivo**: Agregar un calendario interactivo al dashboard para visualizar y gestionar eventos relacionados con las órdenes de renta y negociaciones
+
+### Tareas:
+- [ ] Crear componente de calendario usando shadcn/ui Calendar:
+  - [ ] Implementar calendario básico con navegación por meses
+  - [ ] Configurar formato de fechas en español
+  - [ ] Asegurar interactividad con pointer-events-auto
+- [ ] Definir tipos de eventos del calendario:
+  - [ ] Fechas de inicio de órdenes (verde)
+  - [ ] Fechas de fin de órdenes (azul)
+  - [ ] Fechas límite de negociaciones (naranja)
+  - [ ] Fechas de aprobaciones pendientes (amarillo)
+  - [ ] Fechas críticas/urgentes (rojo)
+- [ ] Implementar visualización de eventos:
+  - [ ] Indicadores de color en fechas específicas
+  - [ ] Tooltip con información del evento al hacer hover
+  - [ ] Badge con contador de eventos por día
+- [ ] Crear panel de filtros:
+  - [ ] Filtro por tipo de evento
+  - [ ] Filtro por estado de órdenes
+  - [ ] Filtro por urgencia
+- [ ] Integrar con datos del dashboard:
+  - [ ] Mostrar fechas de órdenes pendientes de aprobación
+  - [ ] Mostrar fechas límite de negociaciones activas
+  - [ ] Sincronizar con estadísticas principales
+- [ ] Añadir funcionalidades interactivas:
+  - [ ] Click en fecha para ver eventos del día
+  - [ ] Navegación rápida a mes actual
+  - [ ] Vista resumida de la semana actual
+- [ ] Responsive design:
+  - [ ] Versión completa para desktop
+  - [ ] Versión compacta para móvil y tablet
+
+**Entregables**: Componente de calendario funcional e integrado al dashboard
+
+**Archivos a crear**: 
+- `src/components/CalendarDashboard.tsx` (componente principal)
+- `src/components/CalendarEvent.tsx` (componente de eventos)
+- `src/types/calendar.ts` (tipos TypeScript)
+
+**Archivos a modificar**: `src/pages/Dashboard.tsx`
+
+---
+
+## ✅ ETAPA 7: Eliminación de Actividad Reciente
+**Objetivo**: Simplificar el dashboard eliminando la sección de actividad reciente
+
+### Tareas:
+- [x] Remover completamente la sección "Actividad Reciente"
+- [x] Ajustar el layout del dashboard para mejor distribución del espacio
+- [x] Verificar que no queden referencias o dependencias de esta sección
+- [x] Revisar que el dashboard mantenga una buena proporción visual
+
+**Entregables**: Dashboard limpio sin sección de actividad reciente
+
+**Archivos a modificar**: `src/pages/Dashboard.tsx`
+
+---
+
+## 📝 ETAPA 8: Refinamiento y Optimización
 **Objetivo**: Pulir detalles y optimizar la experiencia de usuario
 
 ### Tareas:
@@ -144,21 +204,6 @@
 - [ ] Documentar componentes nuevos
 
 **Entregables**: Dashboard pulido y optimizado
-
----
-
-## ✅ ETAPA 7: Eliminación de Actividad Reciente
-**Objetivo**: Simplificar el dashboard eliminando la sección de actividad reciente
-
-### Tareas:
-- [ ] Remover completamente la sección "Actividad Reciente"
-- [ ] Ajustar el layout del dashboard para mejor distribución del espacio
-- [ ] Verificar que no queden referencias o dependencias de esta sección
-- [ ] Revisar que el dashboard mantenga una buena proporción visual
-
-**Entregables**: Dashboard limpio sin sección de actividad reciente
-
-**Archivos a modificar**: `src/pages/Dashboard.tsx`
 
 ---
 
@@ -190,6 +235,7 @@ El proyecto estará completo cuando:
 - [ ] El flujo de doble aprobación esté claramente representado
 - [ ] Las negociaciones y contraoffertas sean visibles y gestionables
 - [ ] La experiencia de usuario sea intuitiva para administradores
+- [ ] El calendario esté completamente integrado y funcional
 
 ---
 
