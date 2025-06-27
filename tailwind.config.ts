@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,12 +62,34 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// TUMex Custom Colors
+				tumex: {
+					primary: {
+						100: 'hsl(var(--tumex-primary-100))',
+						200: 'hsl(var(--tumex-primary-200))',
+						300: 'hsl(var(--tumex-primary-300))',
+						400: 'hsl(var(--tumex-primary-400))',
+						500: 'hsl(var(--tumex-primary-500))',
+						600: 'hsl(var(--tumex-primary-600))',
+						700: 'hsl(var(--tumex-primary-700))',
+						800: 'hsl(var(--tumex-primary-800))',
+						900: 'hsl(var(--tumex-primary-900))',
+					},
+					tertiary: {
+						500: 'hsl(var(--tumex-tertiary-500))',
+					},
+					secondary: {
+						500: 'hsl(var(--tumex-secondary-500))',
+					}
 				}
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
+				sm: 'calc(var(--radius) - 4px)',
+				'tumex-card': '1.125rem',
+				'tumex-button': 'var(--radius)',
 			},
 			keyframes: {
 				'accordion-down': {
