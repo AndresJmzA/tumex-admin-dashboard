@@ -1,7 +1,7 @@
 
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { TumexSidebar } from "@/components/TumexSidebar";
-import { Menu, Bell, User } from "lucide-react";
+import { Menu, Bell, Search, User } from "lucide-react";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -17,8 +17,7 @@ export function Layout({ children }: LayoutProps) {
           {/* Encabezado Superior */}
           <header className="h-14 sm:h-16 bg-white/80 backdrop-blur-md border-b border-white/20 flex items-center justify-between px-3 sm:px-6">
             <div className="flex items-center gap-4">
-              {/* Desktop and Mobile trigger - always visible */}
-              <SidebarTrigger className="p-2 hover:bg-white/60 rounded-tumex-button">
+              <SidebarTrigger className="lg:hidden p-2 hover:bg-white/60 rounded-tumex-button">
                 <Menu className="h-5 w-5" />
               </SidebarTrigger>
             </div>
