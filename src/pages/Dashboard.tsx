@@ -221,19 +221,71 @@ const Dashboard = () => {
         <h2 className="text-lg font-semibold text-gray-900 mb-4">Actividad Reciente</h2>
         <div className="space-y-4">
           {[
-            { action: "Nueva solicitud de alquiler", item: "Máquina de Ultrasonido XR-200", status: "pendiente", time: "hace 2 horas" },
-            { action: "Equipo devuelto", item: "Monitor de Paciente PM-500", status: "devuelto", time: "hace 1 día" },
-            { action: "Mantenimiento completado", item: "Ventilador Mecánico VM-300", status: "completado", time: "hace 2 días" },
+            { 
+              action: "Nueva orden de paquete quirúrgico recibida", 
+              item: "Paquete Cirugía General Completo", 
+              status: "en proceso de aprobación", 
+              time: "hace 2 horas",
+              cliente: "Hospital San José"
+            },
+            { 
+              action: "Primera aprobación completada", 
+              item: "Paquete Laparoscopía Estándar", 
+              status: "aprobado", 
+              time: "hace 4 horas",
+              cliente: "Clínica Santa María"
+            },
+            { 
+              action: "Segunda aprobación otorgada", 
+              item: "Paquete Cirugía Cardíaca Premium", 
+              status: "enviado", 
+              time: "hace 6 horas",
+              cliente: "Centro Médico Norte"
+            },
+            { 
+              action: "Contraoferta recibida", 
+              item: "Paquete Neurocirugía Avanzado", 
+              status: "en negociación", 
+              time: "hace 1 día",
+              cliente: "Hospital Especializado"
+            },
+            { 
+              action: "Negociación finalizada", 
+              item: "Paquete Ortopedia Completo", 
+              status: "aceptado", 
+              time: "hace 1 día",
+              cliente: "Clínica del Valle"
+            },
+            { 
+              action: "Orden enviada al cliente", 
+              item: "Paquete Cirugía Vascular", 
+              status: "finalizado", 
+              time: "hace 2 días",
+              cliente: "Hospital Metropolitano"
+            },
           ].map((activity, index) => (
             <div key={index} className="flex items-center justify-between py-3 border-b border-gray-100 last:border-0">
               <div className="flex-1">
                 <p className="font-medium text-gray-900">{activity.action}</p>
                 <p className="text-sm text-gray-500">{activity.item}</p>
+                <p className="text-xs text-gray-400">{activity.cliente}</p>
               </div>
               <div className="flex items-center gap-3">
                 <Badge 
-                  variant={activity.status === 'completado' ? 'default' : activity.status === 'pendiente' ? 'secondary' : 'outline'}
-                  className="tumex-button-radius"
+                  variant={
+                    activity.status === 'finalizado' || activity.status === 'aceptado' || activity.status === 'enviado' ? 'default' : 
+                    activity.status === 'aprobado' ? 'secondary' :
+                    activity.status === 'en negociación' ? 'destructive' :
+                    'outline'
+                  }
+                  className={`tumex-button-radius text-xs ${
+                    activity.status === 'finalizado' ? 'bg-green-100 text-green-800 border-green-300' :
+                    activity.status === 'aceptado' ? 'bg-green-100 text-green-800 border-green-300' :
+                    activity.status === 'enviado' ? 'bg-blue-100 text-blue-800 border-blue-300' :
+                    activity.status === 'aprobado' ? 'bg-yellow-100 text-yellow-800 border-yellow-300' :
+                    activity.status === 'en negociación' ? 'bg-orange-100 text-orange-800 border-orange-300' :
+                    'bg-gray-100 text-gray-800 border-gray-300'
+                  }`}
                 >
                   {activity.status}
                 </Badge>
