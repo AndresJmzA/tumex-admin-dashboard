@@ -29,19 +29,19 @@ import {
   SidebarFooter,
 } from "@/components/ui/sidebar"
 
-// Navigation items focused on medical equipment rental/sales workflows
+// Elementos de navegación enfocados en flujos de trabajo de alquiler/venta de equipos médicos
 const mainNavItems = [
-  { title: "Dashboard", url: "/", icon: LayoutDashboard },
-  { title: "Equipment Catalog", url: "/catalog", icon: Package },
-  { title: "My Orders", url: "/orders", icon: ShoppingCart },
-  { title: "Rentals", url: "/rentals", icon: TruckIcon },
-  { title: "Requests", url: "/requests", icon: FileText },
+  { title: "Panel Principal", url: "/", icon: LayoutDashboard },
+  { title: "Catálogo de Equipos", url: "/catalog", icon: Package },
+  { title: "Mis Pedidos", url: "/orders", icon: ShoppingCart },
+  { title: "Alquileres", url: "/rentals", icon: TruckIcon },
+  { title: "Solicitudes", url: "/requests", icon: FileText },
 ]
 
 const secondaryNavItems = [
-  { title: "Suppliers", url: "/suppliers", icon: Users },
-  { title: "Support", url: "/support", icon: HelpCircle },
-  { title: "Settings", url: "/settings", icon: Settings },
+  { title: "Proveedores", url: "/suppliers", icon: Users },
+  { title: "Soporte", url: "/support", icon: HelpCircle },
+  { title: "Configuración", url: "/settings", icon: Settings },
 ]
 
 export function TumexSidebar() {
@@ -69,7 +69,7 @@ export function TumexSidebar() {
       className={`${collapsed ? "w-16" : "w-64"} transition-all duration-300 bg-white/85 backdrop-blur-[20px] border-r border-white/20`}
       collapsible="icon"
     >
-      {/* Header with Logo */}
+      {/* Encabezado con Logo */}
       <SidebarHeader className="border-b border-white/20 p-4">
         <div className="flex items-center gap-3">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-tumex-primary-500 text-white shadow-lg">
@@ -78,18 +78,18 @@ export function TumexSidebar() {
           {!collapsed && (
             <div>
               <h1 className="text-lg font-bold text-gray-800">TUMex</h1>
-              <p className="text-xs text-gray-600">Medical Platform</p>
+              <p className="text-xs text-gray-600">Plataforma Médica</p>
             </div>
           )}
         </div>
       </SidebarHeader>
 
       <SidebarContent className="px-3 py-4">
-        {/* Main Navigation */}
+        {/* Navegación Principal */}
         <SidebarGroup>
           {!collapsed && (
             <SidebarGroupLabel className="text-gray-500 text-xs font-medium mb-2">
-              MAIN MENU
+              MENÚ PRINCIPAL
             </SidebarGroupLabel>
           )}
           <SidebarGroupContent>
@@ -112,11 +112,11 @@ export function TumexSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Secondary Navigation */}
+        {/* Navegación Secundaria */}
         <SidebarGroup className="mt-8">
           {!collapsed && (
             <SidebarGroupLabel className="text-gray-500 text-xs font-medium mb-2">
-              MANAGE
+              GESTIONAR
             </SidebarGroupLabel>
           )}
           <SidebarGroupContent>
@@ -139,11 +139,11 @@ export function TumexSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      {/* Footer */}
+      {/* Pie de página */}
       <SidebarFooter className="border-t border-white/20 p-4">
         {!collapsed && (
           <div className="text-xs text-gray-500 text-center">
-            © 2024 TUMex Platform
+            © 2024 Plataforma TUMex
           </div>
         )}
       </SidebarFooter>
