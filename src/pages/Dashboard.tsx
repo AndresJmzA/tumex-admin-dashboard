@@ -66,43 +66,74 @@ const Dashboard = () => {
 
       {/* Nuevos Componentes */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Solicitudes por Aceptar */}
+        {/* Órdenes Pendientes de Aprobación */}
         <Card className="p-6 tumex-card-radius bg-white">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">Solicitudes por Aceptar</h2>
+            <h2 className="text-lg font-semibold text-gray-900">Órdenes Pendientes de Aprobación</h2>
             <Badge variant="secondary" className="tumex-button-radius">
-              5 pendientes
+              3 pendientes de aprobación
             </Badge>
           </div>
           <div className="space-y-3">
             {[
-              { equipo: "Monitor de Signos Vitales", cliente: "Hospital San José", fecha: "Hace 2 horas", urgencia: "alta" },
-              { equipo: "Ventilador Mecánico", cliente: "Clínica Santa María", fecha: "Hace 4 horas", urgencia: "media" },
-              { equipo: "Bomba de Infusión", cliente: "Centro Médico ABC", fecha: "Hace 1 día", urgencia: "baja" },
-            ].map((solicitud, index) => (
+              { 
+                equipo: "Paquete Laparoscopía Completo", 
+                cliente: "Hospital San José", 
+                fecha: "Hace 2 horas", 
+                aprobacion: "pendiente",
+                estado: "Pendiente 1ra Aprobación"
+              },
+              { 
+                equipo: "Paquete Cirugía Cardiovascular", 
+                cliente: "Clínica Santa María", 
+                fecha: "Hace 4 horas", 
+                aprobacion: "primera",
+                estado: "1/2 Aprobaciones"
+              },
+              { 
+                equipo: "Paquete Neurocirugía", 
+                cliente: "Centro Médico ABC", 
+                fecha: "Hace 1 día", 
+                aprobacion: "segunda",
+                estado: "2/2 Aprobaciones - Listo para Enviar"
+              },
+            ].map((orden, index) => (
               <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-tumex-button">
                 <div className="flex-1">
-                  <p className="font-medium text-gray-900">{solicitud.equipo}</p>
-                  <p className="text-sm text-gray-500">{solicitud.cliente}</p>
-                  <p className="text-xs text-gray-400">{solicitud.fecha}</p>
+                  <p className="font-medium text-gray-900">{orden.equipo}</p>
+                  <p className="text-sm text-gray-500">{orden.cliente}</p>
+                  <p className="text-xs text-gray-400">{orden.fecha}</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <Badge 
-                    variant={solicitud.urgencia === 'alta' ? 'destructive' : solicitud.urgencia === 'media' ? 'secondary' : 'outline'}
-                    className="tumex-button-radius text-xs"
+                    variant={
+                      orden.aprobacion === 'segunda' ? 'default' : 
+                      orden.aprobacion === 'primera' ? 'secondary' : 
+                      'outline'
+                    }
+                    className={`tumex-button-radius text-xs ${
+                      orden.aprobacion === 'segunda' ? 'bg-green-100 text-green-800 border-green-300' :
+                      orden.aprobacion === 'primera' ? 'bg-yellow-100 text-yellow-800 border-yellow-300' :
+                      'bg-blue-100 text-blue-800 border-blue-300'
+                    }`}
                   >
-                    {solicitud.urgencia}
+                    {orden.estado}
                   </Badge>
-                  <Button size="sm" className="tumex-button-radius">
+                  <Button 
+                    size="sm" 
+                    className={`tumex-button-radius ${
+                      orden.aprobacion === 'segunda' ? 'bg-green-600 hover:bg-green-700' : ''
+                    }`}
+                  >
                     <CheckCircle className="h-4 w-4 mr-1" />
-                    Aceptar
+                    {orden.aprobacion === 'segunda' ? 'Aprobar y Enviar' : 'Aprobar'}
                   </Button>
                 </div>
               </div>
             ))}
           </div>
           <Button variant="outline" className="w-full mt-4 tumex-button-radius">
-            Ver todas las solicitudes
+            Ver todas las órdenes pendientes
           </Button>
         </Card>
 
