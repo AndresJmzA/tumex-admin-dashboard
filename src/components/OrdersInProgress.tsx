@@ -36,7 +36,7 @@ const OrdersInProgress = () => {
     client: "Hospital Metropolitano",
     address: "Av. Universidad 321, Puebla"
   }];
-  return <Card className="p-6 tumex-card-radius bg-white max-w-sm w-full px-[30px]">
+  return <Card className="p-6 tumex-card-radius bg-white max-w-sm w-full px-[34px]">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold text-gray-900">Órdenes en Curso</h2>
         <Badge variant="secondary" className="tumex-button-radius bg-blue-50 text-blue-700 border-blue-200">
