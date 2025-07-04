@@ -8,7 +8,7 @@ import {
   Users, 
   FileText, 
   DollarSign, 
-  Package, 
+  Box, 
   Wrench, 
   MessageSquare,
   Edit,
@@ -82,7 +82,7 @@ const EventCard = ({ event, onEdit, onDelete, onView, showActions = true, compac
       case 'negociacion':
         return <DollarSign className="h-4 w-4" />;
       case 'orden':
-        return <Package className="h-4 w-4" />;
+        return <Box className="h-4 w-4" />;
       case 'servicio':
         return <Wrench className="h-4 w-4" />;
       case 'financiero':

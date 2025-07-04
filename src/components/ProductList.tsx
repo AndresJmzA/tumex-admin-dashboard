@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { Search, Filter, Grid, List, ChevronDown, ChevronUp, Eye, Edit, Trash2 } from 'lucide-react';
+import { Search, Filter, Grid, List, ChevronDown, ChevronUp, Eye, Edit, Trash2, Box } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 // Tipos para el componente
@@ -276,7 +276,7 @@ const ProductList: React.FC<ProductListProps> = ({
       {/* Sin resultados */}
       {!loading && currentProducts.length === 0 && (
         <div className="text-center py-8">
-          <Package className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+          <Box className="h-12 w-12 text-gray-400 mx-auto mb-4" />
           <p className="text-gray-500">No se encontraron productos con los filtros aplicados</p>
         </div>
       )}

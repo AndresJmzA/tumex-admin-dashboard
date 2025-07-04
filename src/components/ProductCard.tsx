@@ -8,7 +8,7 @@ import {
   Eye, 
   Edit, 
   Trash2, 
-  Package, 
+  Box, 
   DollarSign, 
   TrendingUp, 
   AlertTriangle,
@@ -166,7 +166,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <div className="space-y-3">
           <div className="grid grid-cols-2 gap-3 text-sm">
             <div className="flex items-center gap-2">
-              <Package className="h-4 w-4 text-gray-400" />
+              <Box className="h-4 w-4 text-gray-400" />
               <span className="font-medium">{product.category}</span>
             </div>
             <div className="flex items-center gap-2">
@@ -232,7 +232,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div className="space-y-2">
               <div className="flex items-center gap-2">
-                <Package className="h-4 w-4 text-gray-400" />
+                <Box className="h-4 w-4 text-gray-400" />
                 <span className="font-medium">Categoría:</span>
                 <span>{product.category}</span>
               </div>
@@ -309,7 +309,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <Package className="h-5 w-5" />
+              <Box className="h-5 w-5" />
               {product.name}
             </DialogTitle>
           </DialogHeader>

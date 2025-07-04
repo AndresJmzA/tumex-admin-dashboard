@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Search, Filter, Grid, List, Plus, AlertTriangle, Package, TrendingUp, TrendingDown, X } from 'lucide-react';
+import { Search, Filter, Grid, List, Plus, AlertTriangle, Box, TrendingUp, TrendingDown, X } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -220,7 +220,7 @@ const Inventory = () => {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Productos</CardTitle>
-            <Package className="h-4 w-4 text-muted-foreground" />
+            <Box className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{totalProducts}</div>
@@ -409,7 +409,7 @@ const Inventory = () => {
 
         <TabsContent value="categories" className="space-y-4">
           <div className="text-center py-8">
-            <Package className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+            <Box className="h-12 w-12 text-gray-400 mx-auto mb-4" />
             <p className="text-gray-500">Gestión de categorías próximamente...</p>
           </div>
         </TabsContent>
