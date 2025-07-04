@@ -216,7 +216,6 @@ export function EmployeeConfirmationModal({
   const handlePermissionToggle = (permission: Permission) => {
     setFormData(prev => ({
       ...prev,
-      permissions: prev.permissions || employee.permissions,
       permissions: (prev.permissions || employee.permissions).includes(permission)
         ? (prev.permissions || employee.permissions).filter((p: Permission) => p !== permission)
         : [...(prev.permissions || employee.permissions), permission]
