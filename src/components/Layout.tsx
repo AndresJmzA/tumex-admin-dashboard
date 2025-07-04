@@ -1,4 +1,3 @@
-
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { TumexSidebar } from "@/components/TumexSidebar";
 import { Menu, Bell, Search, User } from "lucide-react";
@@ -10,10 +9,10 @@ interface LayoutProps {
 export function Layout({ children }: LayoutProps) {
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-gradient-to-br from-gray-50 via-blue-50 to-cyan-50">
+      <div className="min-h-screen flex w-full bg-gradient-to-br from-gray-50 via-blue-50 to-cyan-50 overflow-x-hidden">
         <TumexSidebar />
         
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col overflow-x-hidden">
           {/* Encabezado Superior */}
           <header className="h-14 sm:h-16 bg-white/80 backdrop-blur-md border-b border-white/20 flex items-center justify-between px-3 sm:px-6">
             <div className="flex items-center gap-4">
@@ -38,7 +37,7 @@ export function Layout({ children }: LayoutProps) {
           </header>
 
           {/* Contenido Principal */}
-          <main className="flex-1 p-3 sm:p-6">
+          <main className="flex-1 p-2 sm:p-3 lg:p-6 overflow-x-hidden">
             {children}
           </main>
         </div>

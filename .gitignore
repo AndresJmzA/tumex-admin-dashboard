@@ -22,3 +22,42 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Documentation and guides
+to_do.md
+fire_base_arquitecture.md
+style_guide.md
+
+# Environment variables and sensitive data
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+.env*.local
+
+# API keys and secrets
+**/config/secrets.json
+**/config/keys.json
+**/secrets/
+**/keys/
+
+# Firebase config (if contains sensitive data)
+firebase.json
+.firebaserc
+firebase-debug.log
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini

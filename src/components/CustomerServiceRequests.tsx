@@ -78,7 +78,7 @@ const CustomerServiceRequests = () => {
   return (
     <Card className="p-3 sm:p-4 tumex-card-radius bg-white h-full flex flex-col">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-base sm:text-lg font-semibold text-gray-900">Solicitudes Servicio</h2>
+        <h2 className="text-base sm:text-lg font-semibold text-gray-900">Servicio al Cliente</h2>
         <Badge variant="secondary" className="tumex-button-radius bg-yellow-100 text-yellow-800 border-yellow-300 text-xs">
           {requests.length} solicitudes
         </Badge>

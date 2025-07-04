@@ -1,16 +1,16 @@
-
 import { useState } from "react"
 import { 
   LayoutDashboard, 
-  Package, 
-  TruckIcon, 
   FileText, 
+  Calendar, 
+  Users, 
+  Boxes, 
   DollarSign, 
+  Headphones, 
   Settings, 
-  HelpCircle,
-  Heart,
-  Menu,
-  Calendar
+  HelpCircle, 
+  Heart, 
+  Menu 
 } from "lucide-react"
 import { NavLink, useLocation } from "react-router-dom"
 
@@ -29,19 +29,21 @@ import {
   SidebarFooter,
 } from "@/components/ui/sidebar"
 
-// Elementos de navegación actualizados
+// Nuevo orden y nombres de menú principal
 const mainNavItems = [
   { title: "Panel Principal", url: "/", icon: LayoutDashboard },
+  { title: "Órdenes", url: "/orders", icon: FileText },
   { title: "Calendario", url: "/calendar", icon: Calendar },
-  { title: "Catálogo de Equipos", url: "/catalog", icon: Package },
-  { title: "Alquileres", url: "/rentals", icon: TruckIcon },
-  { title: "Solicitudes", url: "/requests", icon: FileText },
+  { title: "Personal", url: "/personal", icon: Users },
+  { title: "Inventario", url: "/inventory", icon: Boxes },
   { title: "Finanzas", url: "/finances", icon: DollarSign },
+  { title: "Soporte al Cliente", url: "/support", icon: Headphones }
 ]
 
+// Menú secundario solo para configuración y ayuda
 const secondaryNavItems = [
-  { title: "Soporte", url: "/support", icon: HelpCircle },
   { title: "Configuración", url: "/settings", icon: Settings },
+  { title: "Ayuda", url: "/help", icon: HelpCircle }
 ]
 
 export function TumexSidebar() {
@@ -66,7 +68,7 @@ export function TumexSidebar() {
 
   return (
     <Sidebar
-      className={`${collapsed ? "w-16" : "w-64"} transition-all duration-300 bg-white/85 backdrop-blur-[20px] border-r border-white/20`}
+      className="bg-white/85 backdrop-blur-[20px] border-r border-white/20"
       collapsible="icon"
     >
       {/* Encabezado con Logo */}
@@ -84,7 +86,7 @@ export function TumexSidebar() {
         </div>
       </SidebarHeader>
 
-      <SidebarContent className="px-3 py-4">
+      <SidebarContent className="px-3 py-4 data-[state=expanded]:pr-10">
         {/* Navegación Principal */}
         <SidebarGroup>
           {!collapsed && (
