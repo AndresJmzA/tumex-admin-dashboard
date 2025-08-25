@@ -11,111 +11,21 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import ProductList from '@/components/ProductList';
 import ProductForm from '@/components/ProductForm';
-
-// Tipos para el inventario
-interface Product {
-  id: string;
-  name: string;
-  brand: string;
-  category: 'Consumible' | 'Accesorio' | 'Instrumental' | 'Equipo' | 'Endoscopio' | 'Cable/Conector';
-  price: number;
-  stock: number;
-  maxStock: number;
-  status: 'disponible' | 'en_renta' | 'mantenimiento' | 'fuera_servicio';
-  image?: string;
-  description: string;
-  createdAt: string;
-}
-
-// Datos mock de productos (simulando 600+ productos)
-const mockProducts: Product[] = [
-  // Equipos (50 productos)
-  ...Array.from({ length: 50 }, (_, i) => ({
-    id: `equipo_${i + 1}`,
-    name: `Equipo ${i + 1}`,
-    brand: ['Philips', 'GE', 'Drager', 'Siemens', 'Medtronic'][i % 5],
-    category: 'Equipo' as const,
-    price: 1000 + (i * 100),
-    stock: Math.floor(Math.random() * 20) + 1,
-    maxStock: 20 + Math.floor(Math.random() * 30),
-    status: ['disponible', 'en_renta', 'mantenimiento', 'fuera_servicio'][Math.floor(Math.random() * 4)] as any,
-    description: `Descripción del equipo ${i + 1}`
-  })),
-  
-  // Instrumental (100 productos)
-  ...Array.from({ length: 100 }, (_, i) => ({
-    id: `instrumental_${i + 1}`,
-    name: `Instrumento ${i + 1}`,
-    brand: ['Aesculap', 'Medtronic', 'Stryker', 'Johnson & Johnson'][i % 4],
-    category: 'Instrumental' as const,
-    price: 50 + (i * 25),
-    stock: Math.floor(Math.random() * 100) + 1,
-    maxStock: 100 + Math.floor(Math.random() * 200),
-    status: ['disponible', 'en_renta', 'mantenimiento', 'fuera_servicio'][Math.floor(Math.random() * 4)] as any,
-    description: `Descripción del instrumento ${i + 1}`
-  })),
-  
-  // Consumibles (200 productos)
-  ...Array.from({ length: 200 }, (_, i) => ({
-    id: `consumible_${i + 1}`,
-    name: `Consumible ${i + 1}`,
-    brand: ['BD', 'Ansell', '3M', 'Covidien', 'Baxter'][i % 5],
-    category: 'Consumible' as const,
-    price: 5 + (i * 2),
-    stock: Math.floor(Math.random() * 500) + 1,
-    maxStock: 500 + Math.floor(Math.random() * 1000),
-    status: ['disponible', 'en_renta', 'mantenimiento', 'fuera_servicio'][Math.floor(Math.random() * 4)] as any,
-    description: `Descripción del consumible ${i + 1}`
-  })),
-  
-  // Accesorios (150 productos)
-  ...Array.from({ length: 150 }, (_, i) => ({
-    id: `accesorio_${i + 1}`,
-    name: `Accesorio ${i + 1}`,
-    brand: ['Philips', 'GE', 'Siemens', 'Medtronic'][i % 4],
-    category: 'Accesorio' as const,
-    price: 100 + (i * 15),
-    stock: Math.floor(Math.random() * 50) + 1,
-    maxStock: 50 + Math.floor(Math.random() * 100),
-    status: ['disponible', 'en_renta', 'mantenimiento', 'fuera_servicio'][Math.floor(Math.random() * 4)] as any,
-    description: `Descripción del accesorio ${i + 1}`
-  })),
-  
-  // Endoscopios (50 productos)
-  ...Array.from({ length: 50 }, (_, i) => ({
-    id: `endoscopio_${i + 1}`,
-    name: `Endoscopio ${i + 1}`,
-    brand: ['Olympus', 'Pentax', 'Fujinon', 'Karl Storz'][i % 4],
-    category: 'Endoscopio' as const,
-    price: 5000 + (i * 500),
-    stock: Math.floor(Math.random() * 10) + 1,
-    maxStock: 10 + Math.floor(Math.random() * 20),
-    status: ['disponible', 'en_renta', 'mantenimiento', 'fuera_servicio'][Math.floor(Math.random() * 4)] as any,
-    description: `Descripción del endoscopio ${i + 1}`
-  })),
-  
-  // Cables/Conectores (100 productos)
-  ...Array.from({ length: 100 }, (_, i) => ({
-    id: `cable_${i + 1}`,
-    name: `Cable ${i + 1}`,
-    brand: ['Stryker', 'Olympus', 'Karl Storz', 'Pentax'][i % 4],
-    category: 'Cable/Conector' as const,
-    price: 50 + (i * 10),
-    stock: Math.floor(Math.random() * 100) + 1,
-    maxStock: 100 + Math.floor(Math.random() * 200),
-    status: ['disponible', 'en_renta', 'mantenimiento', 'fuera_servicio'][Math.floor(Math.random() * 4)] as any,
-    description: `Descripción del cable ${i + 1}`
-  }))
-];
-
-// Datos para autocompletado (nombres y marcas únicos)
-const autocompleteData = Array.from(new Set([
-  ...mockProducts.map(p => p.name),
-  ...mockProducts.map(p => p.brand),
-  ...mockProducts.map(p => p.category)
-])).sort();
+import { PermissionGuard } from '@/components/PermissionGuard';
+import { inventoryService, Product, InventoryStats } from '@/services/inventoryService';
 
 const Inventory = () => {
+  // Estado para productos y estadísticas
+  const [products, setProducts] = useState<Product[]>([]);
+  const [stats, setStats] = useState<InventoryStats>({
+    totalProducts: 0,
+    availableProducts: 0,
+    lowStockProducts: 0,
+    outOfStockProducts: 0,
+    categories: []
+  });
+  const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState<string[]>([]);
   const isMobile = useIsMobile();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -128,8 +38,32 @@ const Inventory = () => {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [showProductForm, setShowProductForm] = useState(false);
 
+  // Cargar datos iniciales
+  useEffect(() => {
+    const loadInitialData = async () => {
+      try {
+        setLoading(true);
+        const [productsData, statsData, categoriesData] = await Promise.all([
+          inventoryService.getProducts(),
+          inventoryService.getInventoryStats(),
+          inventoryService.getCategories()
+        ]);
+        
+        setProducts(productsData);
+        setStats(statsData);
+        setCategories(categoriesData);
+      } catch (error) {
+        console.error('Error loading inventory data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadInitialData();
+  }, []);
+
   // Función para buscar productos
-  const searchProducts = (query: string) => {
+  const searchProducts = async (query: string) => {
     if (!query.trim()) {
       setSearchResults([]);
       setShowResults(false);
@@ -138,22 +72,15 @@ const Inventory = () => {
 
     setIsSearching(true);
     
-    // Simular delay de búsqueda
-    setTimeout(() => {
-      const results = mockProducts.filter(product => {
-        const matchesSearch = product.name.toLowerCase().includes(query.toLowerCase()) ||
-                             product.brand.toLowerCase().includes(query.toLowerCase()) ||
-                             product.category.toLowerCase().includes(query.toLowerCase());
-        const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
-        const matchesStatus = selectedStatus === 'all' || product.status === selectedStatus;
-        
-        return matchesSearch && matchesCategory && matchesStatus;
-      });
-
+    try {
+      const results = await inventoryService.searchProducts(query);
       setSearchResults(results);
       setShowResults(true);
+    } catch (error) {
+      console.error('Error searching products:', error);
+    } finally {
       setIsSearching(false);
-    }, 300);
+    }
   };
 
   // Función para manejar la búsqueda
@@ -175,17 +102,8 @@ const Inventory = () => {
   // Filtrar productos (solo para mostrar resultados)
   const filteredProducts = showResults ? searchResults : [];
 
-  // Calcular métricas
-  const totalProducts = mockProducts.length;
-  const productsInRental = mockProducts.filter(p => p.status === 'en_renta').length;
-  const lowStockProducts = mockProducts.filter(p => p.stock < p.maxStock * 0.3).length;
-  const criticalStockProducts = mockProducts.filter(p => p.stock < p.maxStock * 0.1 || p.stock === 0).length;
-
-  // Obtener categorías únicas
-  const categories = ['all', ...Array.from(new Set(mockProducts.map(p => p.category)))];
-
   // Obtener estados únicos
-  const statuses = ['all', ...Array.from(new Set(mockProducts.map(p => p.status)))];
+  const statuses = ['all', 'disponible', 'fuera_servicio'];
 
   // Función para obtener el color del badge según el estado
   const getStatusColor = (status: string) => {
@@ -208,7 +126,11 @@ const Inventory = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <PermissionGuard 
+      requiredModule="INVENTORY"
+      requiredPermissions={['inventory:read']}
+    >
+      <div className="space-y-6">
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Inventario</h1>
@@ -223,7 +145,7 @@ const Inventory = () => {
             <Box className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{totalProducts}</div>
+            <div className="text-2xl font-bold">{stats.totalProducts}</div>
             <p className="text-xs text-muted-foreground">En inventario</p>
           </CardContent>
         </Card>
@@ -234,8 +156,8 @@ const Inventory = () => {
             <TrendingUp className="h-4 w-4 text-blue-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-blue-600">{productsInRental}</div>
-            <p className="text-xs text-muted-foreground">Equipos alquilados</p>
+            <div className="text-2xl font-bold text-blue-600">{stats.availableProducts}</div>
+            <p className="text-xs text-muted-foreground">Productos disponibles</p>
           </CardContent>
         </Card>
 
@@ -245,7 +167,7 @@ const Inventory = () => {
             <TrendingDown className="h-4 w-4 text-yellow-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-yellow-600">{lowStockProducts}</div>
+            <div className="text-2xl font-bold text-yellow-600">{stats.lowStockProducts}</div>
             <p className="text-xs text-muted-foreground">Necesitan reabastecimiento</p>
           </CardContent>
         </Card>
@@ -256,7 +178,7 @@ const Inventory = () => {
             <AlertTriangle className="h-4 w-4 text-red-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-red-600">{criticalStockProducts}</div>
+            <div className="text-2xl font-bold text-red-600">{stats.outOfStockProducts}</div>
             <p className="text-xs text-muted-foreground">Requieren atención inmediata</p>
           </CardContent>
         </Card>
@@ -351,19 +273,20 @@ const Inventory = () => {
                 <CommandList>
                   <CommandEmpty>No se encontraron sugerencias</CommandEmpty>
                   <CommandGroup>
-                    {autocompleteData
-                      .filter(item => 
-                        item.toLowerCase().includes(searchQuery.toLowerCase())
+                    {products
+                      .filter(product => 
+                        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                        product.category.toLowerCase().includes(searchQuery.toLowerCase())
                       )
                       .slice(0, 10)
-                      .map((item, index) => (
+                      .map((product, index) => (
                         <CommandItem
-                          key={index}
-                          onSelect={() => handleSearch(item)}
+                          key={product.id}
+                          onSelect={() => handleSearch(product.name)}
                           className="cursor-pointer"
                         >
                           <Search className="mr-2 h-4 w-4" />
-                          {item}
+                          {product.name} ({product.category})
                         </CommandItem>
                       ))}
                   </CommandGroup>
@@ -443,8 +366,9 @@ const Inventory = () => {
           setShowProductForm(false);
         }}
       />
-    </div>
-  );
-};
+        </div>
+      </PermissionGuard>
+    );
+  };
 
 export default Inventory; 

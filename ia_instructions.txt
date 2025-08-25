@@ -1,0 +1,3 @@
+Como regla de oro y quiero que guardes esto, vamos a avanzar tarea a tarea y no vas a avanzar hasta que yo te diga, tampoco vas a marcar la tarea como completada hasta que confirme que está correcta. Siempre que avances a la siguiente tarea, vas a consultar este archivo de to_do.md y vas a actualizarlo. Si por alguna razon debemos de agregar subtareas, vas a venir a este archivo, agregar las subtareas en la tarea que vamos y vas a realizar esas subtareas.
+
+Quiero que estés seguro de todo lo que estás haciendo, no quiero que asumas que estás en lo correcto. Debes de entender la estructura de lo que estás trabajando, los componentes que estás afectando y preguntar antes de editar un componente fuera del que estás trabajando.

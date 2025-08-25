@@ -1,0 +1,40 @@
+id,name,surgery_type_id
+PROC-APENDICECTOMIA,Apendicetomía,SURG-CG
+PROC-BIOPSIA-PROST,Biopsia Transperineal y Transrectal de Próstata,SURG-URO
+PROC-BRONCOSCOPIA,Broncoscopia,SURG-ENDO
+PROC-CATETER-JJ,Colocación de Catéter JJ,SURG-URO
+PROC-CIRCUNCISION,Circuncisión Láser,SURG-URO
+PROC-CISTOLITO-LASER,Cistolitotripsia Láser,SURG-URO
+PROC-CISTOSCOPIA,Cistoscopia,SURG-URO
+PROC-CISTOSTOMIA,Cistostomía por Punción y Visión,SURG-URO
+PROC-COLECISTECTOMIA,Colecistectomía,SURG-CG
+PROC-COLONO-PANENDO,Colonos y Panendoscopia,SURG-ENDO
+PROC-DERIVACION-EXT,Derivación Externa,SURG-URO
+PROC-DUODENOSCOPIA,Duodenoscopia,SURG-ENDO
+PROC-ENUCLEACION,Enucleación Prostática con Láser Holmio o Thulio,SURG-URO
+PROC-FUNDUPLICATURA,Funduplicatura,SURG-CG
+PROC-HISTERECTOMIA,Histerectomía,SURG-GINE
+PROC-LAP-DIAGNOSTICA,Laparoscopia Diagnóstica,SURG-CG
+PROC-MIOMECTOMIA,Miomectomía Laparoscópica,SURG-GINE
+PROC-NEFROLITOTOMIA,Nefrolitotomia Percutanea,SURG-URO
+PROC-ORQUIDECTOMIA,Orquidectomía,SURG-URO
+PROC-PL-ENERGIA-ARMONICO,Plantilla de Armónico,SURG-ENERGIA
+PROC-PL-ENERGIA-BIPOLAR,Plantilla de Bipolar,SURG-ENERGIA
+PROC-PL-ENERGIA-GYRUS,Plantilla de Gyrus G400,SURG-ENERGIA
+PROC-PL-ENERGIA-LIGASURE,Plantilla de Ligasure,SURG-ENERGIA
+PROC-PL-ENERGIA-SONIC,Plantilla Sonic,SURG-ENERGIA
+PROC-PL-LASER-30W,Plantilla Láser 30 W,SURG-LASER
+PROC-PL-LASER-60W,Plantilla Láser 60 W,SURG-LASER
+PROC-PL-LASER-BIOLITEC,Plantilla Láser Biolitec (Safenectomia),SURG-LASER
+PROC-PL-LASER-CO2,Plantilla Láser CO2,SURG-LASER
+PROC-PL-LASER-THULIO,Plantilla Thulio 120W,SURG-LASER
+PROC-PL-VISION-BASICO,Plantilla de Visión (Básico),SURG-VISION
+PROC-PL-VISION-GENERAL,Plantilla de Visión,SURG-VISION
+PROC-PL-VISION-HIST,Plantilla de Histeroscopia,SURG-VISION
+PROC-PL-VISION-LAP,Plantilla de Visión Laparoscópica,SURG-VISION
+PROC-PL-VISION-REDPINE,Plantilla de Ureteroscopio Red Pine,SURG-VISION
+PROC-RTUP-BIPOLAR,Resección Transuretral de Próstata con Bipolar,SURG-URO
+PROC-RTUTV,Resección Transuretral de Tumor Vesical,SURG-URO
+PROC-URETEROSCOPIA,Ureteroscopia Rígida Flexible,SURG-URO
+PROC-URETROPLASTIA,Uretroplastia,SURG-URO
+PROC-URETROTOMIA,Uretrotomia Interna en Frio o Láser,SURG-URO

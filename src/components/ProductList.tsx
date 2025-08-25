@@ -6,21 +6,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { Search, Filter, Grid, List, ChevronDown, ChevronUp, Eye, Edit, Trash2, Box } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
-
-// Tipos para el componente
-interface Product {
-  id: string;
-  name: string;
-  brand: string;
-  category: 'Consumible' | 'Accesorio' | 'Instrumental' | 'Equipo' | 'Endoscopio' | 'Cable/Conector';
-  price: number;
-  stock: number;
-  maxStock: number;
-  status: 'disponible' | 'en_renta' | 'mantenimiento' | 'fuera_servicio';
-  image?: string;
-  description: string;
-  createdAt: string;
-}
+import { ConditionalContent } from '@/components/PermissionGuard';
+import { Product } from '@/services/inventoryService';
 
 interface ProductListProps {
   products: Product[];
@@ -179,34 +166,45 @@ const ProductList: React.FC<ProductListProps> = ({
                     {showActions && (
                       <td className="px-4 py-3">
                         <div className="flex gap-2">
-                          {onViewProduct && (
-                            <Button
-                              size="sm"
-                              variant="ghost"
-                              onClick={() => onViewProduct(product)}
-                            >
-                              <Eye className="h-4 w-4" />
-                            </Button>
-                          )}
-                          {onEditProduct && (
-                            <Button
-                              size="sm"
-                              variant="ghost"
-                              onClick={() => onEditProduct(product)}
-                            >
-                              <Edit className="h-4 w-4" />
-                            </Button>
-                          )}
-                          {onDeleteProduct && (
-                            <Button
-                              size="sm"
-                              variant="ghost"
-                              onClick={() => onDeleteProduct(product)}
-                              className="text-red-600 hover:text-red-700"
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
-                          )}
+                          {/* Botón Ver - Acceso para todos los que pueden leer inventario */}
+                          <ConditionalContent requiredPermissions={['inventory:read']}>
+                            {onViewProduct && (
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                onClick={() => onViewProduct(product)}
+                              >
+                                <Eye className="h-4 w-4" />
+                              </Button>
+                            )}
+                          </ConditionalContent>
+
+                          {/* Botón Editar - Solo para roles que pueden actualizar inventario */}
+                          <ConditionalContent requiredPermissions={['inventory:update']}>
+                            {onEditProduct && (
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                onClick={() => onEditProduct(product)}
+                              >
+                                <Edit className="h-4 w-4" />
+                              </Button>
+                            )}
+                          </ConditionalContent>
+
+                          {/* Botón Eliminar - Solo para roles que pueden eliminar inventario */}
+                          <ConditionalContent requiredPermissions={['inventory:delete']}>
+                            {onDeleteProduct && (
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                onClick={() => onDeleteProduct(product)}
+                                className="text-red-600 hover:text-red-700"
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            )}
+                          </ConditionalContent>
                         </div>
                       </td>
                     )}
@@ -253,18 +251,25 @@ const ProductList: React.FC<ProductListProps> = ({
                 
                 {showActions && (
                   <div className="mt-4 flex gap-2">
-                    {onViewProduct && (
-                      <Button size="sm" variant="outline" className="flex-1" onClick={() => onViewProduct(product)}>
-                        <Eye className="h-4 w-4 mr-1" />
-                        Ver
-                      </Button>
-                    )}
-                    {onEditProduct && (
-                      <Button size="sm" className="flex-1" onClick={() => onEditProduct(product)}>
-                        <Edit className="h-4 w-4 mr-1" />
-                        Editar
-                      </Button>
-                    )}
+                    {/* Botón Ver - Acceso para todos los que pueden leer inventario */}
+                    <ConditionalContent requiredPermissions={['inventory:read']}>
+                      {onViewProduct && (
+                        <Button size="sm" variant="outline" className="flex-1" onClick={() => onViewProduct(product)}>
+                          <Eye className="h-4 w-4 mr-1" />
+                          Ver
+                        </Button>
+                      )}
+                    </ConditionalContent>
+
+                    {/* Botón Editar - Solo para roles que pueden actualizar inventario */}
+                    <ConditionalContent requiredPermissions={['inventory:update']}>
+                      {onEditProduct && (
+                        <Button size="sm" className="flex-1" onClick={() => onEditProduct(product)}>
+                          <Edit className="h-4 w-4 mr-1" />
+                          Editar
+                        </Button>
+                      )}
+                    </ConditionalContent>
                   </div>
                 )}
               </CardContent>

@@ -6,6 +6,7 @@ import {
   Users, 
   Boxes, 
   DollarSign, 
+  BarChart3,
   Headphones, 
   Settings, 
   HelpCircle, 
@@ -37,6 +38,7 @@ const mainNavItems = [
   { title: "Personal", url: "/personal", icon: Users },
   { title: "Inventario", url: "/inventory", icon: Boxes },
   { title: "Finanzas", url: "/finances", icon: DollarSign },
+  { title: "Reportes", url: "/reports", icon: BarChart3 },
   { title: "Soporte al Cliente", url: "/support", icon: Headphones }
 ]
 
@@ -143,11 +145,6 @@ export function TumexSidebar() {
 
       {/* Pie de página */}
       <SidebarFooter className="border-t border-white/20 p-4">
-        {!collapsed && (
-          <div className="text-xs text-gray-500 text-center">
-            © 2024 Plataforma TUMex
-          </div>
-        )}
       </SidebarFooter>
     </Sidebar>
   )

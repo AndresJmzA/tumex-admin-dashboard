@@ -1,4 +1,43 @@
-# Welcome to your Lovable project
+# TUMex Admin Dashboard
+
+Un dashboard administrativo moderno para la gestión de órdenes médicas y equipos quirúrgicos.
+
+## Configuración Inicial
+
+### Variables de Entorno
+
+Para que la aplicación funcione correctamente, necesitas configurar las siguientes variables de entorno:
+
+1. Crea un archivo `.env.local` en la raíz del proyecto
+2. Agrega las siguientes variables:
+
+```bash
+# Variables de entorno para Supabase
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key-here
+
+# Configuración del servidor de desarrollo
+VITE_API_URL=http://localhost:8080
+```
+
+### Configuración de Supabase
+
+1. Ve a [Supabase](https://supabase.com) y crea un nuevo proyecto
+2. En la configuración del proyecto, encuentra las credenciales de la API
+3. Copia la URL del proyecto y la clave anónima
+4. Actualiza las variables de entorno con estos valores
+
+### Solución de Problemas
+
+Si encuentras errores como:
+- "Failed to load resource: the server responded with a status of 400"
+- "Error fetching available products"
+
+Verifica que:
+1. Las variables de entorno estén configuradas correctamente
+2. La URL de Supabase sea válida
+3. La clave anónima sea correcta
+4. La base de datos tenga las tablas necesarias
 
 ## Project info
 
