@@ -1,0 +1,109 @@
+.informationPanel {
+  flex: 1;
+  padding: 1.5rem;
+  background-color: hsl(var(--card));
+  overflow-y: auto;
+}
+
+.panelContent {
+  max-width: 100%;
+}
+
+.panelContent h3 {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+  border-bottom: 2px solid hsl(var(--border));
+  padding-bottom: 0.5rem;
+}
+
+.componentsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.infoSection {
+  background-color: hsl(var(--background));
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.5rem;
+  padding: 1rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.infoSection:hover {
+  border-color: hsl(var(--accent));
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.infoSection h4 {
+  margin: 0 0 0.75rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.infoSection h4::before {
+  content: '';
+  width: 4px;
+  height: 1rem;
+  background-color: hsl(var(--primary));
+  border-radius: 2px;
+}
+
+.placeholderContent {
+  color: hsl(var(--muted-foreground));
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.placeholderContent p {
+  margin: 0.25rem 0;
+}
+
+.placeholderContent p:first-child {
+  font-weight: 500;
+  color: hsl(var(--foreground));
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .informationPanel {
+    padding: 1rem;
+  }
+  
+  .componentsContainer {
+    gap: 1rem;
+  }
+  
+  .infoSection {
+    padding: 0.75rem;
+  }
+  
+  .panelContent h3 {
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .informationPanel {
+    padding: 0.75rem;
+  }
+  
+  .infoSection {
+    padding: 0.5rem;
+  }
+  
+  .infoSection h4 {
+    font-size: 0.9rem;
+  }
+  
+  .placeholderContent {
+    font-size: 0.8rem;
+  }
+}

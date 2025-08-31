@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import OrderCard, { OrderCardProps } from '@/components/OrderCard';
 import TechnicianAssignmentModal from '@/components/TechnicianAssignmentModal';
-import { OrderDetailsModal } from '@/components/OrderDetailsModal';
+import OrderDetailsModal from '@/components/OrderDetailsModal';
 import PriceCalculatorModal from '@/components/PriceCalculatorModal';
 import NewOrderModal from '@/components/NewOrderModal';
 import OrderEquipmentEditor from '@/components/OrderEquipmentEditor';
@@ -12,6 +12,7 @@ import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/com
 import { PermissionGuard } from '@/components/PermissionGuard';
 import { orderService, ExtendedOrder, OrderStats } from '@/services/orderService';
 import { operationalDashboardService, PendingOrder } from '@/services/operationalDashboardService';
+import { OrderStatus } from '@/services/OrderActionService';
 import { orderEquipmentService } from '@/services/orderEquipmentService';
 import type { OrderEquipment as ServiceOrderEquipment } from '@/services/orderEquipmentService';
 import { useToast } from '@/components/ui/use-toast';
@@ -352,6 +353,50 @@ const Orders: React.FC = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedOrder(null);
+  };
+
+  // Función para convertir PendingOrder a Order para el modal
+  const convertPendingOrderToOrder = (pendingOrder: PendingOrder) => {
+    // Mapear el status de PendingOrder a OrderStatus
+    const statusMapping: Record<string, OrderStatus> = {
+      'created': 'PENDING_ACCEPTANCE',
+      'approved': 'PENDING_DOCTOR_CONFIRMATION',
+      'doctor_confirmation': 'PENDING_TECHNICIAN_ASSIGNMENT',
+      'technicians_assigned': 'PENDING_TECHNICIAN_CONFIRMATION',
+      'in_preparation': 'PENDING_EQUIPMENT_PREPARATION',
+      'ready_for_technicians': 'PENDING_SURGERY',
+      'templates_ready': 'IN_PROGRESS',
+      'surgery_completed': 'COMPLETED',
+      'cancelled': 'CANCELLED',
+      'rejected': 'REJECTED'
+    };
+
+    return {
+      id: pendingOrder.id,
+      status: statusMapping[pendingOrder.status] || 'PENDING_ACCEPTANCE',
+      patientName: pendingOrder.patientName
+    };
+  };
+
+  // Función para actualizar la orden seleccionada después de una acción
+  const handleOrderUpdate = async () => {
+    if (!selectedOrder) return;
+    
+    try {
+      // Obtener los datos actualizados de la orden
+      const updatedOrderDetails = await operationalDashboardService.getOrderById(selectedOrder.id);
+      if (updatedOrderDetails) {
+        setSelectedOrder(updatedOrderDetails);
+        // También actualizar la lista de órdenes
+        await loadOrders();
+        await loadOrderStats();
+      }
+    } catch (error) {
+      console.error('Error actualizando la orden:', error);
+      // En caso de error, recargar toda la lista
+      await loadOrders();
+      await loadOrderStats();
+    }
   };
 
   // Estados para la calculadora de precios
@@ -1053,19 +1098,9 @@ const Orders: React.FC = () => {
           <OrderDetailsModal
             isOpen={isModalOpen}
             onClose={handleCloseModal}
-            onApprove={handleApproveFromDetails}
-            onReject={handleRejectFromDetails}
-            onEditEquipment={handleEditEquipment}
-            onCreateTemplate={handleCreateTemplate}
-            onDownloadTemplate={handleDownloadTemplate}
-            onMarkAsReady={handleMarkAsReady}
-            onSendToWarehouse={handleSendToWarehouse} // Para enviar orden a almacén
-            onMarkAsReadyForTechnicians={handleMarkAsReadyForTechnicians} // NUEVA: Para marcar como lista para técnicos
-            order={selectedOrder}
-            onOpenAssignTechnicians={(orderId) => {
-              setIsModalOpen(false);
-              setTimeout(() => handleOpenAssignTechnicians(orderId), 100);
-            }}
+            order={convertPendingOrderToOrder(selectedOrder)}
+            currentUserRole="GESTOR_OPERACIONES"
+            onUpdate={handleOrderUpdate}
           />
         )}
 
