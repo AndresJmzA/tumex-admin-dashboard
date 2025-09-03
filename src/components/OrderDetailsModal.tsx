@@ -1,12 +1,14 @@
 ﻿import React, { useState } from 'react';
 import './OrderDetailsModal.css';
 import { ActionBar } from './ActionBar';
-import { OrderStatus, UserRole, Action } from '../services/OrderActionService';
+import { Action } from '../services/OrderActionService';
+import { CanonicalOrderStatus } from '@/utils/status';
+import { UserRole } from '@/contexts/AuthContext';
 
 // Interfaces TypeScript
 interface Order {
   id: string;
-  status: OrderStatus;
+  status: CanonicalOrderStatus;
   customerName?: string;
   patientName?: string;
 }
@@ -50,40 +52,66 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
   if (!isOpen) return null;
 
   // Función para obtener el color del badge según el estado
-  const getStatusBadgeColor = (status: OrderStatus): string => {
-    const statusColors: Record<OrderStatus, string> = {
-      'PENDING_ACCEPTANCE': '#f59e0b',      // Amarillo
-      'PENDING_DOCTOR_CONFIRMATION': '#8b5cf6', // Púrpura
-      'PENDING_TECHNICIAN_ASSIGNMENT': '#6366f1', // Índigo
-      'PENDING_TECHNICIAN_CONFIRMATION': '#06b6d4', // Cyan
-      'PENDING_EQUIPMENT_PREPARATION': '#f97316',   // Naranja
-      'PENDING_SURGERY': '#84cc16',       // Verde lima
-      'IN_PROGRESS': '#10b981',          // Verde
-      'PENDING_EQUIPMENT_RETURN': '#047857',  // Verde esmeralda
-      'PENDING_FINAL_APPROVAL': '#059669',    // Verde oscuro
-      'COMPLETED': '#1f2937',       // Gris oscuro
-      'REJECTED': '#ef4444',          // Rojo
-      'CANCELLED': '#dc2626'     // Rojo oscuro
+  const getStatusBadgeColor = (status: CanonicalOrderStatus): string => {
+    const statusColors: Record<CanonicalOrderStatus, string> = {
+      'created': '#f59e0b',                    // Amarillo - Orden Creada
+      'pending_objects': '#8b5cf6',            // Púrpura - Pendiente de Objetos
+      'doctor_confirmation': '#6366f1',        // Índigo - Confirmación con Médico
+      'objects_confirmed': '#06b6d4',          // Cyan - Objetos Confirmados
+      'approved': '#84cc16',                   // Verde lima - Aprobada
+      'rescheduled': '#f97316',                // Naranja - Reagendada
+      'rejected': '#ef4444',                   // Rojo - Rechazada
+      'doctor_approved': '#10b981',            // Verde - Aceptada por Médico
+      'doctor_rejected': '#dc2626',            // Rojo oscuro - Rechazada por Médico
+      'templates_ready': '#047857',            // Verde esmeralda - Plantillas Listas
+      'technicians_assigned': '#059669',       // Verde oscuro - Técnicos Asignados
+      'in_preparation': '#1f2937',             // Gris oscuro - En Preparación
+      'ready_for_technicians': '#6b7280',      // Gris - Lista para Técnicos
+      'assigned': '#3b82f6',                   // Azul - Asignada
+      'in_transit': '#8b5cf6',                 // Púrpura - En Tránsito
+      'in_progress': '#10b981',                // Verde - En Proceso
+      'returned': '#f59e0b',                   // Amarillo - De Vuelta
+      'remission_created': '#06b6d4',          // Cyan - Remisión Creada
+      'equipment_transported': '#f97316',      // Naranja - Equipos Trasladados
+      'surgery_prepared': '#84cc16',           // Verde lima - Quirófano Preparado
+      'surgery_completed': '#10b981',          // Verde - Cirugía Completada
+      'ready_for_billing': '#f59e0b',         // Amarillo - Lista para Facturar
+      'billed': '#1f2937',                     // Gris oscuro - Facturada
+      'completed': '#059669',                  // Verde oscuro - Completada
+      'cancelled': '#dc2626'                   // Rojo oscuro - Cancelada
     };
     
     return statusColors[status] || '#6b7280'; // Gris por defecto
   };
 
   // Función para obtener el nombre legible del estado
-  const getStatusDisplayName = (status: OrderStatus): string => {
-    const statusNames: Record<OrderStatus, string> = {
-      'PENDING_ACCEPTANCE': 'Pendiente de Aceptación',
-      'PENDING_DOCTOR_CONFIRMATION': 'Pendiente de Confirmación del Doctor',
-      'PENDING_TECHNICIAN_ASSIGNMENT': 'Pendiente de Asignación de Técnico',
-      'PENDING_TECHNICIAN_CONFIRMATION': 'Pendiente de Confirmación del Técnico',
-      'PENDING_EQUIPMENT_PREPARATION': 'Pendiente de Preparación de Equipos',
-      'PENDING_SURGERY': 'Pendiente de Cirugía',
-      'IN_PROGRESS': 'En Progreso',
-      'PENDING_EQUIPMENT_RETURN': 'Pendiente de Devolución de Equipos',
-      'PENDING_FINAL_APPROVAL': 'Pendiente de Aprobación Final',
-      'COMPLETED': 'Completada',
-      'REJECTED': 'Rechazada',
-      'CANCELLED': 'Cancelada'
+  const getStatusDisplayName = (status: CanonicalOrderStatus): string => {
+    const statusNames: Record<CanonicalOrderStatus, string> = {
+      'created': 'Orden Creada',
+      'pending_objects': 'Pendiente de Objetos',
+      'doctor_confirmation': 'Confirmación con Médico',
+      'objects_confirmed': 'Objetos Confirmados',
+      'approved': 'Aprobada',
+      'rescheduled': 'Reagendada',
+      'rejected': 'Rechazada',
+      'doctor_approved': 'Aceptada por Médico',
+      'doctor_rejected': 'Rechazada por Médico',
+      'templates_ready': 'Plantillas Listas',
+      'technicians_assigned': 'Técnicos Asignados',
+      'in_preparation': 'En Preparación',
+      'ready_for_technicians': 'Lista para Técnicos',
+      'assigned': 'Asignada',
+      'in_transit': 'En Tránsito',
+      'in_progress': 'En Proceso',
+      'returned': 'De Vuelta',
+      'remission_created': 'Remisión Creada',
+      'equipment_transported': 'Equipos Trasladados',
+      'surgery_prepared': 'Quirófano Preparado',
+      'surgery_completed': 'Cirugía Completada',
+      'ready_for_billing': 'Lista para Facturar',
+      'billed': 'Facturada',
+      'completed': 'Completada',
+      'cancelled': 'Cancelada'
     };
     
     return statusNames[status] || status;
@@ -151,7 +179,7 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
   };
 
   const handleConfirmTechnicianAvailability = async () => {
-    setIsLoading(true);
+      setIsLoading(true);
     try {
       await apiClient.patch(`/api/orders/${order.id}/confirm-technician-availability`, {});
       console.log('Disponibilidad del técnico confirmada exitosamente');
@@ -259,18 +287,27 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
   const actionHandlers: Record<Action, () => Promise<void>> = {
     ACCEPT_ORDER: handleAcceptOrder,
     REJECT_ORDER: handleRejectOrder,
-    CONFIRM_SURGERY: handleConfirmSurgery,
-    ASSIGN_TECHNICIAN: handleAssignTechnician,
-    CONFIRM_TECHNICIAN_AVAILABILITY: handleConfirmTechnicianAvailability,
-    PREPARE_EQUIPMENT: handlePrepareEquipment,
-    START_SURGERY: handleStartSurgery,
-    COMPLETE_SURGERY: handleCompleteSurgery,
-    RETURN_EQUIPMENT: handleReturnEquipment,
-    APPROVE_COMPLETION: handleApproveCompletion,
-    CANCEL_ORDER: handleCancelOrder
+    RESCHEDULE_ORDER: async () => { console.log('Reprogramar Orden'); },
+    CONTACT_DOCTOR: async () => { console.log('Contactar Doctor'); },
+    CONFIRM_EQUIPMENT: async () => { console.log('Confirmar Equipos'); },
+    CONFIRM_ORDER: handleConfirmSurgery, // Mapear a función existente
+    REJECT_RESCHEDULE: async () => { console.log('Rechazar Reprogramación'); },
+    PREPARE_ORDER: handlePrepareEquipment, // Mapear a función existente
+    ASSIGN_TECHNICIANS: handleAssignTechnician, // Mapear a función existente
+    LOAD_ORDER: async () => { console.log('Cargar Orden'); },
+    SEND_ORDER: async () => { console.log('Enviar Orden'); },
+    ARRIVE_LOCATION: async () => { console.log('Llegar al Lugar'); },
+    INSTALL_ORDER: async () => { console.log('Instalar Orden'); },
+    COMPLETE_ORDER: handleCompleteSurgery, // Mapear a función existente
+    RETURN_BASE: handleReturnEquipment, // Mapear a función existente
+    CLOSE_ORDER: handleApproveCompletion, // Mapear a función existente
+    REOPEN_ORDER: async () => { console.log('Reabrir Orden'); },
+    VIEW_ORDER_HISTORY: async () => { console.log('Ver Historial'); },
+    EDIT_ORDER: async () => { console.log('Editar Orden'); },
+    DELETE_ORDER: handleCancelOrder // Mapear a función existente
   };
 
-  return (
+    return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-container" onClick={(e) => e.stopPropagation()}>
         
@@ -283,12 +320,12 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
               style={{ backgroundColor: getStatusBadgeColor(order.status) }}
             >
               {getStatusDisplayName(order.status)}
-            </div>
-          </div>
+                    </div>
+                      </div>
           <button className="close-button" onClick={onClose}>
             ✕
           </button>
-        </div>
+                      </div>
 
         {/* InformationPanel */}
         <div className="information-panel">
@@ -299,9 +336,9 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
             <p><strong>Rol del Usuario:</strong> {currentUserRole}</p>
             <div className="placeholder-text">
               Detalles de la orden se mostrarán aquí.
-            </div>
-          </div>
-        </div>
+                    </div>
+                          </div>
+                          </div>
 
         {/* ActionBar */}
         <ActionBar 
@@ -310,8 +347,8 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
           actions={actionHandlers}
           isLoading={isLoading}
         />
-      </div>
-    </div>
+              </div>
+              </div>
   );
 };
 

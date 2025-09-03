@@ -12,7 +12,7 @@ import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/com
 import { PermissionGuard } from '@/components/PermissionGuard';
 import { orderService, ExtendedOrder, OrderStats } from '@/services/orderService';
 import { operationalDashboardService, PendingOrder } from '@/services/operationalDashboardService';
-import { OrderStatus } from '@/services/OrderActionService';
+import { CanonicalOrderStatus } from '@/utils/status';
 import { orderEquipmentService } from '@/services/orderEquipmentService';
 import type { OrderEquipment as ServiceOrderEquipment } from '@/services/orderEquipmentService';
 import { useToast } from '@/components/ui/use-toast';
@@ -357,23 +357,38 @@ const Orders: React.FC = () => {
 
   // Función para convertir PendingOrder a Order para el modal
   const convertPendingOrderToOrder = (pendingOrder: PendingOrder) => {
-    // Mapear el status de PendingOrder a OrderStatus
-    const statusMapping: Record<string, OrderStatus> = {
-      'created': 'PENDING_ACCEPTANCE',
-      'approved': 'PENDING_DOCTOR_CONFIRMATION',
-      'doctor_confirmation': 'PENDING_TECHNICIAN_ASSIGNMENT',
-      'technicians_assigned': 'PENDING_TECHNICIAN_CONFIRMATION',
-      'in_preparation': 'PENDING_EQUIPMENT_PREPARATION',
-      'ready_for_technicians': 'PENDING_SURGERY',
-      'templates_ready': 'IN_PROGRESS',
-      'surgery_completed': 'COMPLETED',
-      'cancelled': 'CANCELLED',
-      'rejected': 'REJECTED'
+    // Mapear el status de PendingOrder a CanonicalOrderStatus
+    const statusMapping: Record<string, CanonicalOrderStatus> = {
+      'created': 'created',
+      'pending_objects': 'pending_objects',
+      'approved': 'approved',
+      'doctor_confirmation': 'doctor_confirmation',
+      'objects_confirmed': 'objects_confirmed',
+      'templates_ready': 'templates_ready',
+      'technicians_assigned': 'technicians_assigned',
+      'in_preparation': 'in_preparation',
+      'ready_for_technicians': 'ready_for_technicians',
+      'assigned': 'assigned',
+      'in_transit': 'in_transit',
+      'in_progress': 'in_progress',
+      'surgery_prepared': 'surgery_prepared',
+      'surgery_completed': 'surgery_completed',
+      'returned': 'returned',
+      'remission_created': 'remission_created',
+      'ready_for_billing': 'ready_for_billing',
+      'billed': 'billed',
+      'completed': 'completed',
+      'rejected': 'rejected',
+      'cancelled': 'cancelled',
+      'rescheduled': 'rescheduled',
+      'doctor_approved': 'doctor_approved',
+      'doctor_rejected': 'doctor_rejected',
+      'equipment_transported': 'equipment_transported'
     };
 
     return {
       id: pendingOrder.id,
-      status: statusMapping[pendingOrder.status] || 'PENDING_ACCEPTANCE',
+      status: statusMapping[pendingOrder.status] || 'created',
       patientName: pendingOrder.patientName
     };
   };
@@ -1099,7 +1114,7 @@ const Orders: React.FC = () => {
             isOpen={isModalOpen}
             onClose={handleCloseModal}
             order={convertPendingOrderToOrder(selectedOrder)}
-            currentUserRole="GESTOR_OPERACIONES"
+            currentUserRole={UserRole.GERENTE_OPERATIVO}
             onUpdate={handleOrderUpdate}
           />
         )}

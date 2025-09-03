@@ -1,10 +1,12 @@
 import React from 'react';
-import { getAvailableActions, OrderStatus, UserRole, Action } from '../services/OrderActionService';
+import { getAvailableActions, Action } from '../services/OrderActionService';
+import { CanonicalOrderStatus } from '@/utils/status';
+import { UserRole } from '@/contexts/AuthContext';
 import styles from './ActionBar.module.css';
 
 // Interfaz para las props del componente
 interface ActionBarProps {
-  status: OrderStatus;
+  status: CanonicalOrderStatus;
   role: UserRole;
   actions: Record<Action, () => Promise<void>>;
   isLoading?: boolean;
@@ -14,15 +16,24 @@ interface ActionBarProps {
 const actionLabels: Record<Action, string> = {
   ACCEPT_ORDER: 'Aceptar Orden',
   REJECT_ORDER: 'Rechazar Orden',
-  CONFIRM_SURGERY: 'Confirmar Cirugía',
-  ASSIGN_TECHNICIAN: 'Asignar Técnico',
-  CONFIRM_TECHNICIAN_AVAILABILITY: 'Confirmar Disponibilidad',
-  PREPARE_EQUIPMENT: 'Preparar Equipos',
-  START_SURGERY: 'Iniciar Cirugía',
-  COMPLETE_SURGERY: 'Completar Cirugía',
-  RETURN_EQUIPMENT: 'Devolver Equipos',
-  APPROVE_COMPLETION: 'Aprobar Finalización',
-  CANCEL_ORDER: 'Cancelar Orden'
+  RESCHEDULE_ORDER: 'Reprogramar Orden',
+  CONTACT_DOCTOR: 'Contactar Doctor',
+  CONFIRM_EQUIPMENT: 'Confirmar Equipos',
+  CONFIRM_ORDER: 'Confirmar Orden',
+  REJECT_RESCHEDULE: 'Rechazar Reprogramación',
+  PREPARE_ORDER: 'Preparar Orden',
+  ASSIGN_TECHNICIANS: 'Asignar Técnicos',
+  LOAD_ORDER: 'Cargar Orden',
+  SEND_ORDER: 'Enviar Orden',
+  ARRIVE_LOCATION: 'Llegar al Lugar',
+  INSTALL_ORDER: 'Instalar Orden',
+  COMPLETE_ORDER: 'Completar Orden',
+  RETURN_BASE: 'Regresar a Base',
+  CLOSE_ORDER: 'Cerrar Orden',
+  REOPEN_ORDER: 'Reabrir Orden',
+  VIEW_ORDER_HISTORY: 'Ver Historial',
+  EDIT_ORDER: 'Editar Orden',
+  DELETE_ORDER: 'Eliminar Orden'
 };
 
 /**

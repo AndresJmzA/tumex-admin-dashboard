@@ -1,11 +1,11 @@
 import React from 'react';
-import { OrderStatus } from '../services/OrderActionService';
+import { CanonicalOrderStatus } from '@/utils/status';
 import styles from './InformationPanel.module.css';
 
 // Interfaces TypeScript
 interface Order {
   id: string;
-  status: OrderStatus;
+  status: CanonicalOrderStatus;
   customerName: string;
   // Otros campos de la orden que puedan ser necesarios
 }
@@ -15,12 +15,22 @@ interface InformationPanelProps {
 }
 
 // Componentes placeholder para cada sección de información
-const GeneralDetails: React.FC = () => (
+const GeneralDetails: React.FC<{ order: any }> = ({ order }) => (
   <div className={styles.infoSection}>
     <h4>Detalles Generales</h4>
     <div className={styles.placeholderContent}>
-      <p>Información básica de la orden</p>
-      <p>Cliente, fecha, dirección, etc.</p>
+      <p>Información completa de la orden:</p>
+      <pre style={{ 
+        fontSize: '0.75rem', 
+        overflow: 'auto', 
+        maxHeight: '300px',
+        backgroundColor: 'hsl(var(--muted))',
+        padding: '0.5rem',
+        borderRadius: '0.25rem',
+        border: '1px solid hsl(var(--border))'
+      }}>
+        {JSON.stringify(order, null, 2)}
+      </pre>
     </div>
   </div>
 );
@@ -123,128 +133,128 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({ order }) => 
   // Función para renderizar los componentes según el estado
   const renderComponentsByStatus = (status: OrderStatus) => {
     switch (status) {
-      case 'PENDING_ACCEPTANCE':
-        return (
-          <>
-            <GeneralDetails />
-            <EquipmentList />
-            <ConfirmationChecklist />
-          </>
-        );
+             case 'PENDING_ACCEPTANCE':
+         return (
+           <>
+             <GeneralDetails order={order} />
+             <EquipmentList />
+             <ConfirmationChecklist />
+           </>
+         );
 
-      case 'PENDING_DOCTOR_CONFIRMATION':
-        return (
-          <>
-            <GeneralDetails />
-            <EquipmentList />
-            <ConfirmationChecklist />
-          </>
-        );
+             case 'PENDING_DOCTOR_CONFIRMATION':
+         return (
+           <>
+             <GeneralDetails order={order} />
+             <EquipmentList />
+             <ConfirmationChecklist />
+           </>
+         );
 
-      case 'PENDING_TECHNICIAN_ASSIGNMENT':
-        return (
-          <>
-            <GeneralDetails />
-            <EquipmentList />
-            <PreparationChecklist />
-          </>
-        );
+             case 'PENDING_TECHNICIAN_ASSIGNMENT':
+         return (
+           <>
+             <GeneralDetails order={order} />
+             <EquipmentList />
+             <PreparationChecklist />
+           </>
+         );
 
-      case 'PENDING_TECHNICIAN_CONFIRMATION':
-        return (
-          <>
-            <GeneralDetails />
-            <EquipmentList />
-            <TechnicianDetails />
-          </>
-        );
+             case 'PENDING_TECHNICIAN_CONFIRMATION':
+         return (
+           <>
+             <GeneralDetails order={order} />
+             <EquipmentList />
+             <TechnicianDetails />
+           </>
+         );
 
-      case 'PENDING_EQUIPMENT_PREPARATION':
-        return (
-          <>
-            <GeneralDetails />
-            <EquipmentList />
-            <TechnicianDetails />
-            <PreparationChecklist />
-          </>
-        );
+             case 'PENDING_EQUIPMENT_PREPARATION':
+         return (
+           <>
+             <GeneralDetails order={order} />
+             <EquipmentList />
+             <TechnicianDetails />
+             <PreparationChecklist />
+           </>
+         );
 
-      case 'PENDING_SURGERY':
-        return (
-          <>
-            <GeneralDetails />
-            <EquipmentList />
-            <TechnicianDetails />
-            <PreparationChecklist />
-          </>
-        );
+             case 'PENDING_SURGERY':
+         return (
+           <>
+             <GeneralDetails order={order} />
+             <EquipmentList />
+             <TechnicianDetails />
+             <PreparationChecklist />
+           </>
+         );
 
-      case 'IN_PROGRESS':
-        return (
-          <>
-            <GeneralDetails />
-            <EquipmentList />
-            <TechnicianDetails />
-            <TrackingInfo />
-          </>
-        );
+             case 'IN_PROGRESS':
+         return (
+           <>
+             <GeneralDetails order={order} />
+             <EquipmentList />
+             <TechnicianDetails />
+             <TrackingInfo />
+           </>
+         );
 
-      case 'PENDING_EQUIPMENT_RETURN':
-        return (
-          <>
-            <GeneralDetails />
-            <EquipmentList />
-            <TechnicianDetails />
-            <TrackingInfo />
-          </>
-        );
+             case 'PENDING_EQUIPMENT_RETURN':
+         return (
+           <>
+             <GeneralDetails order={order} />
+             <EquipmentList />
+             <TechnicianDetails />
+             <TrackingInfo />
+           </>
+         );
 
-      case 'PENDING_FINAL_APPROVAL':
-        return (
-          <>
-            <GeneralDetails />
-            <EquipmentList />
-            <TechnicianDetails />
-            <TrackingInfo />
-          </>
-        );
+             case 'PENDING_FINAL_APPROVAL':
+         return (
+           <>
+             <GeneralDetails order={order} />
+             <EquipmentList />
+             <TechnicianDetails />
+             <TrackingInfo />
+           </>
+         );
 
-      case 'COMPLETED':
-        return (
-          <>
-            <GeneralDetails />
-            <EquipmentList />
-            <TechnicianDetails />
-            <TrackingInfo />
-          </>
-        );
+             case 'COMPLETED':
+         return (
+           <>
+             <GeneralDetails order={order} />
+             <EquipmentList />
+             <TechnicianDetails />
+             <TrackingInfo />
+           </>
+         );
 
-      case 'REJECTED':
-        return (
-          <>
-            <GeneralDetails />
-            <EquipmentList />
-            <RejectionDetails />
-            <RescheduleForm />
-          </>
-        );
+             case 'REJECTED':
+         return (
+           <>
+             <GeneralDetails order={order} />
+             <EquipmentList />
+             <RejectionDetails />
+             <RescheduleForm />
+           </>
+         );
 
-      case 'CANCELLED':
-        return (
-          <>
-            <GeneralDetails />
-            <EquipmentList />
-            <CancellationSummary />
-          </>
-        );
+             case 'CANCELLED':
+         return (
+           <>
+             <GeneralDetails order={order} />
+             <EquipmentList />
+             <CancellationSummary />
+           </>
+         );
 
-      default:
-        return (
-          <>
-            <GeneralDetails />
-            <EquipmentList />
-          </>
-        );
+             default:
+         return (
+           <>
+             <GeneralDetails order={order} />
+             <EquipmentList />
+           </>
+         );
     }
   };
 

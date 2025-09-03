@@ -1562,12 +1562,12 @@ const NewOrderModal: React.FC<NewOrderModalProps> = ({ isOpen, onClose, onSubmit
             package_id: eq.is_package ? eq.product_id : undefined
           }));
           
-          // Aquí se usaría orderEquipmentService para persistir
-          // Por ahora solo logueamos la información
+          // Persistir equipos usando el servicio
           console.log('✅ Equipos preparados para persistencia:', serviceEquipment);
           
-          // TODO: Implementar persistencia real usando orderEquipmentService
-          // await orderEquipmentService.addOrderEquipment(createdOrder.id, serviceEquipment);
+          // Persistir equipos en la base de datos
+          const persistedEquipment = await orderEquipmentService.addMultipleEquipmentToOrder(createdOrder.id, serviceEquipment);
+          console.log('✅ Equipos persistidos exitosamente:', persistedEquipment.length);
           
         } catch (equipmentError) {
           console.error('❌ Error persistiendo equipos:', equipmentError);

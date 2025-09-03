@@ -690,6 +690,37 @@ class OrderEquipmentService {
     }
   }
 
+  // Agregar múltiples equipos a una orden
+  async addMultipleEquipmentToOrder(orderId: string, equipmentList: Array<{
+    product_id: string;
+    quantity: number;
+    price: number;
+    notes?: string;
+    is_from_package?: boolean;
+    package_id?: string;
+  }>): Promise<OrderEquipment[]> {
+    try {
+      console.log('🔄 Agregando múltiples equipos a la orden:', orderId);
+      console.log('📋 Equipos a agregar:', equipmentList.length);
+      
+      const addedEquipment: OrderEquipment[] = [];
+      
+      // Agregar cada equipo individualmente
+      for (const equipment of equipmentList) {
+        console.log('➕ Agregando equipo:', equipment.product_id);
+        const added = await this.addEquipmentToOrder(orderId, equipment);
+        addedEquipment.push(added);
+      }
+      
+      console.log('✅ Equipos agregados exitosamente:', addedEquipment.length);
+      return addedEquipment;
+      
+    } catch (error) {
+      console.error('❌ Error agregando múltiples equipos:', error);
+      throw error;
+    }
+  }
+
   // Actualizar equipo de una orden
   async updateOrderEquipment(equipmentId: string, updates: {
     quantity?: number;
