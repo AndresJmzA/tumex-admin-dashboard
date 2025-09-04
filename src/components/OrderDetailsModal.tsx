@@ -2,6 +2,7 @@
 import './OrderDetailsModal.css';
 import { ActionBar } from './ActionBar';
 import { InformationPanel } from './InformationPanel';
+import OrderEquipmentModal from './OrderEquipmentModal';
 import { Action } from '../services/OrderActionService';
 import { CanonicalOrderStatus } from '@/utils/status';
 import { UserRole } from '@/contexts/AuthContext';
@@ -20,6 +21,7 @@ interface Order {
   procedureName?: string;
   notes?: string;
   createdAt?: string;
+  order_products?: any[]; // Lista de equipos/productos de la orden
 }
 
 interface OrderDetailsModalProps {
@@ -40,6 +42,9 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
 }) => {
   // Estado para controlar el estado de carga
   const [isLoading, setIsLoading] = useState(false);
+  
+  // Estado para controlar la visibilidad del modal de equipos
+  const [isEquipmentModalOpen, setEquipmentModalOpen] = useState(false);
 
   // Si no está abierto, no renderizar nada
   if (!isOpen) return null;
@@ -362,7 +367,10 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
         </div>
 
         {/* InformationPanel - Reemplazado el placeholder con el componente real */}
-        <InformationPanel order={order} />
+        <InformationPanel 
+          order={order} 
+          onViewDetailsClick={() => setEquipmentModalOpen(true)}
+        />
 
         {/* ActionBar */}
         <ActionBar 
@@ -372,6 +380,22 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
           isLoading={isLoading}
         />
       </div>
+      
+      {/* Modal de Equipos */}
+      {isEquipmentModalOpen && (
+        <OrderEquipmentModal
+          isOpen={isEquipmentModalOpen}
+          onClose={() => setEquipmentModalOpen(false)}
+          orderId={order.id}
+          patientName={order.patientName || 'Paciente no especificado'}
+          currentEquipment={order.order_products || []}
+          onSave={(equipment, notes) => {
+            console.log('Equipos guardados:', equipment, 'Notas:', notes);
+            // TODO: Implementar lógica para guardar los equipos
+            setEquipmentModalOpen(false);
+          }}
+        />
+      )}
     </div>
   );
 };

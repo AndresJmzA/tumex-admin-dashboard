@@ -36,6 +36,13 @@ export interface PendingOrder {
     name: string;
     role: string;
   }>;
+  order_products?: Array<{
+    id: string;
+    name: string;
+    category: string;
+    quantity: number;
+    price: number;
+  }>;
 }
 
 export interface OrderStatusChange {
@@ -377,7 +384,18 @@ class OperationalDashboardService {
     try {
       const { data: order, error } = await supabase
         .from('Orders')
-        .select('*')
+        .select(`
+          *,
+          Order_Products (
+            quantity,
+            Products (
+              id,
+              name,
+              category,
+              price
+            )
+          )
+        `)
         .eq('id', orderId)
         .single();
 
@@ -421,6 +439,15 @@ class OperationalDashboardService {
         }
       }
 
+      // Mapear los productos de la orden
+      const orderProducts = order.Order_Products?.map(op => ({
+        id: op.Products?.id || 'unknown',
+        name: op.Products?.name || 'Producto desconocido',
+        category: op.Products?.category || 'Sin categoría',
+        quantity: op.quantity || 0,
+        price: op.Products?.price || 0
+      })) || [];
+
       return {
         id: order.id,
         patientName: order.patient_name || 'Sin nombre',
@@ -439,7 +466,8 @@ class OperationalDashboardService {
         hasOverlap,
         overlapDetails,
         warnings,
-        priority: 'medium' as const
+        priority: 'medium' as const,
+        order_products: orderProducts
       };
     } catch (error) {
       console.error('Error obteniendo orden por ID:', error);

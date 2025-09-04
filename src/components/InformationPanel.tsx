@@ -14,11 +14,13 @@ interface Order {
   procedureName?: string;
   notes?: string;
   createdAt?: string;
+  order_products?: any[]; // Lista de equipos/productos de la orden
   // Otros campos de la orden que puedan ser necesarios
 }
 
 interface InformationPanelProps {
   order: Order;
+  onViewDetailsClick?: () => void;
 }
 
 // Componentes placeholder para cada sección de información
@@ -92,15 +94,40 @@ const GeneralDetails: React.FC<{ order: Order }> = ({ order }) => (
   </div>
 );
 
-const EquipmentList: React.FC = () => (
-  <div className={styles.infoSection}>
-    <h4>Lista de Equipos</h4>
-    <div className={styles.placeholderContent}>
-      <p>Equipos solicitados para la orden</p>
-      <p>Especificaciones técnicas, cantidades, etc.</p>
+const EquipmentList: React.FC<{ order: Order; onViewDetailsClick?: () => void }> = ({ order, onViewDetailsClick }) => {
+  // Calcular el número de artículos
+  const itemCount = order.order_products?.length || 0;
+  
+  // Crear texto dinámico para el contador
+  const counterText = itemCount > 0 ? `${itemCount} artículos` : 'No hay artículos en esta orden.';
+
+  return (
+    <div className={styles.infoSection}>
+      <h4>Lista de Equipos</h4>
+      <div className={styles.placeholderContent}>
+        <p>Equipos solicitados para la orden</p>
+        <p>{counterText}</p>
+        {onViewDetailsClick && (
+          <button 
+            onClick={onViewDetailsClick}
+            disabled={itemCount === 0}
+            style={{
+              marginTop: '10px',
+              padding: '8px 16px',
+              backgroundColor: itemCount === 0 ? '#ccc' : '#007bff',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: itemCount === 0 ? 'not-allowed' : 'pointer'
+            }}
+          >
+            Ver Artículos
+          </button>
+        )}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const RejectionDetails: React.FC = () => (
   <div className={styles.infoSection}>
@@ -186,7 +213,7 @@ const CancellationSummary: React.FC = () => (
  * Componente principal que renderiza condicionalmente las secciones de información
  * según el estado actual de la orden
  */
-export const InformationPanel: React.FC<InformationPanelProps> = ({ order }) => {
+export const InformationPanel: React.FC<InformationPanelProps> = ({ order, onViewDetailsClick }) => {
   // Función para renderizar los componentes según el estado
   const renderComponentsByStatus = (status: CanonicalOrderStatus) => {
     switch (status) {
@@ -194,7 +221,7 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({ order }) => 
         return (
           <>
             <GeneralDetails order={order} />
-            <EquipmentList />
+            <EquipmentList order={order} onViewDetailsClick={onViewDetailsClick} />
           </>
         );
 
@@ -202,7 +229,7 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({ order }) => 
         return (
           <>
             <GeneralDetails order={order} />
-            <EquipmentList />
+            <EquipmentList order={order} onViewDetailsClick={onViewDetailsClick} />
             <ConfirmationChecklist />
           </>
         );
@@ -211,7 +238,7 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({ order }) => 
         return (
           <>
             <GeneralDetails order={order} />
-            <EquipmentList />
+            <EquipmentList order={order} onViewDetailsClick={onViewDetailsClick} />
             <ConfirmationChecklist />
           </>
         );
@@ -220,7 +247,7 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({ order }) => 
         return (
           <>
             <GeneralDetails order={order} />
-            <EquipmentList />
+            <EquipmentList order={order} onViewDetailsClick={onViewDetailsClick} />
             <ConfirmationChecklist />
           </>
         );
@@ -229,7 +256,7 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({ order }) => 
         return (
           <>
             <GeneralDetails order={order} />
-            <EquipmentList />
+            <EquipmentList order={order} onViewDetailsClick={onViewDetailsClick} />
             <ConfirmationChecklist />
           </>
         );
@@ -238,7 +265,7 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({ order }) => 
         return (
           <>
             <GeneralDetails order={order} />
-            <EquipmentList />
+            <EquipmentList order={order} onViewDetailsClick={onViewDetailsClick} />
             <PreparationChecklist />
           </>
         );
@@ -247,7 +274,7 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({ order }) => 
         return (
           <>
             <GeneralDetails order={order} />
-            <EquipmentList />
+            <EquipmentList order={order} onViewDetailsClick={onViewDetailsClick} />
             <PreparationChecklist />
           </>
         );
@@ -256,7 +283,7 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({ order }) => 
         return (
           <>
             <GeneralDetails order={order} />
-            <EquipmentList />
+            <EquipmentList order={order} onViewDetailsClick={onViewDetailsClick} />
             <TechnicianDetails />
           </>
         );
@@ -265,7 +292,7 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({ order }) => 
         return (
           <>
             <GeneralDetails order={order} />
-            <EquipmentList />
+            <EquipmentList order={order} onViewDetailsClick={onViewDetailsClick} />
             <TechnicianDetails />
           </>
         );
@@ -274,7 +301,7 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({ order }) => 
         return (
           <>
             <GeneralDetails order={order} />
-            <EquipmentList />
+            <EquipmentList order={order} onViewDetailsClick={onViewDetailsClick} />
             <TechnicianDetails />
           </>
         );
@@ -283,7 +310,7 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({ order }) => 
         return (
           <>
             <GeneralDetails order={order} />
-            <EquipmentList />
+            <EquipmentList order={order} onViewDetailsClick={onViewDetailsClick} />
             <TechnicianDetails />
             <TrackingInfo />
           </>
@@ -293,7 +320,7 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({ order }) => 
         return (
           <>
             <GeneralDetails order={order} />
-            <EquipmentList />
+            <EquipmentList order={order} onViewDetailsClick={onViewDetailsClick} />
             <TechnicianDetails />
             <TrackingInfo />
           </>
@@ -303,7 +330,7 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({ order }) => 
         return (
           <>
             <GeneralDetails order={order} />
-            <EquipmentList />
+            <EquipmentList order={order} onViewDetailsClick={onViewDetailsClick} />
             <TechnicianDetails />
             <TrackingInfo />
           </>
@@ -313,7 +340,7 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({ order }) => 
         return (
           <>
             <GeneralDetails order={order} />
-            <EquipmentList />
+            <EquipmentList order={order} onViewDetailsClick={onViewDetailsClick} />
             <TechnicianDetails />
             <TrackingInfo />
           </>
@@ -323,7 +350,7 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({ order }) => 
         return (
           <>
             <GeneralDetails order={order} />
-            <EquipmentList />
+            <EquipmentList order={order} onViewDetailsClick={onViewDetailsClick} />
             <TechnicianDetails />
             <TrackingInfo />
           </>
@@ -333,7 +360,7 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({ order }) => 
         return (
           <>
             <GeneralDetails order={order} />
-            <EquipmentList />
+            <EquipmentList order={order} onViewDetailsClick={onViewDetailsClick} />
             <TechnicianDetails />
             <TrackingInfo />
           </>
@@ -343,7 +370,7 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({ order }) => 
         return (
           <>
             <GeneralDetails order={order} />
-            <EquipmentList />
+            <EquipmentList order={order} onViewDetailsClick={onViewDetailsClick} />
             <TechnicianDetails />
             <TrackingInfo />
           </>
@@ -353,7 +380,7 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({ order }) => 
         return (
           <>
             <GeneralDetails order={order} />
-            <EquipmentList />
+            <EquipmentList order={order} onViewDetailsClick={onViewDetailsClick} />
             <TechnicianDetails />
             <TrackingInfo />
           </>
@@ -363,7 +390,7 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({ order }) => 
         return (
           <>
             <GeneralDetails order={order} />
-            <EquipmentList />
+            <EquipmentList order={order} onViewDetailsClick={onViewDetailsClick} />
             <TechnicianDetails />
             <TrackingInfo />
           </>
@@ -373,7 +400,7 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({ order }) => 
         return (
           <>
             <GeneralDetails order={order} />
-            <EquipmentList />
+            <EquipmentList order={order} onViewDetailsClick={onViewDetailsClick} />
             <TechnicianDetails />
             <TrackingInfo />
           </>
@@ -383,7 +410,7 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({ order }) => 
         return (
           <>
             <GeneralDetails order={order} />
-            <EquipmentList />
+            <EquipmentList order={order} onViewDetailsClick={onViewDetailsClick} />
             <RejectionDetails />
             <RescheduleForm />
           </>
@@ -393,7 +420,7 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({ order }) => 
         return (
           <>
             <GeneralDetails order={order} />
-            <EquipmentList />
+            <EquipmentList order={order} onViewDetailsClick={onViewDetailsClick} />
             <RescheduleForm />
           </>
         );
@@ -402,7 +429,7 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({ order }) => 
         return (
           <>
             <GeneralDetails order={order} />
-            <EquipmentList />
+            <EquipmentList order={order} onViewDetailsClick={onViewDetailsClick} />
             <ConfirmationChecklist />
           </>
         );
@@ -411,7 +438,7 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({ order }) => 
         return (
           <>
             <GeneralDetails order={order} />
-            <EquipmentList />
+            <EquipmentList order={order} onViewDetailsClick={onViewDetailsClick} />
             <RejectionDetails />
             <RescheduleForm />
           </>
@@ -421,7 +448,7 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({ order }) => 
         return (
           <>
             <GeneralDetails order={order} />
-            <EquipmentList />
+            <EquipmentList order={order} onViewDetailsClick={onViewDetailsClick} />
             <CancellationSummary />
           </>
         );
@@ -430,7 +457,7 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({ order }) => 
         return (
           <>
             <GeneralDetails order={order} />
-            <EquipmentList />
+            <EquipmentList order={order} onViewDetailsClick={onViewDetailsClick} />
           </>
         );
     }
