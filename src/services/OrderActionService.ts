@@ -43,133 +43,16 @@ interface PermissionMatrixEntry {
 export function getAvailableActions(status: CanonicalOrderStatus, role: UserRole): Action[] {
   // Matriz de Permisos reconstruida usando estados y roles canónicos
   const permissionMatrix: PermissionMatrixEntry[] = [
-    // Estado: Orden Creada
+    // Cuando una orden está recién creada
     {
       idEstado: 'created',
       estadoOrden: 'Orden Creada',
-      rolUsuarioAutorizado: UserRole.GERENTE_OPERATIVO,
-      accionesPermitidas: ['EDIT_ORDER', 'DELETE_ORDER'],
-      estadoResultante: 'pending_objects'
-    },
-    
-    // Estado: Pendiente de Objetos
-    {
-      idEstado: 'pending_objects',
-      estadoOrden: 'Pendiente de Objetos',
       rolUsuarioAutorizado: UserRole.GERENTE_OPERATIVO,
       accionesPermitidas: ['ACCEPT_ORDER', 'REJECT_ORDER'],
       estadoResultante: 'approved'
     },
     
-    // Estado: Confirmación con Médico
-    {
-      idEstado: 'doctor_confirmation',
-      estadoOrden: 'Confirmación con Médico',
-      rolUsuarioAutorizado: UserRole.MEDICO,
-      accionesPermitidas: ['CONFIRM_ORDER', 'REJECT_RESCHEDULE'],
-      estadoResultante: 'objects_confirmed'
-    },
-    
-    // Estado: Objetos Confirmados
-    {
-      idEstado: 'objects_confirmed',
-      estadoOrden: 'Objetos Confirmados',
-      rolUsuarioAutorizado: UserRole.GERENTE_COMERCIAL,
-      accionesPermitidas: ['CONTACT_DOCTOR', 'CONFIRM_EQUIPMENT'],
-      estadoResultante: 'templates_ready'
-    },
-    
-    // Estado: Plantillas Listas
-    {
-      idEstado: 'templates_ready',
-      estadoOrden: 'Plantillas Listas',
-      rolUsuarioAutorizado: UserRole.GERENTE_OPERATIVO,
-      accionesPermitidas: ['PREPARE_ORDER'],
-      estadoResultante: 'in_preparation'
-    },
-    
-    // Estado: En Preparación
-    {
-      idEstado: 'in_preparation',
-      estadoOrden: 'En Preparación',
-      rolUsuarioAutorizado: UserRole.GERENTE_OPERATIVO,
-      accionesPermitidas: ['ASSIGN_TECHNICIANS'],
-      estadoResultante: 'technicians_assigned'
-    },
-    
-    // Estado: Técnicos Asignados
-    {
-      idEstado: 'technicians_assigned',
-      estadoOrden: 'Técnicos Asignados',
-      rolUsuarioAutorizado: UserRole.GERENTE_OPERATIVO,
-      accionesPermitidas: ['LOAD_ORDER'],
-      estadoResultante: 'assigned'
-    },
-    
-    // Estado: Asignada
-    {
-      idEstado: 'assigned',
-      estadoOrden: 'Asignada',
-      rolUsuarioAutorizado: UserRole.TECNICO,
-      accionesPermitidas: ['SEND_ORDER'],
-      estadoResultante: 'in_transit'
-    },
-    
-    // Estado: En Tránsito
-    {
-      idEstado: 'in_transit',
-      estadoOrden: 'En Tránsito',
-      rolUsuarioAutorizado: UserRole.TECNICO,
-      accionesPermitidas: ['ARRIVE_LOCATION'],
-      estadoResultante: 'in_progress'
-    },
-    
-    // Estado: En Proceso
-    {
-      idEstado: 'in_progress',
-      estadoOrden: 'En Proceso',
-      rolUsuarioAutorizado: UserRole.TECNICO,
-      accionesPermitidas: ['INSTALL_ORDER'],
-      estadoResultante: 'surgery_prepared'
-    },
-    
-    // Estado: Quirófano Preparado
-    {
-      idEstado: 'surgery_prepared',
-      estadoOrden: 'Quirófano Preparado',
-      rolUsuarioAutorizado: UserRole.MEDICO,
-      accionesPermitidas: ['COMPLETE_ORDER'],
-      estadoResultante: 'surgery_completed'
-    },
-    
-    // Estado: Cirugía Completada
-    {
-      idEstado: 'surgery_completed',
-      estadoOrden: 'Cirugía Completada',
-      rolUsuarioAutorizado: UserRole.TECNICO,
-      accionesPermitidas: ['RETURN_BASE'],
-      estadoResultante: 'returned'
-    },
-    
-    // Estado: De Vuelta
-    {
-      idEstado: 'returned',
-      estadoOrden: 'De Vuelta',
-      rolUsuarioAutorizado: UserRole.GERENTE_OPERATIVO,
-      accionesPermitidas: ['CLOSE_ORDER'],
-      estadoResultante: 'completed'
-    },
-    
-    // Estado: Aprobada
-    {
-      idEstado: 'approved',
-      estadoOrden: 'Aprobada',
-      rolUsuarioAutorizado: UserRole.GERENTE_COMERCIAL,
-      accionesPermitidas: ['CONTACT_DOCTOR', 'CONFIRM_EQUIPMENT'],
-      estadoResultante: 'doctor_confirmation'
-    },
-    
-    // Estado: Rechazada
+    // Cuando una orden es rechazada
     {
       idEstado: 'rejected',
       estadoOrden: 'Rechazada',
@@ -178,7 +61,115 @@ export function getAvailableActions(status: CanonicalOrderStatus, role: UserRole
       estadoResultante: 'rescheduled'
     },
     
-    // Estado: Reagendada
+    // Cuando una orden ha sido aprobada por operaciones
+    {
+      idEstado: 'approved',
+      estadoOrden: 'Aprobada',
+      rolUsuarioAutorizado: UserRole.MEDICO,
+      accionesPermitidas: ['CONFIRM_ORDER'],
+      estadoResultante: 'doctor_confirmation'
+    },
+    
+    // Cuando una orden está en confirmación con el médico
+    {
+      idEstado: 'doctor_confirmation',
+      estadoOrden: 'Confirmación con Médico',
+      rolUsuarioAutorizado: UserRole.MEDICO,
+      accionesPermitidas: ['CONFIRM_ORDER', 'REJECT_RESCHEDULE'],
+      estadoResultante: 'objects_confirmed'
+    },
+    
+    // Cuando los objetos han sido confirmados
+    {
+      idEstado: 'objects_confirmed',
+      estadoOrden: 'Objetos Confirmados',
+      rolUsuarioAutorizado: UserRole.GERENTE_COMERCIAL,
+      accionesPermitidas: ['CONTACT_DOCTOR', 'CONFIRM_EQUIPMENT'],
+      estadoResultante: 'templates_ready'
+    },
+    
+    // Cuando las plantillas están listas
+    {
+      idEstado: 'templates_ready',
+      estadoOrden: 'Plantillas Listas',
+      rolUsuarioAutorizado: UserRole.GERENTE_OPERATIVO,
+      accionesPermitidas: ['PREPARE_ORDER'],
+      estadoResultante: 'in_preparation'
+    },
+    
+    // Cuando la orden está en preparación
+    {
+      idEstado: 'in_preparation',
+      estadoOrden: 'En Preparación',
+      rolUsuarioAutorizado: UserRole.GERENTE_OPERATIVO,
+      accionesPermitidas: ['ASSIGN_TECHNICIANS'],
+      estadoResultante: 'technicians_assigned'
+    },
+    
+    // Cuando los técnicos han sido asignados
+    {
+      idEstado: 'technicians_assigned',
+      estadoOrden: 'Técnicos Asignados',
+      rolUsuarioAutorizado: UserRole.TECNICO,
+      accionesPermitidas: ['LOAD_ORDER'],
+      estadoResultante: 'assigned'
+    },
+    
+    // Cuando la orden está asignada a técnicos
+    {
+      idEstado: 'assigned',
+      estadoOrden: 'Asignada',
+      rolUsuarioAutorizado: UserRole.TECNICO,
+      accionesPermitidas: ['SEND_ORDER'],
+      estadoResultante: 'in_transit'
+    },
+    
+    // Cuando la orden está en tránsito
+    {
+      idEstado: 'in_transit',
+      estadoOrden: 'En Tránsito',
+      rolUsuarioAutorizado: UserRole.TECNICO,
+      accionesPermitidas: ['ARRIVE_LOCATION'],
+      estadoResultante: 'in_progress'
+    },
+    
+    // Cuando la orden está en proceso
+    {
+      idEstado: 'in_progress',
+      estadoOrden: 'En Proceso',
+      rolUsuarioAutorizado: UserRole.TECNICO,
+      accionesPermitidas: ['INSTALL_ORDER'],
+      estadoResultante: 'surgery_prepared'
+    },
+    
+    // Cuando el quirófano está preparado
+    {
+      idEstado: 'surgery_prepared',
+      estadoOrden: 'Quirófano Preparado',
+      rolUsuarioAutorizado: UserRole.MEDICO,
+      accionesPermitidas: ['COMPLETE_ORDER'],
+      estadoResultante: 'surgery_completed'
+    },
+    
+    // Cuando la cirugía ha sido completada
+    {
+      idEstado: 'surgery_completed',
+      estadoOrden: 'Cirugía Completada',
+      rolUsuarioAutorizado: UserRole.TECNICO,
+      accionesPermitidas: ['RETURN_BASE'],
+      estadoResultante: 'returned'
+    },
+    
+    // Cuando los técnicos han regresado
+    {
+      idEstado: 'returned',
+      estadoOrden: 'De Vuelta',
+      rolUsuarioAutorizado: UserRole.GERENTE_OPERATIVO,
+      accionesPermitidas: ['CLOSE_ORDER'],
+      estadoResultante: 'completed'
+    },
+    
+    // Cuando la orden ha sido reagendada
     {
       idEstado: 'rescheduled',
       estadoOrden: 'Reagendada',
@@ -187,7 +178,7 @@ export function getAvailableActions(status: CanonicalOrderStatus, role: UserRole
       estadoResultante: 'created'
     },
     
-    // Estado: Aceptada por Médico
+    // Cuando la orden ha sido aceptada por el médico
     {
       idEstado: 'doctor_approved',
       estadoOrden: 'Aceptada por Médico',
@@ -196,7 +187,7 @@ export function getAvailableActions(status: CanonicalOrderStatus, role: UserRole
       estadoResultante: 'templates_ready'
     },
     
-    // Estado: Rechazada por Médico
+    // Cuando la orden ha sido rechazada por el médico
     {
       idEstado: 'doctor_rejected',
       estadoOrden: 'Rechazada por Médico',
@@ -205,7 +196,7 @@ export function getAvailableActions(status: CanonicalOrderStatus, role: UserRole
       estadoResultante: 'cancelled'
     },
     
-    // Estado: Lista para Técnicos
+    // Cuando la orden está lista para técnicos
     {
       idEstado: 'ready_for_technicians',
       estadoOrden: 'Lista para Técnicos',
@@ -214,7 +205,7 @@ export function getAvailableActions(status: CanonicalOrderStatus, role: UserRole
       estadoResultante: 'assigned'
     },
     
-    // Estado: Equipos Trasladados
+    // Cuando los equipos han sido trasladados
     {
       idEstado: 'equipment_transported',
       estadoOrden: 'Equipos Trasladados',
@@ -223,7 +214,7 @@ export function getAvailableActions(status: CanonicalOrderStatus, role: UserRole
       estadoResultante: 'surgery_prepared'
     },
     
-    // Estado: Lista para Facturar
+    // Cuando la orden está lista para facturar
     {
       idEstado: 'ready_for_billing',
       estadoOrden: 'Lista para Facturar',
@@ -232,7 +223,7 @@ export function getAvailableActions(status: CanonicalOrderStatus, role: UserRole
       estadoResultante: 'billed'
     },
     
-    // Estado: Facturada
+    // Cuando la orden ha sido facturada
     {
       idEstado: 'billed',
       estadoOrden: 'Facturada',
@@ -241,7 +232,7 @@ export function getAvailableActions(status: CanonicalOrderStatus, role: UserRole
       estadoResultante: 'completed'
     },
     
-    // Estado: Remisión Creada
+    // Cuando se ha creado la remisión
     {
       idEstado: 'remission_created',
       estadoOrden: 'Remisión Creada',
@@ -250,7 +241,7 @@ export function getAvailableActions(status: CanonicalOrderStatus, role: UserRole
       estadoResultante: 'ready_for_billing'
     },
     
-    // Estados finales (no tienen acciones permitidas)
+    // Estados finales
     {
       idEstado: 'completed',
       estadoOrden: 'Completada',

@@ -59,6 +59,60 @@
   box-shadow: none;
 }
 
+/* Estilos específicos para botones de aceptar (verde) */
+.acceptButton {
+  background-color: hsl(142, 76%, 36%) !important;
+  border-color: hsl(142, 76%, 36%) !important;
+  color: white !important;
+}
+
+.acceptButton:hover:not(:disabled) {
+  background-color: hsl(142, 76%, 32%) !important;
+  border-color: hsl(142, 76%, 32%) !important;
+  color: white !important;
+}
+
+.acceptButton:active:not(:disabled) {
+  background-color: hsl(142, 76%, 28%) !important;
+  border-color: hsl(142, 76%, 28%) !important;
+}
+
+/* Estilos específicos para botones de rechazar (rojo) */
+.rejectButton {
+  background-color: hsl(0, 84%, 60%) !important;
+  border-color: hsl(0, 84%, 60%) !important;
+  color: white !important;
+}
+
+.rejectButton:hover:not(:disabled) {
+  background-color: hsl(0, 84%, 56%) !important;
+  border-color: hsl(0, 84%, 56%) !important;
+  color: white !important;
+}
+
+.rejectButton:active:not(:disabled) {
+  background-color: hsl(0, 84%, 52%) !important;
+  border-color: hsl(0, 84%, 52%) !important;
+}
+
+/* Estilos específicos para botones de advertencia (amarillo/naranja) */
+.warningButton {
+  background-color: hsl(38, 92%, 50%) !important;
+  border-color: hsl(38, 92%, 50%) !important;
+  color: white !important;
+}
+
+.warningButton:hover:not(:disabled) {
+  background-color: hsl(38, 92%, 46%) !important;
+  border-color: hsl(38, 92%, 46%) !important;
+  color: white !important;
+}
+
+.warningButton:active:not(:disabled) {
+  background-color: hsl(38, 92%, 42%) !important;
+  border-color: hsl(38, 92%, 42%) !important;
+}
+
 .noActions {
   text-align: center;
   color: hsl(var(--muted-foreground));

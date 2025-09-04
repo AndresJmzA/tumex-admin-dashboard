@@ -1,9 +1,12 @@
 ﻿import React, { useState } from 'react';
 import './OrderDetailsModal.css';
 import { ActionBar } from './ActionBar';
+import { InformationPanel } from './InformationPanel';
 import { Action } from '../services/OrderActionService';
 import { CanonicalOrderStatus } from '@/utils/status';
 import { UserRole } from '@/contexts/AuthContext';
+import { operationalDashboardService } from '@/services/operationalDashboardService';
+import { orderService } from '@/services/orderService';
 
 // Interfaces TypeScript
 interface Order {
@@ -11,6 +14,12 @@ interface Order {
   status: CanonicalOrderStatus;
   customerName?: string;
   patientName?: string;
+  surgeryDate?: string;
+  surgeryTime?: string;
+  surgeryLocation?: string;
+  procedureName?: string;
+  notes?: string;
+  createdAt?: string;
 }
 
 interface OrderDetailsModalProps {
@@ -20,22 +29,6 @@ interface OrderDetailsModalProps {
   onClose: () => void;
   onUpdate: () => void;
 }
-
-// Cliente API simulado
-const apiClient = {
-  patch: (url: string, data: any) => {
-    console.log(`PATCH a ${url} con datos:`, data);
-    return new Promise(resolve => setTimeout(() => resolve({ success: true }), 1000));
-  },
-  post: (url: string, data: any) => {
-    console.log(`POST a ${url} con datos:`, data);
-    return new Promise(resolve => setTimeout(() => resolve({ success: true }), 1000));
-  },
-  put: (url: string, data: any) => {
-    console.log(`PUT a ${url} con datos:`, data);
-    return new Promise(resolve => setTimeout(() => resolve({ success: true }), 1000));
-  }
-};
 
 // Componente principal del modal
 const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
@@ -117,16 +110,20 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
     return statusNames[status] || status;
   };
 
-  // Definir todos los manejadores de acciones con llamadas a API simuladas
+  // Definir todos los manejadores de acciones usando servicios reales
   const handleAcceptOrder = async () => {
     setIsLoading(true);
     try {
-      await apiClient.patch(`/api/orders/${order.id}/accept`, {});
-      console.log('Orden aceptada exitosamente');
-      // Llamar a onUpdate para refrescar los datos de la orden
-      onUpdate();
+      // Usar servicio real para aprobar la orden
+      const success = await operationalDashboardService.approveOrder(order.id);
+      if (success) {
+        console.log('✅ Orden aceptada exitosamente');
+        onUpdate(); // Refrescar datos
+      } else {
+        throw new Error('Error al aprobar la orden');
+      }
     } catch (error) {
-      console.error('Error al aceptar la orden:', error);
+      console.error('❌ Error al aceptar la orden:', error);
       alert('Error al aceptar la orden. Por favor, inténtalo de nuevo.');
     } finally {
       setIsLoading(false);
@@ -136,12 +133,16 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
   const handleRejectOrder = async () => {
     setIsLoading(true);
     try {
-      await apiClient.patch(`/api/orders/${order.id}/reject`, {});
-      console.log('Orden rechazada exitosamente');
-      // Llamar a onUpdate para refrescar los datos de la orden
-      onUpdate();
+      // Usar servicio real para rechazar la orden
+      const success = await operationalDashboardService.rejectOrder(order.id, 'Rechazada desde el modal');
+      if (success) {
+        console.log('✅ Orden rechazada exitosamente');
+        onUpdate(); // Refrescar datos
+      } else {
+        throw new Error('Error al rechazar la orden');
+      }
     } catch (error) {
-      console.error('Error al rechazar la orden:', error);
+      console.error('❌ Error al rechazar la orden:', error);
       alert('Error al rechazar la orden. Por favor, inténtalo de nuevo.');
     } finally {
       setIsLoading(false);
@@ -151,12 +152,12 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
   const handleConfirmSurgery = async () => {
     setIsLoading(true);
     try {
-      await apiClient.patch(`/api/orders/${order.id}/confirm-surgery`, {});
-      console.log('Cirugía confirmada exitosamente');
-      // Llamar a onUpdate para refrescar los datos de la orden
-      onUpdate();
+      // Usar servicio real para actualizar estado a 'objects_confirmed'
+      await orderService.updateOrderStatus(order.id, 'objects_confirmed' as any);
+      console.log('✅ Cirugía confirmada exitosamente');
+      onUpdate(); // Refrescar datos
     } catch (error) {
-      console.error('Error al confirmar la cirugía:', error);
+      console.error('❌ Error al confirmar la cirugía:', error);
       alert('Error al confirmar la cirugía. Por favor, inténtalo de nuevo.');
     } finally {
       setIsLoading(false);
@@ -166,12 +167,12 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
   const handleAssignTechnician = async () => {
     setIsLoading(true);
     try {
-      await apiClient.post(`/api/orders/${order.id}/assign-technician`, {});
-      console.log('Técnico asignado exitosamente');
-      // Llamar a onUpdate para refrescar los datos de la orden
-      onUpdate();
+      // Usar servicio real para actualizar estado a 'technicians_assigned'
+      await orderService.updateOrderStatus(order.id, 'technicians_assigned' as any);
+      console.log('✅ Técnico asignado exitosamente');
+      onUpdate(); // Refrescar datos
     } catch (error) {
-      console.error('Error al asignar técnico:', error);
+      console.error('❌ Error al asignar técnico:', error);
       alert('Error al asignar técnico. Por favor, inténtalo de nuevo.');
     } finally {
       setIsLoading(false);
@@ -179,14 +180,14 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
   };
 
   const handleConfirmTechnicianAvailability = async () => {
-      setIsLoading(true);
+    setIsLoading(true);
     try {
-      await apiClient.patch(`/api/orders/${order.id}/confirm-technician-availability`, {});
-      console.log('Disponibilidad del técnico confirmada exitosamente');
-      // Llamar a onUpdate para refrescar los datos de la orden
-      onUpdate();
+      // Usar servicio real para actualizar estado a 'ready_for_technicians'
+      await orderService.updateOrderStatus(order.id, 'ready_for_technicians' as any);
+      console.log('✅ Disponibilidad del técnico confirmada exitosamente');
+      onUpdate(); // Refrescar datos
     } catch (error) {
-      console.error('Error al confirmar disponibilidad del técnico:', error);
+      console.error('❌ Error al confirmar disponibilidad del técnico:', error);
       alert('Error al confirmar disponibilidad del técnico. Por favor, inténtalo de nuevo.');
     } finally {
       setIsLoading(false);
@@ -196,12 +197,12 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
   const handlePrepareEquipment = async () => {
     setIsLoading(true);
     try {
-      await apiClient.patch(`/api/orders/${order.id}/prepare-equipment`, {});
-      console.log('Equipos preparados exitosamente');
-      // Llamar a onUpdate para refrescar los datos de la orden
-      onUpdate();
+      // Usar servicio real para actualizar estado a 'in_preparation'
+      await orderService.updateOrderStatus(order.id, 'in_preparation' as any);
+      console.log('✅ Equipos preparados exitosamente');
+      onUpdate(); // Refrescar datos
     } catch (error) {
-      console.error('Error al preparar equipos:', error);
+      console.error('❌ Error al preparar equipos:', error);
       alert('Error al preparar equipos. Por favor, inténtalo de nuevo.');
     } finally {
       setIsLoading(false);
@@ -211,12 +212,12 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
   const handleStartSurgery = async () => {
     setIsLoading(true);
     try {
-      await apiClient.patch(`/api/orders/${order.id}/start-surgery`, {});
-      console.log('Cirugía iniciada exitosamente');
-      // Llamar a onUpdate para refrescar los datos de la orden
-      onUpdate();
+      // Usar servicio real para actualizar estado a 'in_progress'
+      await orderService.updateOrderStatus(order.id, 'in_progress' as any);
+      console.log('✅ Cirugía iniciada exitosamente');
+      onUpdate(); // Refrescar datos
     } catch (error) {
-      console.error('Error al iniciar la cirugía:', error);
+      console.error('❌ Error al iniciar la cirugía:', error);
       alert('Error al iniciar la cirugía. Por favor, inténtalo de nuevo.');
     } finally {
       setIsLoading(false);
@@ -226,12 +227,12 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
   const handleCompleteSurgery = async () => {
     setIsLoading(true);
     try {
-      await apiClient.patch(`/api/orders/${order.id}/complete-surgery`, {});
-      console.log('Cirugía completada exitosamente');
-      // Llamar a onUpdate para refrescar los datos de la orden
-      onUpdate();
+      // Usar servicio real para actualizar estado a 'surgery_completed'
+      await orderService.updateOrderStatus(order.id, 'surgery_completed' as any);
+      console.log('✅ Cirugía completada exitosamente');
+      onUpdate(); // Refrescar datos
     } catch (error) {
-      console.error('Error al completar la cirugía:', error);
+      console.error('❌ Error al completar la cirugía:', error);
       alert('Error al completar la cirugía. Por favor, inténtalo de nuevo.');
     } finally {
       setIsLoading(false);
@@ -241,12 +242,12 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
   const handleReturnEquipment = async () => {
     setIsLoading(true);
     try {
-      await apiClient.patch(`/api/orders/${order.id}/return-equipment`, {});
-      console.log('Equipos devueltos exitosamente');
-      // Llamar a onUpdate para refrescar los datos de la orden
-      onUpdate();
+      // Usar servicio real para actualizar estado a 'returned'
+      await orderService.updateOrderStatus(order.id, 'returned' as any);
+      console.log('✅ Equipos devueltos exitosamente');
+      onUpdate(); // Refrescar datos
     } catch (error) {
-      console.error('Error al devolver equipos:', error);
+      console.error('❌ Error al devolver equipos:', error);
       alert('Error al devolver equipos. Por favor, inténtalo de nuevo.');
     } finally {
       setIsLoading(false);
@@ -256,12 +257,12 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
   const handleApproveCompletion = async () => {
     setIsLoading(true);
     try {
-      await apiClient.patch(`/api/orders/${order.id}/approve-completion`, {});
-      console.log('Finalización aprobada exitosamente');
-      // Llamar a onUpdate para refrescar los datos de la orden
-      onUpdate();
+      // Usar servicio real para actualizar estado a 'completed'
+      await orderService.updateOrderStatus(order.id, 'completed' as any);
+      console.log('✅ Finalización aprobada exitosamente');
+      onUpdate(); // Refrescar datos
     } catch (error) {
-      console.error('Error al aprobar la finalización:', error);
+      console.error('❌ Error al aprobar la finalización:', error);
       alert('Error al aprobar la finalización. Por favor, inténtalo de nuevo.');
     } finally {
       setIsLoading(false);
@@ -271,12 +272,12 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
   const handleCancelOrder = async () => {
     setIsLoading(true);
     try {
-      await apiClient.patch(`/api/orders/${order.id}/cancel`, {});
-      console.log('Orden cancelada exitosamente');
-      // Llamar a onUpdate para refrescar los datos de la orden
-      onUpdate();
+      // Usar servicio real para actualizar estado a 'cancelled'
+      await orderService.updateOrderStatus(order.id, 'cancelled' as any);
+      console.log('✅ Orden cancelada exitosamente');
+      onUpdate(); // Refrescar datos
     } catch (error) {
-      console.error('Error al cancelar la orden:', error);
+      console.error('❌ Error al cancelar la orden:', error);
       alert('Error al cancelar la orden. Por favor, inténtalo de nuevo.');
     } finally {
       setIsLoading(false);
@@ -287,27 +288,60 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
   const actionHandlers: Record<Action, () => Promise<void>> = {
     ACCEPT_ORDER: handleAcceptOrder,
     REJECT_ORDER: handleRejectOrder,
-    RESCHEDULE_ORDER: async () => { console.log('Reprogramar Orden'); },
-    CONTACT_DOCTOR: async () => { console.log('Contactar Doctor'); },
-    CONFIRM_EQUIPMENT: async () => { console.log('Confirmar Equipos'); },
+    RESCHEDULE_ORDER: async () => { 
+      console.log('🔄 Reprogramar Orden - Función pendiente de implementar');
+      // TODO: Implementar lógica de reprogramación
+    },
+    CONTACT_DOCTOR: async () => { 
+      console.log('🔄 Contactar Doctor - Función pendiente de implementar');
+      // TODO: Implementar lógica de contacto con doctor
+    },
+    CONFIRM_EQUIPMENT: async () => { 
+      console.log('🔄 Confirmar Equipos - Función pendiente de implementar');
+      // TODO: Implementar lógica de confirmación de equipos
+    },
     CONFIRM_ORDER: handleConfirmSurgery, // Mapear a función existente
-    REJECT_RESCHEDULE: async () => { console.log('Rechazar Reprogramación'); },
+    REJECT_RESCHEDULE: async () => { 
+      console.log('🔄 Rechazar Reprogramación - Función pendiente de implementar');
+      // TODO: Implementar lógica de rechazo de reprogramación
+    },
     PREPARE_ORDER: handlePrepareEquipment, // Mapear a función existente
     ASSIGN_TECHNICIANS: handleAssignTechnician, // Mapear a función existente
-    LOAD_ORDER: async () => { console.log('Cargar Orden'); },
-    SEND_ORDER: async () => { console.log('Enviar Orden'); },
-    ARRIVE_LOCATION: async () => { console.log('Llegar al Lugar'); },
-    INSTALL_ORDER: async () => { console.log('Instalar Orden'); },
+    LOAD_ORDER: async () => { 
+      console.log('🔄 Cargar Orden - Función pendiente de implementar');
+      // TODO: Implementar lógica de carga de orden
+    },
+    SEND_ORDER: async () => { 
+      console.log('🔄 Enviar Orden - Función pendiente de implementar');
+      // TODO: Implementar lógica de envío de orden
+    },
+    ARRIVE_LOCATION: async () => { 
+      console.log('🔄 Llegar al Lugar - Función pendiente de implementar');
+      // TODO: Implementar lógica de llegada al lugar
+    },
+    INSTALL_ORDER: async () => { 
+      console.log('🔄 Instalar Orden - Función pendiente de implementar');
+      // TODO: Implementar lógica de instalación
+    },
     COMPLETE_ORDER: handleCompleteSurgery, // Mapear a función existente
     RETURN_BASE: handleReturnEquipment, // Mapear a función existente
     CLOSE_ORDER: handleApproveCompletion, // Mapear a función existente
-    REOPEN_ORDER: async () => { console.log('Reabrir Orden'); },
-    VIEW_ORDER_HISTORY: async () => { console.log('Ver Historial'); },
-    EDIT_ORDER: async () => { console.log('Editar Orden'); },
+    REOPEN_ORDER: async () => { 
+      console.log('🔄 Reabrir Orden - Función pendiente de implementar');
+      // TODO: Implementar lógica de reapertura
+    },
+    VIEW_ORDER_HISTORY: async () => { 
+      console.log('🔄 Ver Historial - Función pendiente de implementar');
+      // TODO: Implementar lógica de visualización de historial
+    },
+    EDIT_ORDER: async () => { 
+      console.log('🔄 Editar Orden - Función pendiente de implementar');
+      // TODO: Implementar lógica de edición
+    },
     DELETE_ORDER: handleCancelOrder // Mapear a función existente
   };
 
-    return (
+  return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-container" onClick={(e) => e.stopPropagation()}>
         
@@ -320,25 +354,15 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
               style={{ backgroundColor: getStatusBadgeColor(order.status) }}
             >
               {getStatusDisplayName(order.status)}
-                    </div>
-                      </div>
+            </div>
+          </div>
           <button className="close-button" onClick={onClose}>
             ✕
           </button>
-                      </div>
+        </div>
 
-        {/* InformationPanel */}
-        <div className="information-panel">
-          <div className="panel-content">
-            <h3>Información de la Orden</h3>
-            <p><strong>Cliente:</strong> {order.customerName || order.patientName || 'N/A'}</p>
-            <p><strong>Estado:</strong> {getStatusDisplayName(order.status)}</p>
-            <p><strong>Rol del Usuario:</strong> {currentUserRole}</p>
-            <div className="placeholder-text">
-              Detalles de la orden se mostrarán aquí.
-                    </div>
-                          </div>
-                          </div>
+        {/* InformationPanel - Reemplazado el placeholder con el componente real */}
+        <InformationPanel order={order} />
 
         {/* ActionBar */}
         <ActionBar 
@@ -347,9 +371,9 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
           actions={actionHandlers}
           isLoading={isLoading}
         />
-              </div>
-              </div>
+      </div>
+    </div>
   );
 };
 
-export default OrderDetailsModal; 
+export default OrderDetailsModal;

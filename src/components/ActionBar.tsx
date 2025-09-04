@@ -55,13 +55,39 @@ export const ActionBar: React.FC<ActionBarProps> = ({ status, role, actions, isL
     );
   }
 
+  // Función para obtener la clase CSS específica según la acción
+  const getActionButtonClass = (action: Action): string => {
+    const baseClass = styles.actionButton;
+    
+    switch (action) {
+      case 'ACCEPT_ORDER':
+      case 'CONFIRM_ORDER':
+      case 'COMPLETE_ORDER':
+      case 'CLOSE_ORDER':
+        return `${baseClass} ${styles.acceptButton}`;
+      
+      case 'REJECT_ORDER':
+      case 'REJECT_RESCHEDULE':
+      case 'DELETE_ORDER':
+        return `${baseClass} ${styles.rejectButton}`;
+      
+      case 'RESCHEDULE_ORDER':
+      case 'EDIT_ORDER':
+      case 'REOPEN_ORDER':
+        return `${baseClass} ${styles.warningButton}`;
+      
+      default:
+        return baseClass;
+    }
+  };
+
   return (
     <div className={styles.actionBar}>
       <div className={styles.actionsContainer}>
         {availableActions.map((action) => (
           <button
             key={action}
-            className={styles.actionButton}
+            className={getActionButtonClass(action)}
             onClick={actions[action]}
             type="button"
             disabled={isLoading}
