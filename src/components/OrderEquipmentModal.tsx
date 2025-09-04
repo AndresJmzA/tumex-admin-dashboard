@@ -11,7 +11,8 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/components/ui/use-toast';
 import { X, Plus, Minus, Package, Settings, RefreshCw } from 'lucide-react';
 import { useOptimizedPackages } from '../hooks/useOptimizedPackages';
-import { PackageSelectionModal } from './PackageSelectionModal';
+import { PackageSelectionModal, SelectedPackageProduct } from './PackageSelectionModal';
+import { orderService } from '../services/orderService';
 
 // Tipos para el modal de modificación de equipos
 interface OrderEquipment {
@@ -95,9 +96,22 @@ const OrderEquipmentModal: React.FC<OrderEquipmentModalProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPackageModal, setShowPackageModal] = useState(false);
   const [currentPackage, setCurrentPackage] = useState<any>(null);
+  const [procedureInfo, setProcedureInfo] = useState<{ id: string; name: string } | null>(null);
   
   const { toast } = useToast();
   const { applyPackageToOrder } = useOptimizedPackages();
+
+  // Cargar información del procedimiento
+  useEffect(() => {
+    const loadProcedureInfo = async () => {
+      if (procedureId) {
+        const procedure = await orderService.getProcedureById(procedureId);
+        setProcedureInfo(procedure);
+      }
+    };
+    
+    loadProcedureInfo();
+  }, [procedureId]);
 
   // Categorías disponibles (incluyendo las del paquete optimizado)
   const categories = [
@@ -164,18 +178,27 @@ const OrderEquipmentModal: React.FC<OrderEquipmentModalProps> = ({
   };
 
   // Aplicar paquete a la orden
-  const handlePackageSelected = async (procedureId: string, packageData: any) => {
+  const handlePackageSelected = async (selectedProducts: SelectedPackageProduct[]) => {
     try {
+      // Obtener procedureId del estado o props
+      const currentProcedureId = procedureId || 'default';
+      
+      // Convertir selectedProducts al formato esperado
+      const packageData = {
+        procedure_name: procedureInfo?.name || 'Procedimiento',
+        categories: [{ products: selectedProducts }]
+      };
+      
       setCurrentPackage(packageData);
       
       // Aplicar el paquete usando el servicio
-      const result = await applyPackageToOrder(orderId, procedureId, {
+      const result = await applyPackageToOrder(orderId, currentProcedureId, {
         replace_existing: true,
         confirm_equipment: true,
         user_id: 'current_user' // Esto debería venir del contexto de autenticación
       });
 
-      if (result.success) {
+      if (result && result.length > 0) {
         // Convertir los productos del paquete al formato de OrderEquipment
         const packageProducts: OrderEquipment[] = packageData.categories.flatMap((category: any) =>
           category.products.map((product: any) => ({
@@ -186,7 +209,7 @@ const OrderEquipmentModal: React.FC<OrderEquipmentModalProps> = ({
             price: product.price,
             isSelected: true,
             isFromPackage: true,
-            packageId: procedureId
+            packageId: currentProcedureId
           }))
         );
 
@@ -264,10 +287,18 @@ const OrderEquipmentModal: React.FC<OrderEquipmentModalProps> = ({
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-blue-900">
                 <Package className="h-5 w-5" />
-                Gestión de Paquetes
+                Gestión de la Orden
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
+              {/* Información del procedimiento */}
+              <div className="bg-white p-4 rounded-lg border border-blue-200">
+                <div className="text-sm text-blue-800 font-medium mb-2">Información del Procedimiento:</div>
+                <div className="text-lg text-blue-900">
+                  {procedureInfo ? procedureInfo.name : 'No se aplicó paquete'}
+                </div>
+              </div>
+              
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="text-center">
                   <div className="text-2xl font-bold text-blue-600">{stats.packageItems}</div>
@@ -319,108 +350,62 @@ const OrderEquipmentModal: React.FC<OrderEquipmentModalProps> = ({
             </CardContent>
           </Card>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Panel izquierdo: Equipos disponibles */}
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="category">Filtrar por categoría</Label>
-                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {categories.map(category => (
-                      <SelectItem key={category.value} value={category.value}>
-                        {category.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <h3 className="font-semibold">Equipos Disponibles</h3>
-                <div className="space-y-2 max-h-96 overflow-y-auto">
-                  {filteredEquipment.map(item => (
-                    <Card key={item.id} className="p-3">
-                      <div className="flex items-center justify-between">
-                        <div className="flex-1">
-                          <div className="font-medium">{item.name}</div>
-                          <div className="text-sm text-gray-600">{item.category}</div>
-                          <div className="text-sm font-medium text-blue-600">
-                            ${item.price.toLocaleString()}
-                          </div>
-                        </div>
-                        <Button
-                          size="sm"
-                          onClick={() => addEquipment(item)}
-                          className="ml-2"
-                        >
-                          <Plus className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </Card>
-                  ))}
-                </div>
+          {/* Panel de artículos de la orden */}
+          <div className="space-y-4">
+            <div>
+              <h3 className="font-semibold">Artículos de la Orden</h3>
+              <div className="text-sm text-gray-600">
+                {equipment.length} artículos seleccionados
               </div>
             </div>
 
-            {/* Panel derecho: Equipos seleccionados */}
-            <div className="space-y-4">
-              <div>
-                <h3 className="font-semibold">Equipos de la Orden</h3>
-                <div className="text-sm text-gray-600">
-                  {equipment.length} equipos seleccionados
+            <div className="space-y-2 max-h-96 overflow-y-auto">
+              {equipment.length === 0 ? (
+                <div className="text-center py-8 text-gray-500">
+                  No hay equipos seleccionados
                 </div>
-              </div>
-
-              <div className="space-y-2 max-h-96 overflow-y-auto">
-                {equipment.length === 0 ? (
-                  <div className="text-center py-8 text-gray-500">
-                    No hay equipos seleccionados
-                  </div>
-                ) : (
-                  equipment.map(item => (
-                    <Card key={item.id} className={`p-3 ${item.isFromPackage ? 'border-l-4 border-l-blue-500 bg-blue-50' : ''}`}>
-                      <div className="flex items-center justify-between">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2">
-                            <div className="font-medium">{item.name}</div>
-                            {item.isFromPackage && (
-                              <Badge variant="secondary" className="text-xs">
-                                <Package className="h-3 w-3 mr-1" />
-                                Paquete
-                              </Badge>
-                            )}
-                          </div>
-                          <div className="text-sm text-gray-600">{item.category}</div>
-                          <div className="text-sm font-medium text-blue-600">
-                            ${(item.price * item.quantity).toLocaleString()}
-                          </div>
-                        </div>
+              ) : (
+                equipment.map(item => (
+                  <Card key={item.id} className={`p-3 ${item.isFromPackage ? 'border-l-4 border-l-blue-500 bg-blue-50' : ''}`}>
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1">
                         <div className="flex items-center gap-2">
-                          <div className="flex items-center gap-1">
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => changeQuantity(item.id, item.quantity - 1)}
-                            >
-                              <Minus className="h-3 w-3" />
-                            </Button>
-                            <span className="w-8 text-center text-sm">{item.quantity}</span>
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => changeQuantity(item.id, item.quantity + 1)}
-                            >
-                              <Plus className="h-3 w-3" />
-                            </Button>
-                          </div>
+                          <div className="font-medium">{item.name}</div>
+                          {item.isFromPackage && (
+                            <Badge variant="secondary" className="text-xs">
+                              <Package className="h-3 w-3 mr-1" />
+                              Paquete
+                            </Badge>
+                          )}
+                        </div>
+                        <div className="text-sm text-gray-600">{item.category}</div>
+                        <div className="text-sm font-medium text-blue-600">
+                          ${(item.price * item.quantity).toLocaleString()}
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1">
                           <Button
                             size="sm"
-                            variant="destructive"
-                            onClick={() => removeEquipment(item.id)}
+                            variant="outline"
+                            onClick={() => changeQuantity(item.id, item.quantity - 1)}
                           >
+                            <Minus className="h-3 w-3" />
+                          </Button>
+                          <span className="w-8 text-center text-sm">{item.quantity}</span>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => changeQuantity(item.id, item.quantity + 1)}
+                          >
+                            <Plus className="h-3 w-3" />
+                          </Button>
+                        </div>
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => removeEquipment(item.id)}
+                        >
                             <X className="h-4 w-4" />
                           </Button>
                         </div>
@@ -455,7 +440,7 @@ const OrderEquipmentModal: React.FC<OrderEquipmentModalProps> = ({
                 </Card>
               )}
             </div>
-          </div>
+          
 
           {/* Notas */}
           <div className="space-y-2">
@@ -488,9 +473,9 @@ const OrderEquipmentModal: React.FC<OrderEquipmentModalProps> = ({
       <PackageSelectionModal
         isOpen={showPackageModal}
         onClose={() => setShowPackageModal(false)}
+        orderId={orderId}
+        existingProducts={equipment.map(item => item.id)}
         onPackageSelected={handlePackageSelected}
-        surgeryTypeId={surgeryTypeId}
-        initialProcedureId={procedureId}
       />
     </>
   );

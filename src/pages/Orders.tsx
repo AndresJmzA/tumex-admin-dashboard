@@ -389,7 +389,9 @@ const Orders: React.FC = () => {
     return {
       id: pendingOrder.id,
       status: statusMapping[pendingOrder.status] || 'created',
-      patientName: pendingOrder.patientName
+      patientName: pendingOrder.patientName,
+      procedure_id: pendingOrder.procedure_id,
+      order_products: pendingOrder.order_products
     };
   };
 

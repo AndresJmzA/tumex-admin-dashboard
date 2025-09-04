@@ -26,6 +26,7 @@ export interface PendingOrder {
   coverageType: string;
   insuranceName?: string;
   notes?: string;
+  procedure_id?: string;
   requiresApproval: boolean;
   hasOverlap: boolean;
   overlapDetails?: string;
@@ -462,6 +463,7 @@ class OperationalDashboardService {
         coverageType: order.coverage_type || 'none',
         insuranceName: order.insurance_name,
         notes: order.notes,
+        procedure_id: order.procedure_id,
         requiresApproval: order.status === 'created',
         hasOverlap,
         overlapDetails,

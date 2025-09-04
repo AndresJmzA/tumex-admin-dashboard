@@ -61,7 +61,7 @@ interface PackageProduct {
   description?: string;
 }
 
-interface SelectedPackageProduct {
+export interface SelectedPackageProduct {
   product: PackageProduct;
   quantity: number;
   isSelected: boolean;

@@ -873,6 +873,23 @@ class OrderService {
   clearCache(): void {
     this.cache.clear();
   }
+
+  // Obtener información de un procedimiento por ID
+  async getProcedureById(procedureId: string): Promise<{ id: string; name: string } | null> {
+    try {
+      const { data, error } = await supabase
+        .from('Procedures')
+        .select('id, name')
+        .eq('id', procedureId)
+        .single();
+
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error('Error obteniendo procedimiento por ID:', error);
+      return null;
+    }
+  }
 }
 
 export const orderService = new OrderService(); 

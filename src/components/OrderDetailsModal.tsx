@@ -3,6 +3,7 @@ import './OrderDetailsModal.css';
 import { ActionBar } from './ActionBar';
 import { InformationPanel } from './InformationPanel';
 import OrderEquipmentModal from './OrderEquipmentModal';
+import { OrderRejectionModal } from './OrderRejectionModal';
 import { Action } from '../services/OrderActionService';
 import { CanonicalOrderStatus } from '@/utils/status';
 import { UserRole } from '@/contexts/AuthContext';
@@ -19,6 +20,7 @@ interface Order {
   surgeryTime?: string;
   surgeryLocation?: string;
   procedureName?: string;
+  procedure_id?: string;
   notes?: string;
   createdAt?: string;
   order_products?: any[]; // Lista de equipos/productos de la orden
@@ -45,6 +47,9 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
   
   // Estado para controlar la visibilidad del modal de equipos
   const [isEquipmentModalOpen, setEquipmentModalOpen] = useState(false);
+  
+  // Estado para controlar la visibilidad del modal de rechazo
+  const [isRejectionModalOpen, setRejectionModalOpen] = useState(false);
 
   // Si no está abierto, no renderizar nada
   if (!isOpen) return null;
@@ -152,6 +157,11 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // Función handler para abrir el modal de rechazo
+  const handleOpenRejectionModal = async () => {
+    setRejectionModalOpen(true);
   };
 
   const handleConfirmSurgery = async () => {
@@ -292,7 +302,7 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
   // Crear el objeto de acciones para pasar a ActionBar
   const actionHandlers: Record<Action, () => Promise<void>> = {
     ACCEPT_ORDER: handleAcceptOrder,
-    REJECT_ORDER: handleRejectOrder,
+    REJECT_ORDER: handleOpenRejectionModal,
     RESCHEDULE_ORDER: async () => { 
       console.log('🔄 Reprogramar Orden - Función pendiente de implementar');
       // TODO: Implementar lógica de reprogramación
@@ -389,10 +399,41 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
           orderId={order.id}
           patientName={order.patientName || 'Paciente no especificado'}
           currentEquipment={order.order_products || []}
+          procedureId={order.procedure_id}
           onSave={(equipment, notes) => {
             console.log('Equipos guardados:', equipment, 'Notas:', notes);
             // TODO: Implementar lógica para guardar los equipos
             setEquipmentModalOpen(false);
+          }}
+        />
+      )}
+      
+      {/* Modal de Rechazo */}
+      {isRejectionModalOpen && (
+        <OrderRejectionModal
+          isOpen={isRejectionModalOpen}
+          onClose={() => setRejectionModalOpen(false)}
+          orderId={order.id}
+          orderPatientName={order.patientName}
+          orderDate={order.surgeryDate}
+          onSubmit={async (data) => {
+            // Usar la lógica de rechazo real que antes estaba en handleRejectOrder
+            setIsLoading(true);
+            try {
+              const success = await operationalDashboardService.rejectOrder(order.id, data.notes || 'Rechazada desde el modal');
+              if (success) {
+                console.log('✅ Orden rechazada exitosamente');
+                onUpdate(); // Refrescar datos
+                setRejectionModalOpen(false);
+              } else {
+                throw new Error('Error al rechazar la orden');
+              }
+            } catch (error) {
+              console.error('❌ Error al rechazar la orden:', error);
+              alert('Error al rechazar la orden. Por favor, inténtalo de nuevo.');
+            } finally {
+              setIsLoading(false);
+            }
           }}
         />
       )}

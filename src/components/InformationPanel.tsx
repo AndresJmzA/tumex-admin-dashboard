@@ -15,6 +15,7 @@ interface Order {
   notes?: string;
   createdAt?: string;
   order_products?: any[]; // Lista de equipos/productos de la orden
+  equipments?: any[]; // Lista de equipos de la orden (fuente de verdad)
   // Otros campos de la orden que puedan ser necesarios
 }
 
@@ -139,12 +140,25 @@ const RejectionDetails: React.FC = () => (
   </div>
 );
 
-const RescheduleForm: React.FC = () => (
+const RescheduleForm: React.FC<{ order: Order }> = ({ order }) => (
   <div className={styles.infoSection}>
-    <h4>Formulario de Reprogramación</h4>
+    <h4>Reprogramar Orden</h4>
     <div className={styles.placeholderContent}>
       <p>Proponer nueva fecha para la orden</p>
       <p>Selector de fecha, comentarios, etc.</p>
+      <button 
+        style={{
+          marginTop: '10px',
+          padding: '8px 16px',
+          backgroundColor: '#28a745',
+          color: 'white',
+          border: 'none',
+          borderRadius: '4px',
+          cursor: 'pointer'
+        }}
+      >
+        Confirmar Reprogramación
+      </button>
     </div>
   </div>
 );
@@ -412,7 +426,7 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({ order, onVie
             <GeneralDetails order={order} />
             <EquipmentList order={order} onViewDetailsClick={onViewDetailsClick} />
             <RejectionDetails />
-            <RescheduleForm />
+            <RescheduleForm order={order} />
           </>
         );
 
@@ -421,7 +435,7 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({ order, onVie
           <>
             <GeneralDetails order={order} />
             <EquipmentList order={order} onViewDetailsClick={onViewDetailsClick} />
-            <RescheduleForm />
+            <RescheduleForm order={order} />
           </>
         );
 
@@ -440,7 +454,7 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({ order, onVie
             <GeneralDetails order={order} />
             <EquipmentList order={order} onViewDetailsClick={onViewDetailsClick} />
             <RejectionDetails />
-            <RescheduleForm />
+            <RescheduleForm order={order} />
           </>
         );
 
